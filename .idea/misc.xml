@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/drawable/favorite_icon_clicked.xml" value="0.3405" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/activity_cast_profile.xml" value="0.33" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/activity_profile.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/activity_show_details.xml" value="0.22144927536231884" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/cast_item.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/fav_list_item.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/fragment_action_adventure.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/fragment_cast_profile.xml" value="1.0" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/fragment_dashboard.xml" value="0.1" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/fragment_favorites.xml" value="0.33" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/fragment_search.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/fragment_show_detail.xml" value="0.367457962413452" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/genre_item.xml" value="0.75" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/search_appbar.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/search_list_item.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/show_detail_appbar.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/show_list_item.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/similar_show_item.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/menu/bottom_nav_menu.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/menu/search_bar_menu.xml" value="0.1" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/drawable/ic_launcher_background.xml" value="0.314" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/drawable/selector.xml" value="0.224" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/activity_cast_profile.xml" value="0.35625" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/activity_forgot_password.xml" value="0.34646739130434784" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/activity_login.xml" value="0.35625" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/activity_practice.xml" value="0.17325227963525835" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/activity_profile.xml" value="0.35625" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/activity_registration.xml" value="0.35625" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/activity_show_details.xml" value="0.67" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/airing_today_list_item.xml" value="0.35625" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/appbar.xml" value="0.22" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/cast_item.xml" value="0.67" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/content_login.xml" value="0.34646739130434784" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/dashboard_fragment.xml" value="0.33" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/dashobard_.xml" value="0.27898550724637683" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/favorite_list_item.xml" value="0.3016304347826087" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/fragment_dashboard.xml" value="0.35625" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/fragment_dashboard2.xml" value="0.27898550724637683" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/fragment_favorites.xml" value="0.25" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/fragment_first2.xml" value="0.17325227963525835" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/fragment_profile.xml" value="0.35625" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/fragment_schedule.xml" value="0.3421875" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/fragment_search.xml" value="0.33" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/genre_item.xml" value="0.75" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/home.xml" value="0.35625" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/image_item.xml" value="0.35625" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/recommendation_item.xml" value="0.35625" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/search_appbar.xml" value="0.35625" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/search_list_item.xml" value="0.35625" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/search_result_item.xml" value="0.2109375" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/show_list_item.xml" value="0.33" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/layout/similar_show_item.xml" value="0.35625" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/menu/bottom_nav_menu.xml" value="0.35625" />
+        <entry key="..\:/Users/csudh/Desktop/Projects/Android/FusionTV/app/src/main/res/xml/network_security_config.xml" value="0.37395833333333334" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
