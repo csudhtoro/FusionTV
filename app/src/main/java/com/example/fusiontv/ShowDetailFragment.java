@@ -1,6 +1,10 @@
 package com.example.fusiontv;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BlurMaskFilter;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -37,6 +41,7 @@ import com.example.fusiontv.response.CastResponse;
 import com.example.fusiontv.response.TVShowSearchResponse;
 import com.example.fusiontv.utils.Credentials;
 import com.example.fusiontv.utils.TVApi;
+import com.google.android.material.shadow.ShadowRenderer;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -45,11 +50,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -80,7 +92,7 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
     private CastAdapter castAdapter;
 
     //Widgets
-    private ImageView posterImage, backdropImage, favoriteIcon, backArrow;
+    private ImageView posterImage, backdropImage, favoriteIcon, backArrow, scheduleIcon;
     private TextView showOverview, firstAirDate, lastAirDate, nextAirDate, network, runtime, voteAvg, season, episodes, appBarShowName;
 
 
@@ -88,7 +100,7 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_show_detail, container, false);
+        return inflater.inflate(R.layout.fragment_show_detail2, container, false);
     }
 
     @Override
@@ -114,6 +126,7 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
         episodes = (TextView) getView().findViewById(R.id.episodes);
         appBarShowName = (TextView) getView().findViewById(R.id.appBar_show_name);
         favoriteIcon = (ImageView) getView().findViewById(R.id.favorite_icon);
+        scheduleIcon = (ImageView) getView().findViewById(R.id.schedule_icon);
         backArrow = (ImageView) getView().findViewById(R.id.back_arrow);
 
         currUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -134,100 +147,18 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
         int showId = tvShowModel.getTv_id();
 
             GetDataFromInternet(tvShowModel);
-            GetCastRetrofitResponse(showId);
-            GetSimilarRetrofitResponse(showId);
-            GetImagesRetrofitResponse(showId);
-            GetRecommendationRetrofitResponse(showId);
-
-            if(checkUserLoggedIn(currUser)) {
-                currUserId = currUser.getUid();
-
-                //DatabaseReference currFavs = FirebaseDatabase.getInstance().getReference("Users").child(currUserId).child("Favorites").child(tvShowModel.getName());
-                DatabaseReference currFavs = FirebaseDatabase.getInstance().getReference("Users").child(currUserId).child("Favorites").child(String.valueOf(showId));
-
-                currFavs.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.exists()) {
-
-                            //if(snapshot.getKey().equals(tvShowModel.getName())) {
-                            if(snapshot.getKey().equals(String.valueOf(showId))) {
-                                //Log.v("Tag", "Match!: " + ds.child("showName"));
-                                favoriteIcon.setImageResource(R.drawable.favorite_icon_clicked);
-                            }
-                        }
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.v("Tag", "onCancelled called!");
-                    }
-                });
-
-                favoriteIcon.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //if current show is already in the db favs, delete it from the db and apply unclicked icon. I now have access to the id (the show name)
-                        //db = FirebaseDatabase.getInstance().getReference("Users").child(currUserId).child("Favorites").child(tvShowModel.getName());
-                        db = FirebaseDatabase.getInstance().getReference("Users").child(currUserId).child("Favorites").child(String.valueOf(showId));
-                        db.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.exists()) {
-                                    //Code to remove from favorite from db goes here...
-                                    db.removeValue();
-                                    favoriteIcon.setImageResource(R.drawable.favorite_icon_unclicked);
-                                    Toast.makeText(getContext(), tvShowModel.getName()+ " removed from favorites!", Toast.LENGTH_SHORT).show();
-                                }
-                                else {
-                                    db = FirebaseDatabase.getInstance().getReference("Users").child(currUserId).child("Favorites");
-                                    //db.child(tvShowModel.getName()).setValue(tvShowModel);
-                                    db.child(String.valueOf(showId)).setValue(tvShowModel);
-                                    favoriteIcon.setImageResource(R.drawable.favorite_icon_clicked);
-                                    Toast.makeText(getContext(), tvShowModel.getName()+ " added to favorites!", Toast.LENGTH_SHORT).show();
-                                }
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
-
-
-                        //else
-                        /*db = FirebaseDatabase.getInstance().getReference("Users").child(currUserId).child("Favorites");
-                        db.child(tvShowModel.getName()).setValue(tvShowModel);
-
-                        favoriteIcon.setImageResource(R.drawable.favorite_icon_clicked);
-                        Toast.makeText(ShowDetails.this, tvShowModel.getName()+ " added to favorites!", Toast.LENGTH_SHORT).show();*/
-
-                    }
-                });
-            }
-            else {
-                favoriteIcon.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(getContext(), "Please sign in for favorites", Toast.LENGTH_LONG).show();
-                    }
-                });
-                return;
-            }
+            GetCastRetrofitResponse(tvShowModel);
+            GetSimilarRetrofitResponse(tvShowModel);
+            GetImagesRetrofitResponse(tvShowModel);
+            GetRecommendationRetrofitResponse(tvShowModel);
+            CheckFavorites(tvShowModel);
     }
 
-    private boolean isFavorite(DataSnapshot snapshot, TVShowModel currShow) {
-        for(DataSnapshot ds : snapshot.getChildren()) {
-            if(ds.child("ShowId").getValue(Integer.class) == currShow.getTv_id()) return true;
-        }
-        return false;
-    }
 
     //API CALL CODE
     private void GetDataFromInternet(TVShowModel tvShowModel) {
+
+        final ShowDetailModel[] showDetail = new ShowDetailModel[1];
 
         //pulling images from api (poster and backdrop)
         Glide.with(this).load("https://image.tmdb.org/t/p/w500" +tvShowModel.getPoster_path()).apply(new RequestOptions().transform(new RoundedCorners(60)))
@@ -235,6 +166,8 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
 
         Glide.with(this).load("https://image.tmdb.org/t/p/w780" +tvShowModel.getBackdrop_path())
                 .into(backdropImage);
+
+
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Credentials.Base_URL)
@@ -248,6 +181,8 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
         call.enqueue(new Callback<ShowDetailModel>() {
             @Override
             public void onResponse(Call<ShowDetailModel> call, Response<ShowDetailModel> response) {
+
+                showDetail[0] = response.body();
 
                 if (response.body().getOverview() != null) {
                     showOverview.setText(response.body().getOverview());
@@ -297,7 +232,11 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
                 appBarShowName.setText(response.body().getName());
                 genreList = new ArrayList<>(response.body().getGenres());
 
+                //CREATING SHOW GENRE RECYCLERVIEW
                 PutGenreDataIntoRecyclerView(genreList);
+
+                //CHECKING IF SHOW IS IN WATCHLIST AND PREPARING DB
+                CheckWatchList(showDetail[0]);
             }
             @Override
             public void onFailure(Call<ShowDetailModel> call, Throwable t) {
@@ -305,11 +244,11 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
             }
         });
     }
-    private void GetCastRetrofitResponse(int showId) {
+    private void GetCastRetrofitResponse(TVShowModel tvShowModel) {
         TVApi tvApi = Services.getTvApi();
 
         Call<CastResponse> responseCall = tvApi
-                .searchCast(showId,
+                .searchCast(tvShowModel.getTv_id(),
                         Credentials.API_KEY);
 
         responseCall.enqueue(new Callback<CastResponse>() {
@@ -341,12 +280,12 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
         });
 
     }
-    private void GetSimilarRetrofitResponse(int showId) {
+    private void GetSimilarRetrofitResponse(TVShowModel tvShowModel) {
         TVApi tvApi = Services.getTvApi();
 
         Call<TVShowSearchResponse> responseCall = tvApi
                 .searchSimilar(
-                        showId,
+                        tvShowModel.getTv_id(),
                         Credentials.API_KEY,
                         1);
 
@@ -380,12 +319,12 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
             }
         });
     }
-    private void GetImagesRetrofitResponse(int showId) {
+    private void GetImagesRetrofitResponse(TVShowModel tvShowModel) {
         TVApi tvApi = Services.getTvApi();
 
         Call<BackdropResponse> responseCall = tvApi
                 .searchImages(
-                        showId,
+                        tvShowModel.getTv_id(),
                         Credentials.API_KEY
                 );
 
@@ -419,12 +358,12 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
             }
         });
     }
-    private void GetRecommendationRetrofitResponse(int showId) {
+    private void GetRecommendationRetrofitResponse(TVShowModel tvShowModel) {
         TVApi tvApi = Services.getTvApi();
 
         Call<TVShowSearchResponse> responseCall = tvApi
                 .searchRecommendations(
-                        showId,
+                        tvShowModel.getTv_id(),
                         Credentials.API_KEY,
                         1
                 );
@@ -524,39 +463,218 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
         screenshotRecyclerView.setAdapter(backdropAdapter);
     }
 
+
+
+    //FAVORITES
+    private void CheckFavorites(TVShowModel tvShowModel) {
+        if(checkUserLoggedIn(currUser)) {
+            currUserId = currUser.getUid();
+
+            DatabaseReference currFavs = FirebaseDatabase.getInstance().getReference("Users").child(currUserId).child("Favorites").child(String.valueOf(tvShowModel.getTv_id()));
+            //DatabaseReference currWatchLists = FirebaseDatabase.getInstance().getReference("Users").child(currUserId).child("WatchList").child(String.valueOf(showDetailModel.getNextEpisodeToAir().getAirDate()));
+
+            currFavs.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.exists()) {
+
+                        //if(snapshot.getKey().equals(tvShowModel.getName())) {
+                        if(snapshot.getKey().equals(String.valueOf(tvShowModel.getTv_id()))) {
+                            //Log.v("Tag", "Match!: " + ds.child("showName"));
+                            favoriteIcon.setImageResource(R.drawable.favorite_icon_clicked);
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.v("Tag", "onCancelled called!");
+                }
+            });
+
+            /*currWatchLists.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.exists()) {
+
+                        if(snapshot.getKey().equals(String.valueOf(showId))) {
+                            //Log.v("Tag", "Match!: " + ds.child("showName"));
+                            scheduleIcon.setImageResource(R.drawable.schedule_icon_clicked);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.v("Tag", "onCancelled called!");
+                }
+            });*/
+
+            favoriteIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //if current show is already in the db favs, delete it from the db and apply unclicked icon. I now have access to the id (the show name)
+                    //db = FirebaseDatabase.getInstance().getReference("Users").child(currUserId).child("Favorites").child(tvShowModel.getName());
+                    db = FirebaseDatabase.getInstance().getReference("Users").child(currUserId).child("Favorites").child(String.valueOf(tvShowModel.getTv_id()));
+                    db.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists()) {
+                                db.removeValue();
+                                favoriteIcon.setImageResource(R.drawable.favorite_icon_unclicked);
+                                Toast.makeText(getContext(), tvShowModel.getName()+ " removed from favorites!", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                db = FirebaseDatabase.getInstance().getReference("Users").child(currUserId).child("Favorites");
+                                db.child(String.valueOf(tvShowModel.getTv_id())).setValue(tvShowModel);
+                                favoriteIcon.setImageResource(R.drawable.favorite_icon_clicked);
+                                Toast.makeText(getContext(), tvShowModel.getName()+ " added to favorites!", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            });
+        }
+        else {
+            favoriteIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getContext(), "Please sign in for favorites", Toast.LENGTH_LONG).show();
+                }
+            });
+            return;
+        }
+
+    }
+
+    //WATCHLIST/SCHEDULE
+    private void CheckWatchList(ShowDetailModel showDetailModel) {
+
+        if(checkUserLoggedIn(currUser)) {
+            currUserId = currUser.getUid();
+
+            if(showDetailModel.getNextEpisodeToAir() != null) {
+
+                String nextAirDate = convertDate(showDetailModel.getNextEpisodeToAir().getAirDate());
+
+                DatabaseReference currWatchlist = FirebaseDatabase.getInstance().getReference("Users").child(currUserId).child("WatchList").child(nextAirDate);
+
+                currWatchlist.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            if (snapshot.getKey().equals(nextAirDate)) {
+                                for(DataSnapshot ds : snapshot.getChildren()) {
+                                    if(Integer.valueOf(ds.getKey()).equals(showDetailModel.getId())) {
+                                        scheduleIcon.setImageResource(R.drawable.schedule_icon_clicked);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.v("Tag", "onCancelled called!");
+                    }
+                });
+            }
+
+            scheduleIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (showDetailModel.getNextEpisodeToAir() != null) {
+                        String nextAirDate = convertDate(showDetailModel.getNextEpisodeToAir().getAirDate());
+                        db = FirebaseDatabase.getInstance().getReference("Users").child(currUserId).child("WatchList").child(nextAirDate).child(String.valueOf(showDetailModel.getId()));
+                        db.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                db.removeValue();
+                                scheduleIcon.setImageResource(R.drawable.schedule_icon_unclicked);
+                                Toast.makeText(getContext(), showDetailModel.getName() + " removed from watchlist!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                db = FirebaseDatabase.getInstance().getReference("Users").child(currUserId).child("WatchList");
+                                db.child(nextAirDate).child(String.valueOf(showDetailModel.getId())).setValue(showDetailModel);
+                                scheduleIcon.setImageResource(R.drawable.schedule_icon_clicked);
+                                Toast.makeText(getContext(), showDetailModel.getName() + " added to watchlist!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+                else {
+                        Toast.makeText(getContext(), "No future air date exist!", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+        else {
+            scheduleIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getContext(), "Please sign in for watchlist", Toast.LENGTH_LONG).show();
+                }
+            });
+            return;
+        }
+    }
+
+
+
+    //CHECK IF USER IS LOGGED IN
     private boolean checkUserLoggedIn(FirebaseUser user) {
         if(user != null) return true;
         return false;
     }
 
+    //CONVERT THE DEFAULT TMDB DATE FORMATS TO MM-DD-YYYY
+    private String convertDate(String inDate) {
 
-    @Override
-    public void onShowClick(int position) {
+        SimpleDateFormat inSDF = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat outSDF = new SimpleDateFormat("mm-dd-yyyy");
 
+        String outDate = "";
+
+        if(inDate != null) {
+            try {
+                Date date = inSDF.parse(inDate);
+                outDate = outSDF.format(date);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return outDate;
     }
 
+
+
+
+    //ON CLICK INTERFACE CODE
     @Override
-    public void onGenreClick(String Genre) {
-
-    }
-
+    public void onShowClick(int position){}
     @Override
-    public void onShowAiringTodayClick(int position) {
-
-    }
-
+    public void onGenreClick(String Genre){}
     @Override
-    public void onShowTrendingTodayClick(int position) {
-
-    }
-
+    public void onShowAiringTodayClick(int position){}
     @Override
-    public void onShowSearchClick(int position) {
-
-    }
-
+    public void onShowTrendingTodayClick(int position){}
     @Override
-    public void onFavoritesClick(int position) {
-
-    }
+    public void onShowSearchClick(int position){}
+    @Override
+    public void onFavoritesClick(int position){}
+    @Override
+    public void onWatchlistClick(int adapterPosition){}
 }

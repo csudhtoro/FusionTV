@@ -9,22 +9,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.fusiontv.R;
+import com.example.fusiontv.models.ShowDetailModel;
 import com.example.fusiontv.models.TVShowModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private List<TVShowModel> mShows;
-    private OnShowListener onShowFavoriteListener;
+    private List<ShowDetailModel> mShows;
+    private OnShowListener onShowWatchlistListener;
 
-    public FavoritesAdapter(OnShowListener onShowListener, Context mContext, List<TVShowModel> mShows) {
-        this.onShowFavoriteListener = onShowListener;
+    public WatchlistAdapter(OnShowListener onShowListener, Context mContext, List<ShowDetailModel> mShows) {
+        this.onShowWatchlistListener = onShowListener;
         this.mContext = mContext;
         this.mShows = mShows;
     }
@@ -35,12 +33,12 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.schedule_list_item,
                 parent, false);
 
-        return new FavoritesViewHolder(view, onShowFavoriteListener);
+        return new WatchlistViewHolder(view, onShowWatchlistListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int i) {
-        ((FavoritesViewHolder)holder).title.setText(mShows.get(i).getName());
+        ((WatchlistViewHolder)holder).title.setText(mShows.get(i).getName());
         //((ShowSearchViewHolder)holder).genre.setText(mShows.get(i).getGenres().get());
         //((ShowViewHolder)holder).runtime.setText("Runtime here");
         //((ShowViewHolder)holder).runtime.setText(mShows.get(i).getOriginal_language());
@@ -50,8 +48,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         //Imageview - using Glide library
         Glide.with(mContext)
-                .load("https://image.tmdb.org/t/p/w500/"+mShows.get(i).getPoster_path())
-                .into(((FavoritesViewHolder)holder).imageView);
+                .load("https://image.tmdb.org/t/p/w500/"+mShows.get(i).getPosterPath())
+                .into(((WatchlistViewHolder)holder).imageView);
 
 
     }
@@ -62,13 +60,13 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return 0;
     }
 
-    public void setmShows(List<TVShowModel> mShows) {
+    public void setmShows(List<ShowDetailModel> mShows) {
         this.mShows = mShows;
         notifyDataSetChanged();
     }
 
     //Getting the id of the show clicked
-    public TVShowModel getSelectedShow(int position) {
+    public ShowDetailModel getSelectedShow(int position) {
         if(mShows != null) {
             if(mShows.size() > 0) {
                 return mShows.get(position);

@@ -231,4 +231,9 @@ public class DashboardFragment extends Fragment implements OnShowListener {
 
     }
 
+    @Override
+    public void onWatchlistClick(int adapterPosition) {
+
+    }
+
 }

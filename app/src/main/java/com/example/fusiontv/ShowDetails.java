@@ -547,4 +547,9 @@ public class ShowDetails extends AppCompatActivity implements OnShowListener {
 
     }
 
+    @Override
+    public void onWatchlistClick(int adapterPosition) {
+
+    }
+
 }

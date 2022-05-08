@@ -14,4 +14,5 @@ public interface OnShowListener {
 
     void onFavoritesClick(int position);
 
+    void onWatchlistClick(int adapterPosition);
 }

@@ -70,8 +70,8 @@
             <ImageView
                 android:id="@+id/showDetailsBackdrop"
                 android:layout_width="match_parent"
-                android:layout_height="280dp"
-                android:scaleType="center"
+                android:layout_height="310dp"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -82,7 +82,7 @@
                 android:id="@+id/showDetailsPoster"
                 android:layout_width="235dp"
                 android:layout_height="343dp"
-                android:layout_marginTop="188dp"
+                android:layout_marginTop="240dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/showDetailsBackdrop"
@@ -446,23 +446,27 @@
                 android:id="@+id/information_linearLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/information_linearLayout2"
                 app:layout_constraintTop_toBottomOf="@+id/textView4">
 
-                <TextView
-                    android:id="@+id/rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="rating"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.22"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+                    <TextView
+                        android:id="@+id/rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="rating"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.22"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+
+
 
                 <TextView
                     android:id="@+id/runtime"

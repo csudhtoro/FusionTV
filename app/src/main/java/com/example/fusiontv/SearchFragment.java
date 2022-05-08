@@ -165,4 +165,9 @@ public class SearchFragment extends Fragment implements OnShowListener {
     public void onFavoritesClick(int position) {
 
     }
+
+    @Override
+    public void onWatchlistClick(int adapterPosition) {
+
+    }
 }

@@ -61,11 +61,12 @@ public class FavoritesFragment extends Fragment implements OnShowListener {
         favoritesRecyclerView = getView().findViewById(R.id.favorites_recyclerview);
 
 
-        //LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        favoritesRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
-        favoritesRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        //favoritesRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
+        favoritesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        favoritesRecyclerView.setHasFixedSize(false);
 
-        ConfigureSearchRecyclerView();
+        ConfigureFavoritesRecyclerView();
     }
 
     private void checkDbForFavorites() {
@@ -93,7 +94,7 @@ public class FavoritesFragment extends Fragment implements OnShowListener {
 
 
 
-    private void ConfigureSearchRecyclerView() {
+    private void ConfigureFavoritesRecyclerView() {
 
         if(checkUserLoggedIn(currUser)) {
             currFavs.addValueEventListener(new ValueEventListener() {
@@ -166,6 +167,11 @@ public class FavoritesFragment extends Fragment implements OnShowListener {
         Bundle bundle = new Bundle();
         bundle.putParcelable("showInfo", favoritesRecyclerViewAdapter.getSelectedShow(position));
         showDetailFragment.setArguments(bundle);
+
+    }
+
+    @Override
+    public void onWatchlistClick(int adapterPosition) {
 
     }
 }

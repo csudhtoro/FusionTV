@@ -137,5 +137,10 @@ public class CastProfileActivity extends AppCompatActivity implements OnShowList
 
     }
 
+    @Override
+    public void onWatchlistClick(int adapterPosition) {
+
+    }
+
 
 }
