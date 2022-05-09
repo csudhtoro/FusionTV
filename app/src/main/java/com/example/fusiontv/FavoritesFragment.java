@@ -57,14 +57,12 @@ public class FavoritesFragment extends Fragment implements OnShowListener {
         currUser = FirebaseAuth.getInstance().getCurrentUser();
         checkDbForFavorites();
 
-        //favoritesRecyclerView = getView().findViewById(R.id.favorites_recyclerview);
         favoritesRecyclerView = getView().findViewById(R.id.favorites_recyclerview);
 
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        //favoritesRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
-        favoritesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        favoritesRecyclerView.setHasFixedSize(false);
+        favoritesRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        //favoritesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        favoritesRecyclerView.setHasFixedSize(true);
 
         ConfigureFavoritesRecyclerView();
     }

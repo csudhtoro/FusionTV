@@ -8,15 +8,16 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:strokeColor="@color/white"
         app:strokeWidth=".8dp">
 
     <ImageView
         android:id="@+id/show_img"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="centerInside"
+        android:layout_height="120dp"
+        android:scaleType="fitCenter"
+        android:layout_gravity="center"
         android:src="@drawable/ic_launcher_background" />
 
 </com.google.android.material.card.MaterialCardView>
@@ -25,12 +26,12 @@
         android:id="@+id/show_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:gravity="start"
         android:text="Show Title"
         android:singleLine="true"
-        android:layout_gravity="center"
+        android:layout_gravity="start"
         android:textColor="@color/white"
-        android:textSize="12dp"
+        android:textSize="10dp"
         android:textFontWeight="700"/>
 
             <!--<RatingBar

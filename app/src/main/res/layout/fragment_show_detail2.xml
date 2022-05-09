@@ -7,6 +7,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".ShowDetailFragment">
 
     <include
@@ -43,7 +44,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/showDetailsPoster" />
+                app:layout_constraintTop_toBottomOf="@+id/posterCard" />
 
             <View
                 android:id="@+id/divider5"
@@ -86,23 +87,38 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:foreground="@drawable/backdrop_gradient"
                     app:srcCompat="@drawable/knight_backdrop_sample" />
 
 
-            <ImageView
-                android:id="@+id/showDetailsPoster"
-                android:layout_width="150dp"
-                android:layout_height="228dp"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/posterCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="285dp"
-                android:scaleType="fitCenter"
-                android:elevation="30dp"
+                android:layout_marginTop="270dp"
+                app:cardCornerRadius="25dp"
+                app:cardElevation="10dp"
+                android:outlineSpotShadowColor="@color/black"
+                android:outlineAmbientShadowColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/showDetailsBackdrop"
-                app:srcCompat="@drawable/moon_sample" />
+                app:layout_constraintTop_toTopOf="@+id/showDetailsBackdrop">
 
+                <ImageView
+                    android:id="@+id/showDetailsPoster"
+                    android:layout_width="150dp"
+                    android:layout_height="225dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/showDetailsBackdrop"
+                    app:srcCompat="@drawable/moon_sample" />
+
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/overview_label"
@@ -527,7 +543,7 @@
                 android:textSize="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/showDetailsPoster"
+                app:layout_constraintStart_toEndOf="@+id/posterCard"
                 app:layout_constraintTop_toBottomOf="@+id/showDetailsBackdrop" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
