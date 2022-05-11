@@ -142,5 +142,10 @@ public class CastProfileActivity extends AppCompatActivity implements OnShowList
 
     }
 
+    @Override
+    public void onSeasonClick(int position) {
+
+    }
+
 
 }

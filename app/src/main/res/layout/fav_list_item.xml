@@ -26,13 +26,14 @@
         android:id="@+id/show_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:text="Show Title"
-        android:singleLine="true"
         android:layout_gravity="start"
+        android:fontFamily="@font/source_sans_pro_regular"
+        android:gravity="start"
+        android:singleLine="true"
+        android:text="Show Title"
         android:textColor="@color/white"
-        android:textSize="10dp"
-        android:textFontWeight="700"/>
+        android:textFontWeight="700"
+        android:textSize="10dp" />
 
             <!--<RatingBar
                 android:id="@+id/ratings"

@@ -178,4 +178,9 @@ public class ScheduleFragment extends Fragment implements OnShowListener {
         bundle.putParcelable("showInfo", tvShowModel);
         showDetailFragment.setArguments(bundle);
     }
+
+    @Override
+    public void onSeasonClick(int position) {
+
+    }
 }

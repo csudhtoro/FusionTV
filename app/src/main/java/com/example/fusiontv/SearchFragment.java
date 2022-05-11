@@ -170,4 +170,9 @@ public class SearchFragment extends Fragment implements OnShowListener {
     public void onWatchlistClick(int adapterPosition) {
 
     }
+
+    @Override
+    public void onSeasonClick(int position) {
+
+    }
 }

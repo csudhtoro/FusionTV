@@ -1,5 +1,6 @@
 package com.example.fusiontv;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,15 +31,19 @@ import com.example.fusiontv.adapters.CastAdapter;
 import com.example.fusiontv.adapters.GenreAdapter;
 import com.example.fusiontv.adapters.OnShowListener;
 import com.example.fusiontv.adapters.RecommendationAdapter;
+import com.example.fusiontv.adapters.SeasonAdapter;
 import com.example.fusiontv.adapters.SimilarAdapter;
 import com.example.fusiontv.models.Backdrop;
 import com.example.fusiontv.models.Cast;
 import com.example.fusiontv.models.Genre;
+import com.example.fusiontv.models.Season;
+import com.example.fusiontv.models.SeasonDetail;
 import com.example.fusiontv.models.ShowDetailModel;
 import com.example.fusiontv.models.TVShowModel;
 import com.example.fusiontv.requests.Services;
 import com.example.fusiontv.response.BackdropResponse;
 import com.example.fusiontv.response.CastResponse;
+import com.example.fusiontv.response.SeasonResponse;
 import com.example.fusiontv.response.TVShowSearchResponse;
 import com.example.fusiontv.utils.Credentials;
 import com.example.fusiontv.utils.TVApi;
@@ -49,6 +55,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ms.square.android.expandabletextview.ExpandableTextView;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -81,19 +90,25 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
     List<Backdrop> imageList;
     List<TVShowModel> recommendationList;
     List<Genre> genreList;
+    List<Season> seasonList;
+    //List<SeasonDetail> seasonList;
 
     RecyclerView castRecyclerView;
     RecyclerView similarRecyclerView;
     RecyclerView screenshotRecyclerView;
     RecyclerView recommendationRecyclerView;
     RecyclerView genreRecyclerView;
+    RecyclerView seasonRecyclerView;
 
     private SimilarAdapter similarAdapter;
     private CastAdapter castAdapter;
 
     //Widgets
     private ImageView posterImage, backdropImage, favoriteIcon, backArrow, scheduleIcon;
-    private TextView showOverview, firstAirDate, lastAirDate, nextAirDate, network, runtime, voteAvg, season, episodes, appBarShowName;
+    private TextView showOverview, firstAirDate, lastAirDate, nextAirDate, network, runtime, voteAvg, season, episodes, appBarShowName, showName;
+    private RatingBar showRatingBar;
+
+    final int[] numOfSeasons = new int[1];
 
 
     @Override
@@ -112,22 +127,28 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
         screenshotRecyclerView = (RecyclerView) getView().findViewById(R.id.screenshots_recyclerview);
         recommendationRecyclerView = (RecyclerView) getView().findViewById(R.id.recommendations_recyclerview);
         genreRecyclerView = (RecyclerView) getView().findViewById(R.id.genre_recyclerview);
+        seasonRecyclerView = (RecyclerView) getView().findViewById(R.id.seasons_recyclerview);
 
         posterImage = (ImageView) getView().findViewById(R.id.showDetailsPoster);
         backdropImage = (ImageView) getView().findViewById(R.id.showDetailsBackdrop);
         showOverview = (TextView) getView().findViewById(R.id.showDetailsoverview);
-        firstAirDate = (TextView) getView().findViewById(R.id.firstAirDate);
-        lastAirDate = (TextView) getView().findViewById(R.id.lastAirDate);
-        nextAirDate = (TextView) getView().findViewById(R.id.nextAirDate);
+        //firstAirDate = (TextView) getView().findViewById(R.id.firstAirDate);
+        //lastAirDate = (TextView) getView().findViewById(R.id.lastAirDate);
+        //nextAirDate = (TextView) getView().findViewById(R.id.nextAirDate);
         network = (TextView) getView().findViewById(R.id.network);
-        runtime = (TextView) getView().findViewById(R.id.runtime);
+        //runtime = (TextView) getView().findViewById(R.id.runtime);
         voteAvg = (TextView) getView().findViewById(R.id.rating);
-        season = (TextView) getView().findViewById(R.id.seasons);
-        episodes = (TextView) getView().findViewById(R.id.episodes);
+        showRatingBar = (RatingBar) getView().findViewById(R.id.ratingBar);
+        //season = (TextView) getView().findViewById(R.id.seasons);
+        //episodes = (TextView) getView().findViewById(R.id.episodes);
         appBarShowName = (TextView) getView().findViewById(R.id.appBar_show_name);
+        showName = (TextView) getView().findViewById(R.id.show_name);
         favoriteIcon = (ImageView) getView().findViewById(R.id.favorite_icon);
         scheduleIcon = (ImageView) getView().findViewById(R.id.schedule_icon);
         backArrow = (ImageView) getView().findViewById(R.id.back_arrow);
+
+
+
 
         currUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -158,6 +179,7 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
     //API CALL CODE
     private void GetDataFromInternet(TVShowModel tvShowModel) {
 
+
         final ShowDetailModel[] showDetail = new ShowDetailModel[1];
 
         //pulling images from api (poster and backdrop)
@@ -184,59 +206,66 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
 
                 showDetail[0] = response.body();
 
+                showName.setText(response.body().getName());
+                showRatingBar.setRating((response.body().getVoteAverage()) / 2);
+                appBarShowName.setText(response.body().getName());
+                genreList = new ArrayList<>(response.body().getGenres());
+                seasonList = new ArrayList<>(response.body().getSeasons());
+
+                //CREATING SHOW GENRE RECYCLERVIEW
+                PutGenreDataIntoRecyclerView(genreList);
+                PutSeasonDataIntoRecyclerView(seasonList);
+
                 if (response.body().getOverview() != null) {
                     showOverview.setText(response.body().getOverview());
                 } else {
                     showOverview.setText("No Overview");
                 }
-                if (response.body().getFirstAirDate() != null) {
-                    firstAirDate.setText(response.body().getFirstAirDate());
+                /*if (response.body().getFirstAirDate() != null) {
+                    firstAirDate.setText(convertDate(response.body().getFirstAirDate()));
                 } else {
                     firstAirDate.setText("N/A");
                 }
                 if (response.body().getLastAirDate() != null) {
-                    lastAirDate.setText(response.body().getLastAirDate());
+                    lastAirDate.setText(convertDate(response.body().getLastAirDate()));
                 } else {
                     lastAirDate.setText("N/A");
                 }
                 if (response.body().getNextEpisodeToAir() != null) {
-                    nextAirDate.setText(response.body().getNextEpisodeToAir().getAirDate());
+                    nextAirDate.setText(convertDate(response.body().getNextEpisodeToAir().getAirDate()));
                 } else {
                     nextAirDate.setText("N/A");
-                }
+                }*/
                 if (response.body().getNetworks() != null && response.body().getNetworks().size() > 0) {
                     network.setText(response.body().getNetworks().get(0).getName());
                 } else {
                     network.setText("N/A");
                 }
-                if (response.body().getEpisodeRunTime() != null && response.body().getEpisodeRunTime().size() > 0) {
-                    runtime.setText(response.body().getEpisodeRunTime().get(0).toString());
-                } else {
-                    runtime.setText("N/A");
-                }
+                //if (response.body().getEpisodeRunTime() != null && response.body().getEpisodeRunTime().size() > 0) {
+                    //runtime.setText(response.body().getEpisodeRunTime().get(0).toString());
+                //} else {
+                    //runtime.setText("N/A");
+                //}
                 if (response.body().getVoteAverage() != null) {
                     voteAvg.setText(response.body().getVoteAverage().toString());
                 } else {
                     voteAvg.setText("N/A");
                 }
-                if (response.body().getNumberOfSeasons() != null) {
-                    season.setText(response.body().getNumberOfSeasons().toString());
-                } else {
-                    season.setText("N/A");
-                }
-                if (response.body().getNumberOfEpisodes() != null) {
-                    episodes.setText(response.body().getNumberOfEpisodes().toString());
-                } else {
-                    episodes.setText("N/A");
-                }
-                appBarShowName.setText(response.body().getName());
-                genreList = new ArrayList<>(response.body().getGenres());
+                //if (response.body().getNumberOfSeasons() != null) {
+                    //season.setText(response.body().getNumberOfSeasons().toString());
+                //} else {
+                    //season.setText("N/A");
+                //}
+                //if (response.body().getNumberOfEpisodes() != null) {
+                    //episodes.setText(response.body().getNumberOfEpisodes().toString());
+                //} else {
+                    //episodes.setText("N/A");
+                //}
 
-                //CREATING SHOW GENRE RECYCLERVIEW
-                PutGenreDataIntoRecyclerView(genreList);
 
                 //CHECKING IF SHOW IS IN WATCHLIST AND PREPARING DB
                 CheckWatchList(showDetail[0]);
+                //GetSeasonsRetrofitResponse(tvShowModel);
             }
             @Override
             public void onFailure(Call<ShowDetailModel> call, Throwable t) {
@@ -398,6 +427,43 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
             }
         });
     }
+    /*private void GetSeasonsRetrofitResponse(TVShowModel tvShowModel) {
+        TVApi tvApi = Services.getTvApi();
+
+        seasonList = new ArrayList<>();
+
+        for(int i = 0; i < numOfSeasons[0]; i++) {
+            Call<SeasonDetail> responseCall = tvApi
+                    .searchSeason(
+                            tvShowModel.getTv_id(),
+                            i,
+                            Credentials.API_KEY
+                    );
+
+            responseCall.enqueue(new Callback<SeasonDetail>() {
+                @Override
+                public void onResponse(Call<SeasonDetail> call, Response<SeasonDetail> response) {
+
+                    if (response.code() == 200) {
+                            seasonList.add(response.body());
+                    }
+                    else {
+                        try {
+                            Log.v("Tag", "Error: " + response.errorBody().string());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<SeasonDetail> call, Throwable t) {
+
+                }
+            });
+        }
+        PutSeasonDataIntoRecyclerView(seasonList);
+    }*/
 
     //RECYCLERVIEW CODE
     private void PutSimilarDataIntoRecyclerView(List<TVShowModel> similarList) {
@@ -425,9 +491,15 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
         CastAdapter castAdapter = new CastAdapter(getContext(), castList, new CastAdapter.CastClickListener() {
             @Override
             public void onItemClick(Cast cast) {
-                Intent intent = new Intent(getContext(), CastProfileActivity.class);
-                intent.putExtra("show2", cast);
-                startActivity(intent);
+                CastProfileFragment castProfileFragment = new CastProfileFragment();
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentFrameLayout, castProfileFragment)
+                        .addToBackStack(null)
+                        .commit();
+
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("show2", cast);
+                castProfileFragment.setArguments(bundle);
             }
         });
         castRecyclerView.setLayoutManager(new LinearLayoutManager(getContext() ,LinearLayoutManager.HORIZONTAL, false));
@@ -461,6 +533,17 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
         BackdropAdapter backdropAdapter = new BackdropAdapter(getContext(), imageList);
         screenshotRecyclerView.setLayoutManager(new LinearLayoutManager(getContext() ,LinearLayoutManager.HORIZONTAL, false));
         screenshotRecyclerView.setAdapter(backdropAdapter);
+    }
+    private void PutSeasonDataIntoRecyclerView(List<Season> seasonList) {
+        SeasonAdapter  seasonAdapter = new SeasonAdapter(getContext(), seasonList, new SeasonAdapter.SeasonClickListener() {
+            @Override
+            public void onItemClick(Season result) {
+                Toast.makeText(getContext(), "Clicked season", Toast.LENGTH_SHORT).show();
+            }
+        });
+        seasonRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        seasonRecyclerView.setAdapter(seasonAdapter);
+
     }
 
 
@@ -631,8 +714,6 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
         }
     }
 
-
-
     //CHECK IF USER IS LOGGED IN
     private boolean checkUserLoggedIn(FirebaseUser user) {
         if(user != null) return true;
@@ -660,21 +741,24 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
     }
 
 
-
-
     //ON CLICK INTERFACE CODE
     @Override
-    public void onShowClick(int position){}
+    public void onShowClick(int position) {}
     @Override
-    public void onGenreClick(String Genre){}
+    public void onGenreClick(String Genre) {}
     @Override
-    public void onShowAiringTodayClick(int position){}
+    public void onShowAiringTodayClick(int position) {}
     @Override
-    public void onShowTrendingTodayClick(int position){}
+    public void onShowTrendingTodayClick(int position) {}
     @Override
-    public void onShowSearchClick(int position){}
+    public void onShowSearchClick(int position) {}
     @Override
-    public void onFavoritesClick(int position){}
+    public void onFavoritesClick(int position) {}
     @Override
-    public void onWatchlistClick(int adapterPosition){}
+    public void onWatchlistClick(int adapterPosition) {}
+
+    @Override
+    public void onSeasonClick(int position) {
+
+    }
 }

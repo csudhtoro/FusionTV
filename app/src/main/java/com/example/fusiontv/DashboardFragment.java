@@ -236,4 +236,9 @@ public class DashboardFragment extends Fragment implements OnShowListener {
 
     }
 
+    @Override
+    public void onSeasonClick(int position) {
+
+    }
+
 }

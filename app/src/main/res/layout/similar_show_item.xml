@@ -55,12 +55,13 @@
                     android:id="@+id/similar_show_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/source_sans_pro_regular"
                     android:gravity="center"
                     android:text="Title"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
                     android:textAlignment="center"
-                    android:textFontWeight="700"/>
+                    android:textColor="@color/white"
+                    android:textFontWeight="700"
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

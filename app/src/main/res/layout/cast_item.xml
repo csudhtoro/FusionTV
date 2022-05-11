@@ -21,7 +21,7 @@
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_gravity="center"
-            android:scaleType="center"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_launcher_background" />
 
 
@@ -32,11 +32,12 @@
         android:id="@+id/actor_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/source_sans_pro_regular"
+        android:text="Actor Name"
         android:textAlignment="center"
-        android:textSize="10dp"
         android:textColor="@color/white"
         android:textFontWeight="700"
-        android:text="Actor Name">
+        android:textSize="10dp">
 
     </TextView>
 

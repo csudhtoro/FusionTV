@@ -102,7 +102,7 @@ public class ShowDetailModel implements Parcelable
     private String type;
     @SerializedName("vote_average")
     @Expose
-    private Double voteAverage;
+    private Float voteAverage;
     @SerializedName("vote_count")
     @Expose
     private Integer voteCount;
@@ -154,7 +154,7 @@ public class ShowDetailModel implements Parcelable
         this.status = ((String) in.readValue((String.class.getClassLoader())));
         this.tagline = ((String) in.readValue((String.class.getClassLoader())));
         this.type = ((String) in.readValue((String.class.getClassLoader())));
-        this.voteAverage = ((Double) in.readValue((Double.class.getClassLoader())));
+        this.voteAverage = ((Float) in.readValue((Double.class.getClassLoader())));
         this.voteCount = ((Integer) in.readValue((Integer.class.getClassLoader())));
     }
 
@@ -200,7 +200,7 @@ public class ShowDetailModel implements Parcelable
      * @param homepage
      * @param status
      */
-    public ShowDetailModel(Boolean adult, String backdropPath, List<CreatedBy> createdBy, List<Integer> episodeRunTime, String firstAirDate, List<Genre> genres, String homepage, Integer id, Boolean inProduction, List<String> languages, String lastAirDate, LastEpisodeToAir lastEpisodeToAir, String name, NextEpisodeToAir nextEpisodeToAir, List<Network> networks, Integer numberOfEpisodes, Integer numberOfSeasons, List<String> originCountry, String originalLanguage, String originalName, String overview, Double popularity, String posterPath, List<ProductionCompany> productionCompanies, List<ProductionCountry> productionCountries, List<Season> seasons, List<SpokenLanguage> spokenLanguages, String status, String tagline, String type, Double voteAverage, Integer voteCount) {
+    public ShowDetailModel(Boolean adult, String backdropPath, List<CreatedBy> createdBy, List<Integer> episodeRunTime, String firstAirDate, List<Genre> genres, String homepage, Integer id, Boolean inProduction, List<String> languages, String lastAirDate, LastEpisodeToAir lastEpisodeToAir, String name, NextEpisodeToAir nextEpisodeToAir, List<Network> networks, Integer numberOfEpisodes, Integer numberOfSeasons, List<String> originCountry, String originalLanguage, String originalName, String overview, Double popularity, String posterPath, List<ProductionCompany> productionCompanies, List<ProductionCountry> productionCountries, List<Season> seasons, List<SpokenLanguage> spokenLanguages, String status, String tagline, String type, Float voteAverage, Integer voteCount) {
         super();
         this.adult = adult;
         this.backdropPath = backdropPath;
@@ -476,11 +476,11 @@ public class ShowDetailModel implements Parcelable
         this.type = type;
     }
 
-    public Double getVoteAverage() {
+    public Float getVoteAverage() {
         return voteAverage;
     }
 
-    public void setVoteAverage(Double voteAverage) {
+    public void setVoteAverage(Float voteAverage) {
         this.voteAverage = voteAverage;
     }
 

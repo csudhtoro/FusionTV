@@ -7,7 +7,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/primary"
     tools:context=".ShowDetailFragment">
 
     <include
@@ -15,7 +15,7 @@
         layout="@layout/show_detail_appbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
     <ScrollView
@@ -27,35 +27,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBar">
+        app:layout_constraintTop_toBottomOf="@+id/appBar"
+        app:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
 
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/genre_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/posterCard" />
+
 
             <View
                 android:id="@+id/divider5"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:background="?android:attr/listDivider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.44"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/showDetailsoverview" />
+                app:layout_constraintTop_toBottomOf="@+id/genre_recyclerview" />
 
             <View
                 android:id="@+id/divider6"
@@ -66,30 +57,20 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.44"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/information_linearLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/seasons_recyclerview" />
 
-            <!--<com.bosphere.fadingedgelayout.FadingEdgeLayout
-                android:id="@+id/fade"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fel_edge="bottom"
+
+            <ImageView
+                android:id="@+id/showDetailsBackdrop"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:foreground="@drawable/backdrop_gradient"
+                android:scaleType="center"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-            </com.bosphere.fadingedgelayout.FadingEdgeLayout>-->
-
-
-                <ImageView
-                    android:id="@+id/showDetailsBackdrop"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:scaleType="center"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:foreground="@drawable/backdrop_gradient"
-                    app:srcCompat="@drawable/knight_backdrop_sample" />
-
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/knight_backdrop_sample" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/posterCard"
@@ -99,8 +80,6 @@
                 android:layout_marginTop="270dp"
                 app:cardCornerRadius="25dp"
                 app:cardElevation="10dp"
-                android:outlineSpotShadowColor="@color/black"
-                android:outlineAmbientShadowColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -120,105 +99,33 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <TextView
-                android:id="@+id/overview_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Overview"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.002"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider" />
-
-
-            <TextView
-                android:id="@+id/showDetailsoverview"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/genre_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:text="TextView"
+                android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/overview_label" />
+                app:layout_constraintTop_toBottomOf="@+id/posterCard" />
 
-            <LinearLayout
-                android:id="@+id/information_linearLayout2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:gravity="end"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4">
-
-                <TextView
-                    android:id="@+id/ratingsLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:text="Ratings: "
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-
-                <TextView
-                    android:id="@+id/runtimeLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Runtime: "
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/nextworkLabel" />
-
-                <TextView
-                    android:id="@+id/numOfSeasonLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Seasons: "
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/runtimeLabel" />
-
-                <TextView
-                    android:id="@+id/numOfEpisodeLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Episodes: "
-                    android:textAlignment="textEnd"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/runtimeLabel" />
-            </LinearLayout>
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/season_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Details"
+                android:fontFamily="@font/source_sans_pro_regular"
+                android:text="Seasons"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider5" />
+                app:layout_constraintTop_toBottomOf="@+id/genre_recyclerview" />
 
             <TextView
                 android:id="@+id/cast_label"
@@ -226,12 +133,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/source_sans_pro_regular"
                 android:text="Cast"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.002"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider6" />
+                app:layout_constraintTop_toBottomOf="@+id/divider7" />
 
 
             <TextView
@@ -240,6 +148,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/source_sans_pro_regular"
                 android:text="Similar"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -253,6 +162,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/source_sans_pro_regular"
                 android:text="Recommendations"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -266,12 +176,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Screenshots"
+                android:fontFamily="@font/source_sans_pro_regular"
+                android:text="Stills"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider7" />
+                app:layout_constraintTop_toBottomOf="@+id/divider6" />
 
             <LinearLayout
                 android:id="@+id/linearLayout2"
@@ -282,52 +193,14 @@
                 android:gravity="start"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4">
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
 
-                <TextView
-                    android:id="@+id/network"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="nextwork"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.24"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rating" />
 
-                <TextView
-                    android:id="@+id/firstAirDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="first air date"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-                <TextView
-                    android:id="@+id/lastAirDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="last air date"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/firstAirDate" />
 
-                <TextView
-                    android:id="@+id/nextAirDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="next air date"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lastAirDate" />
+
+
 
             </LinearLayout>
 
@@ -340,60 +213,13 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/information_linearLayout"
-                app:layout_constraintTop_toTopOf="@+id/information_linearLayout2">
+                app:layout_constraintStart_toEndOf="@+id/posterCard"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
-                <TextView
-                    android:id="@+id/nextworkLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Network: "
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ratingsLabel" />
 
-                <TextView
-                    android:id="@+id/firstAirDateLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="First Air Date: "
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.7"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-                <TextView
-                    android:id="@+id/LastAirDateLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Last Air Date: "
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.7"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/firstAirDateLabel" />
-
-                <TextView
-                    android:id="@+id/nextAirDateLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Next Air Date: "
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.7"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/LastAirDateLabel" />
 
             </LinearLayout>
-
-            <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/genre_recyclerview" />
 
             <View
                 android:id="@+id/divider7"
@@ -404,7 +230,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.44"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cast_recyclerview" />
+                app:layout_constraintTop_toBottomOf="@+id/screenshots_recyclerview" />
 
             <View
                 android:id="@+id/divider4"
@@ -415,7 +241,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.444"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/screenshots_recyclerview" />
+                app:layout_constraintTop_toBottomOf="@+id/cast_recyclerview" />
 
             <View
                 android:id="@+id/divider8"
@@ -473,36 +299,206 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recommendation_show_label" />
 
-            <LinearLayout
-                android:id="@+id/information_linearLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/information_linearLayout2"
-                app:layout_constraintTop_toBottomOf="@+id/textView4">
 
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="183dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/posterCard"
+                app:layout_constraintTop_toBottomOf="@+id/showDetailsBackdrop">
+
+                <TextView
+                    android:id="@+id/show_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:fontFamily="@font/source_sans_pro_regular"
+                    android:singleLine="true"
+                    android:text="TextView"
+                    android:textAlignment="textStart"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="6dp"
+                        android:fontFamily="@font/source_sans_pro_regular"
                         android:text="rating"
+                        android:textSize="14dp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.22"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
+                    <androidx.appcompat.widget.AppCompatRatingBar
+                        android:id="@+id/ratingBar"
+                        style="@style/Widget.AppCompat.RatingBar.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:progressTint="@color/white"
+                        android:stepSize="0.5" />
 
 
+                </LinearLayout>
 
                 <TextView
+                    android:id="@+id/network"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/source_sans_pro_regular"
+                    android:text="nextwork"
+                    android:textSize="14dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rating" />
+
+                <TextView
+                    android:id="@+id/showDetailsoverview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/source_sans_pro_regular"
+                    android:maxLines="8"
+                    android:text="TextView"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/posterCard"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+
+
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/seasons_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/divider5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/season_label" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--<LinearLayout
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="horizontal">
+<TextView
+    android:id="@+id/firstAirDateLabel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="@font/source_sans_pro_regular"
+    android:text="First Air Date: "
+    android:layout_marginTop="4dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.7"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+<TextView
+    android:id="@+id/firstAirDate"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="@font/source_sans_pro_regular"
+    android:text="first air date"
+    android:layout_marginTop="4dp"
+    android:textStyle="bold"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="1.0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+</LinearLayout>
+<LinearLayout
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="horizontal">
+<TextView
+    android:id="@+id/LastAirDateLabel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="@font/source_sans_pro_regular"
+    android:text="Last Air Date: "
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.7"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/firstAirDateLabel" />
+
+<TextView
+    android:id="@+id/lastAirDate"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="@font/source_sans_pro_regular"
+    android:text="last air date"
+    android:textStyle="bold"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="1.0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/firstAirDate" />
+</LinearLayout>
+
+<LinearLayout
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="horizontal">
+
+<TextView
+    android:id="@+id/nextAirDateLabel"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fontFamily="@font/source_sans_pro_regular"
+    android:text="Next Air Date: "
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.7"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/LastAirDateLabel" />
+
+<TextView
+    android:id="@+id/nextAirDate"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="@font/source_sans_pro_regular"
+    android:text="next air date"
+    android:textStyle="bold"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="1.0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/lastAirDate" />
+
+     <TextView
                     android:id="@+id/runtime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/source_sans_pro_regular"
                     android:text="runtime"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -514,6 +510,7 @@
                     android:id="@+id/seasons"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/source_sans_pro_regular"
                     android:text="seasons"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -525,29 +522,65 @@
                     android:id="@+id/episodes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/source_sans_pro_regular"
                     android:text="episodes"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.22"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/seasons" />
-            </LinearLayout>
 
-            <TextView
-                android:id="@+id/textView7"
+                    <LinearLayout
+                android:id="@+id/information_linearLayout2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Adventure Time"
-                android:textSize="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="16dp"
+                android:gravity="end"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/posterCard"
-                app:layout_constraintTop_toBottomOf="@+id/showDetailsBackdrop" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView4">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/ratingsLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/source_sans_pro_regular"
+                    android:text="Ratings: "
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-    </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/runtimeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/source_sans_pro_regular"
+                    android:text="Runtime: "
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/nextworkLabel" />
+
+                <TextView
+                    android:id="@+id/numOfSeasonLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/source_sans_pro_regular"
+                    android:text="Seasons: "
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/runtimeLabel" />
+
+
+            </LinearLayout>
+
+</LinearLayout>-->

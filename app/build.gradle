@@ -72,5 +72,6 @@ dependencies {
     //Fading imageview
     implementation 'com.github.bosphere.android-fadingedgelayout:fadingedgelayout:1.0.0'
 
+    implementation('com.ms-square:expandableTextView:0.1.4')
 
 }

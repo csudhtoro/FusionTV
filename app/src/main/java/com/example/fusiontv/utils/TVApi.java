@@ -1,12 +1,18 @@
 package com.example.fusiontv.utils;
 
 import com.example.fusiontv.models.Actor;
+import com.example.fusiontv.models.ActorProfile;
+import com.example.fusiontv.models.Profile;
+import com.example.fusiontv.models.SeasonDetail;
 import com.example.fusiontv.models.ShowDetailModel;
+import com.example.fusiontv.models.TVCredit;
+import com.example.fusiontv.models.TVCredits;
 import com.example.fusiontv.models.TVShowModel;
 import com.example.fusiontv.response.ActorResponse;
 import com.example.fusiontv.response.CastResponse;
 import com.example.fusiontv.response.BackdropResponse;
 import com.example.fusiontv.response.RecommendationResponse;
+import com.example.fusiontv.response.SeasonResponse;
 import com.example.fusiontv.response.SimilarResponse;
 import com.example.fusiontv.response.TVShowSearchResponse;
 
@@ -85,7 +91,7 @@ public interface TVApi {
     );
 
     //Get images for a specific show - https://api.themoviedb.org/3/tv/92749/images?api_key=5711ccb17a8987bca87b6e6fd7dc4823
-    @GET("https://api.themoviedb.org/3/tv/{tv_id}/images?api_key=5711ccb17a8987bca87b6e6fd7dc4823")
+    @GET("https://api.themoviedb.org/3/tv/{tv_id}/images?")
     Call<BackdropResponse> searchImages(
             @Path("tv_id") int id,
             @Query("api_key") String key
@@ -103,6 +109,28 @@ public interface TVApi {
     //Get actors information - https://api.themoviedb.org/3/person/{person_id}?api_key=5711ccb17a8987bca87b6e6fd7dc4823&language=en-US
     @GET("/3/person/{person_id}?")
     Call<Actor> searchActor(
+            @Path("person_id") int id,
+            @Query("api_key") String key
+    );
+
+    //Get show season details information - https://api.themoviedb.org/3/tv/{tv_id}/season/{season_number}?api_key=5711ccb17a8987bca87b6e6fd7dc4823&language=en-US
+    @GET("https://api.themoviedb.org/3/tv/{tv_id}/season/{season_number}?")
+    Call<SeasonDetail> searchSeason(
+            @Path("tv_id") int id,
+            @Path("season_number") int seasonNum,
+            @Query("api_key") String key
+    );
+
+    //Get specific actor images - https://api.themoviedb.org/3/person/{person_id}/images?api_key=5711ccb17a8987bca87b6e6fd7dc4823
+    @GET("/3/person/{person_id}/images?")
+    Call<ActorProfile> searchActorImages(
+            @Path("person_id") int id,
+            @Query("api_key") String key
+    );
+
+    //Get specific actor tv credits - https://api.themoviedb.org/3/person/{person_id}/tv_credits?api_key=5711ccb17a8987bca87b6e6fd7dc4823&language=en-US
+    @GET("/3/person/{person_id}/tv_credits?")
+    Call<TVCredits> searchActorCredits(
             @Path("person_id") int id,
             @Query("api_key") String key
     );
