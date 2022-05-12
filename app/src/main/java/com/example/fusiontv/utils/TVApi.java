@@ -2,7 +2,9 @@ package com.example.fusiontv.utils;
 
 import com.example.fusiontv.models.Actor;
 import com.example.fusiontv.models.ActorProfile;
+import com.example.fusiontv.models.Episode;
 import com.example.fusiontv.models.Profile;
+import com.example.fusiontv.models.Season;
 import com.example.fusiontv.models.SeasonDetail;
 import com.example.fusiontv.models.ShowDetailModel;
 import com.example.fusiontv.models.TVCredit;
@@ -132,6 +134,14 @@ public interface TVApi {
     @GET("/3/person/{person_id}/tv_credits?")
     Call<TVCredits> searchActorCredits(
             @Path("person_id") int id,
+            @Query("api_key") String key
+    );
+
+    //Get specific season details - https://api.themoviedb.org/3/tv/{tv_id}/season/{season_number}?api_key=5711ccb17a8987bca87b6e6fd7dc4823&language=en-US
+    @GET("/3/tv/{tv_id}/season/{season_number}?")
+    Call<Season> searchSeasonDetails(
+            @Path("tv_id") int tvId,
+            @Path("season_number") int seasonNum,
             @Query("api_key") String key
     );
 }

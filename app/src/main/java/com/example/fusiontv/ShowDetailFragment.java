@@ -11,6 +11,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -155,7 +156,11 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "back arrow clicked", Toast.LENGTH_SHORT).show();
+                FragmentManager fm = getActivity()
+                        .getSupportFragmentManager();
+                fm.popBackStack();
+
+                //Toast.makeText(getContext(), "back arrow clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -214,7 +219,7 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
 
                 //CREATING SHOW GENRE RECYCLERVIEW
                 PutGenreDataIntoRecyclerView(genreList);
-                PutSeasonDataIntoRecyclerView(seasonList);
+                PutSeasonDataIntoRecyclerView(seasonList, tvShowModel.getTv_id());
 
                 if (response.body().getOverview() != null) {
                     showOverview.setText(response.body().getOverview());
@@ -427,43 +432,6 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
             }
         });
     }
-    /*private void GetSeasonsRetrofitResponse(TVShowModel tvShowModel) {
-        TVApi tvApi = Services.getTvApi();
-
-        seasonList = new ArrayList<>();
-
-        for(int i = 0; i < numOfSeasons[0]; i++) {
-            Call<SeasonDetail> responseCall = tvApi
-                    .searchSeason(
-                            tvShowModel.getTv_id(),
-                            i,
-                            Credentials.API_KEY
-                    );
-
-            responseCall.enqueue(new Callback<SeasonDetail>() {
-                @Override
-                public void onResponse(Call<SeasonDetail> call, Response<SeasonDetail> response) {
-
-                    if (response.code() == 200) {
-                            seasonList.add(response.body());
-                    }
-                    else {
-                        try {
-                            Log.v("Tag", "Error: " + response.errorBody().string());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<SeasonDetail> call, Throwable t) {
-
-                }
-            });
-        }
-        PutSeasonDataIntoRecyclerView(seasonList);
-    }*/
 
     //RECYCLERVIEW CODE
     private void PutSimilarDataIntoRecyclerView(List<TVShowModel> similarList) {
@@ -534,11 +502,22 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
         screenshotRecyclerView.setLayoutManager(new LinearLayoutManager(getContext() ,LinearLayoutManager.HORIZONTAL, false));
         screenshotRecyclerView.setAdapter(backdropAdapter);
     }
-    private void PutSeasonDataIntoRecyclerView(List<Season> seasonList) {
+    private void PutSeasonDataIntoRecyclerView(List<Season> seasonList, int showId) {
         SeasonAdapter  seasonAdapter = new SeasonAdapter(getContext(), seasonList, new SeasonAdapter.SeasonClickListener() {
             @Override
-            public void onItemClick(Season result) {
-                Toast.makeText(getContext(), "Clicked season", Toast.LENGTH_SHORT).show();
+            public void onItemClick(Season season) {
+                SeasonDetailFragment seasonDetailFragment = new SeasonDetailFragment();
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentFrameLayout, seasonDetailFragment)
+                        .addToBackStack(null)
+                        .commit();
+
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("seasonInfo", season);
+                bundle.putInt("showId", showId);
+                seasonDetailFragment.setArguments(bundle);
+
+                //Toast.makeText(getContext(), "Clicked season", Toast.LENGTH_SHORT).show();
             }
         });
         seasonRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));

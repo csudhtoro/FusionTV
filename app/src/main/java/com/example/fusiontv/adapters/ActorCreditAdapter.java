@@ -15,6 +15,7 @@ import com.example.fusiontv.R;
 import com.example.fusiontv.models.Profile;
 import com.example.fusiontv.models.TVCredit;
 import com.example.fusiontv.models.TVCredits;
+import com.example.fusiontv.models.TVShowModel;
 
 import java.util.List;
 
@@ -22,10 +23,12 @@ public class ActorCreditAdapter extends RecyclerView.Adapter<ActorCreditAdapter.
 
     private Context mContext;
     private List<TVCredit> mData;
+    private CreditClickListener mItemListener;
 
-    public ActorCreditAdapter(Context mContext, List<TVCredit> mData) {
+    public ActorCreditAdapter(Context mContext, List<TVCredit> mData, CreditClickListener creditClickListener) {
         this.mContext = mContext;
         this.mData = mData;
+        this.mItemListener = creditClickListener;
     }
 
     @NonNull
@@ -44,11 +47,19 @@ public class ActorCreditAdapter extends RecyclerView.Adapter<ActorCreditAdapter.
 
         //Using Glide to display the image
         Glide.with(mContext).load("https://image.tmdb.org/t/p/w500/"+mData.get(position).getPosterPath()).into(actorCreditViewHolder.screen);
+
+        actorCreditViewHolder.itemView.setOnClickListener(view -> {
+            mItemListener.onItemClick(mData.get(position));
+        });
     }
 
     @Override
     public int getItemCount() {
         return mData.size();
+    }
+
+    public interface CreditClickListener {
+        void onItemClick(TVCredit result);
     }
 
     public static class MyActorCreditViewHolder extends RecyclerView.ViewHolder {
@@ -60,5 +71,14 @@ public class ActorCreditAdapter extends RecyclerView.Adapter<ActorCreditAdapter.
             screen = itemView.findViewById(R.id.recommendation_show_img);
             name = itemView.findViewById(R.id.recommendation_show_title);
         }
+    }
+    //Getting the id of the show clicked
+    public TVCredit getSelectedShow(int position) {
+        if(mData != null) {
+            if(mData.size() > 0) {
+                return mData.get(position);
+            }
+        }
+        return null;
     }
 }

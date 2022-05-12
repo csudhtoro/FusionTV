@@ -1,5 +1,6 @@
 package com.example.fusiontv.models;
 
+import java.util.List;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
 import android.os.Parcelable.Creator;
@@ -9,21 +10,24 @@ import com.google.gson.annotations.SerializedName;
 public class Season implements Parcelable
 {
 
+    @SerializedName("_id")
+    @Expose
+    private String _id;
     @SerializedName("air_date")
     @Expose
     private String airDate;
-    @SerializedName("episode_count")
+    @SerializedName("episodes")
     @Expose
-    private Integer episodeCount;
-    @SerializedName("id")
-    @Expose
-    private Integer id;
+    private List<Episode> episodes = null;
     @SerializedName("name")
     @Expose
     private String name;
     @SerializedName("overview")
     @Expose
     private String overview;
+    @SerializedName("id")
+    @Expose
+    private Integer id;
     @SerializedName("poster_path")
     @Expose
     private String posterPath;
@@ -48,11 +52,12 @@ public class Season implements Parcelable
             ;
 
     protected Season(android.os.Parcel in) {
+        this._id = ((String) in.readValue((String.class.getClassLoader())));
         this.airDate = ((String) in.readValue((String.class.getClassLoader())));
-        this.episodeCount = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
+        in.readList(this.episodes, (com.example.fusiontv.models.Episode.class.getClassLoader()));
         this.name = ((String) in.readValue((String.class.getClassLoader())));
         this.overview = ((String) in.readValue((String.class.getClassLoader())));
+        this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.posterPath = ((String) in.readValue((String.class.getClassLoader())));
         this.seasonNumber = ((Integer) in.readValue((Integer.class.getClassLoader())));
     }
@@ -67,22 +72,32 @@ public class Season implements Parcelable
     /**
      *
      * @param overview
-     * @param episodeCount
      * @param airDate
      * @param name
      * @param id
      * @param seasonNumber
+     * @param episodes
+     * @param _id
      * @param posterPath
      */
-    public Season(String airDate, Integer episodeCount, Integer id, String name, String overview, String posterPath, Integer seasonNumber) {
+    public Season(String _id, String airDate, List<Episode> episodes, String name, String overview, Integer id, String posterPath, Integer seasonNumber) {
         super();
+        this._id = _id;
         this.airDate = airDate;
-        this.episodeCount = episodeCount;
-        this.id = id;
+        this.episodes = episodes;
         this.name = name;
         this.overview = overview;
+        this.id = id;
         this.posterPath = posterPath;
         this.seasonNumber = seasonNumber;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getAirDate() {
@@ -93,20 +108,12 @@ public class Season implements Parcelable
         this.airDate = airDate;
     }
 
-    public Integer getEpisodeCount() {
-        return episodeCount;
+    public List<Episode> getEpisodes() {
+        return episodes;
     }
 
-    public void setEpisodeCount(Integer episodeCount) {
-        this.episodeCount = episodeCount;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public void setEpisodes(List<Episode> episodes) {
+        this.episodes = episodes;
     }
 
     public String getName() {
@@ -123,6 +130,14 @@ public class Season implements Parcelable
 
     public void setOverview(String overview) {
         this.overview = overview;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getPosterPath() {
@@ -145,17 +160,17 @@ public class Season implements Parcelable
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Season.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append("_id");
+        sb.append('=');
+        sb.append(((this._id == null)?"<null>":this._id));
+        sb.append(',');
         sb.append("airDate");
         sb.append('=');
         sb.append(((this.airDate == null)?"<null>":this.airDate));
         sb.append(',');
-        sb.append("episodeCount");
+        sb.append("episodes");
         sb.append('=');
-        sb.append(((this.episodeCount == null)?"<null>":this.episodeCount));
-        sb.append(',');
-        sb.append("id");
-        sb.append('=');
-        sb.append(((this.id == null)?"<null>":this.id));
+        sb.append(((this.episodes == null)?"<null>":this.episodes));
         sb.append(',');
         sb.append("name");
         sb.append('=');
@@ -164,6 +179,10 @@ public class Season implements Parcelable
         sb.append("overview");
         sb.append('=');
         sb.append(((this.overview == null)?"<null>":this.overview));
+        sb.append(',');
+        sb.append("id");
+        sb.append('=');
+        sb.append(((this.id == null)?"<null>":this.id));
         sb.append(',');
         sb.append("posterPath");
         sb.append('=');
@@ -182,11 +201,12 @@ public class Season implements Parcelable
     }
 
     public void writeToParcel(android.os.Parcel dest, int flags) {
+        dest.writeValue(_id);
         dest.writeValue(airDate);
-        dest.writeValue(episodeCount);
-        dest.writeValue(id);
+        dest.writeList(episodes);
         dest.writeValue(name);
         dest.writeValue(overview);
+        dest.writeValue(id);
         dest.writeValue(posterPath);
         dest.writeValue(seasonNumber);
     }

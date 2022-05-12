@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -25,8 +27,10 @@ import com.example.fusiontv.models.Actor;
 import com.example.fusiontv.models.ActorProfile;
 import com.example.fusiontv.models.Cast;
 import com.example.fusiontv.models.Profile;
+import com.example.fusiontv.models.Season;
 import com.example.fusiontv.models.TVCredit;
 import com.example.fusiontv.models.TVCredits;
+import com.example.fusiontv.models.TVShowModel;
 import com.example.fusiontv.requests.Services;
 import com.example.fusiontv.utils.Credentials;
 import com.example.fusiontv.utils.TVApi;
@@ -46,7 +50,7 @@ public class CastProfileFragment extends Fragment implements OnShowListener {
 
 
     //Widgets
-    private ImageView actorPhoto;
+    private ImageView actorPhoto, backArrow;
     private TextView actorName, actorPopularity, actorBday, actorBiography, actorBirthplace;
 
     RecyclerView imageRecyclerView;
@@ -66,14 +70,26 @@ public class CastProfileFragment extends Fragment implements OnShowListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        actorName = getView().findViewById(R.id.actor_name);
+        actorName = getView().findViewById(R.id.season_appBar_show_name);
         actorBday = getView().findViewById(R.id.actor_bday);
         actorBiography = getView().findViewById(R.id.actor_bio);
         actorPhoto = getView().findViewById(R.id.actor_photo);
         actorBirthplace = getView().findViewById(R.id.actor_birthplace);
+        backArrow = getView().findViewById(R.id.cast_profile_back_arrow);
 
         imageRecyclerView = getView().findViewById(R.id.imageRecyclerview);
         creditRecyclerView = getView().findViewById(R.id.tvCreditRecyclerview);
+
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = getActivity()
+                        .getSupportFragmentManager();
+                fm.popBackStack();
+
+                //Toast.makeText(getContext(), "back arrow clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
 
@@ -209,7 +225,29 @@ public class CastProfileFragment extends Fragment implements OnShowListener {
         imageRecyclerView.setAdapter(actorImageAdapter);
     }
     private void PutActorCreditDataIntoRecyclerView(List<TVCredit> creditList) {
-        ActorCreditAdapter actorCreditAdapter = new ActorCreditAdapter(getContext(), creditList);
+        ActorCreditAdapter actorCreditAdapter = new ActorCreditAdapter(getContext(), creditList, new ActorCreditAdapter.CreditClickListener() {
+            @Override
+            public void onItemClick(TVCredit result) {
+
+                TVShowModel tvShowModel = new TVShowModel();
+
+                tvShowModel.setId(result.getId());
+                tvShowModel.setPoster_path(result.getPosterPath());
+                tvShowModel.setBackdrop_path(result.getBackdropPath());
+
+                ShowDetailFragment showDetailFragment = new ShowDetailFragment();
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentFrameLayout, showDetailFragment)
+                        .addToBackStack(null)
+                        .commit();
+
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("showInfo", tvShowModel);
+                showDetailFragment.setArguments(bundle);
+
+                //Toast.makeText(getContext(), "Clicked season", Toast.LENGTH_SHORT).show();
+            }
+        });
         creditRecyclerView.setLayoutManager(new LinearLayoutManager(getContext() ,LinearLayoutManager.HORIZONTAL, false));
         creditRecyclerView.setAdapter(actorCreditAdapter);
     }

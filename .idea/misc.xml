@@ -29,6 +29,8 @@
         <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/activity_show_details.xml" value="0.22144927536231884" />
         <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/airing_today_list_item.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/cast_item.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/cast_profile_appbar.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/episode_item.xml" value="0.33" />
         <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/fav_list_item.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/favorite_list_item.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/fragment_action_adventure.xml" value="0.38697916666666665" />
@@ -38,6 +40,7 @@
         <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/fragment_profile.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/fragment_schedule.xml" value="0.256857855361596" />
         <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/fragment_search.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/fragment_season_detail.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/fragment_show_detail.xml" value="0.33" />
         <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/fragment_show_detail2.xml" value="0.33" />
         <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/genre_item.xml" value="0.75" />
@@ -47,6 +50,7 @@
         <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/schedule_list_item.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/search_appbar.xml" value="0.358695652173913" />
         <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/search_list_item.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/season_detail_appbar.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/show_detail_appbar.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/show_list_item.xml" value="0.358695652173913" />
         <entry key="..\:/Users/Dana/Desktop/FusionTV-master/FusionTV-master/app/src/main/res/layout/similar_show_item.xml" value="0.38697916666666665" />
