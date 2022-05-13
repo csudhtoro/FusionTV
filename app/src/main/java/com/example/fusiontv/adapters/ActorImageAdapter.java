@@ -21,10 +21,12 @@ public class ActorImageAdapter extends RecyclerView.Adapter<ActorImageAdapter.My
 
     private Context mContext;
     private List<Profile> mData;
+    private ActorImageClickListener mItemListener;
 
-    public ActorImageAdapter(Context mContext, List<Profile> mData) {
+    public ActorImageAdapter(Context mContext, List<Profile> mData, ActorImageClickListener actorImageClickListener) {
         this.mContext = mContext;
         this.mData = mData;
+        this.mItemListener = actorImageClickListener;
     }
 
     @NonNull
@@ -41,11 +43,19 @@ public class ActorImageAdapter extends RecyclerView.Adapter<ActorImageAdapter.My
     public void onBindViewHolder(@NonNull ActorImageAdapter.MyActorImageViewHolder actorImageViewHolder, int position) {
         //Using Glide to display the image
         Glide.with(mContext).load("https://image.tmdb.org/t/p/w500/"+mData.get(position).getFilePath()).into(actorImageViewHolder.screen);
+
+        actorImageViewHolder.itemView.setOnClickListener(view -> {
+            mItemListener.onItemClick(mData.get(position));
+        });
     }
 
     @Override
     public int getItemCount() {
         return mData.size();
+    }
+
+    public interface ActorImageClickListener {
+        void onItemClick(Profile result);
     }
 
     public static class MyActorImageViewHolder extends RecyclerView.ViewHolder {

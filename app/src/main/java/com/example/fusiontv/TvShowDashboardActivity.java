@@ -85,9 +85,6 @@ public class TvShowDashboardActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-
-
     }
 
         /*popularRecyclerView = findViewById(R.id.popular_recyclerView);

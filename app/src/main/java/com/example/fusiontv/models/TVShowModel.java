@@ -14,6 +14,7 @@ public class TVShowModel implements Parcelable {
     private int id;
     private float vote_average;
     private String overview;
+    //private String firstAirDate;
     private String network;
     private List<Genre> genres;
 

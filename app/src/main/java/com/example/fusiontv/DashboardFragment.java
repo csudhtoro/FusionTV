@@ -61,8 +61,6 @@ public class DashboardFragment extends Fragment implements OnShowListener {
         showListViewModel = new ViewModelProvider(this).get(ShowListViewModel.class);
 
 
-
-
         //TRENDING SHOWS RECYCLERVIEW
         ConfigureTrendingRecyclerView();
         ObserveTrendingShowChange();

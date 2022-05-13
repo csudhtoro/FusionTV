@@ -506,7 +506,12 @@ public class ShowDetails extends AppCompatActivity implements OnShowListener {
         recommendationRecyclerView.setAdapter(recommendationAdapter);
     }
     private void PutImageDataIntoRecyclerView(List<Backdrop> imageList) {
-        BackdropAdapter backdropAdapter = new BackdropAdapter(this, imageList);
+        BackdropAdapter backdropAdapter = new BackdropAdapter(this, imageList, new BackdropAdapter.BackdropClickListener() {
+            @Override
+            public void onItemClick(Backdrop result) {
+
+            }
+        });
         screenshotRecyclerView.setLayoutManager(new LinearLayoutManager(this ,LinearLayoutManager.HORIZONTAL, false));
         screenshotRecyclerView.setAdapter(backdropAdapter);
     }

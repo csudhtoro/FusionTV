@@ -56,7 +56,7 @@ public interface TVApi {
             @Query("page") int page
     );
 
-    //Get popular tv shows - https://api.themoviedb.org/3/trending/tv/day?api_key=5711ccb17a8987bca87b6e6fd7dc4823
+    //Get trending tv shows - https://api.themoviedb.org/3/trending/tv/day?api_key=5711ccb17a8987bca87b6e6fd7dc4823
     @GET("/3/trending/tv/day")
     Call<TVShowSearchResponse> getTrendingShows(
             @Query("api_key") String key,

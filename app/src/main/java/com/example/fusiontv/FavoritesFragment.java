@@ -107,6 +107,8 @@ public class FavoritesFragment extends Fragment implements OnShowListener {
                         tvShowModel.setName(ds.child("name").getValue(String.class));
                         tvShowModel.setPoster_path(ds.child("poster_path").getValue(String.class));
                         tvShowModel.setBackdrop_path(ds.child("backdrop_path").getValue(String.class));
+                        tvShowModel.setOverview(ds.child("overview").getValue(String.class));
+                        tvShowModel.setVote_average(ds.child("vote_average").getValue(Float.class));
 
                         favList.add(tvShowModel);
                     }

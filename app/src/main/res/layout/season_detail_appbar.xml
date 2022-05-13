@@ -27,7 +27,7 @@
             android:fontFamily="@font/source_sans_pro_regular"
             android:singleLine="true"
             android:text="Show Name"
-            android:textColor="@color/white"
+            android:textColor="@color/secondaryLight"
             android:textFontWeight="700"
             android:textSize="16dp" />
 

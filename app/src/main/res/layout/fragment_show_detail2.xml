@@ -18,6 +18,16 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
 
+    <ProgressBar
+        android:id="@+id/cpi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:indicatorColor="@color/primaryDark"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBar" />
+
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
@@ -98,6 +108,8 @@
                     app:srcCompat="@drawable/moon_sample" />
 
             </com.google.android.material.card.MaterialCardView>
+
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/genre_recyclerview"
@@ -357,6 +369,10 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
                 <TextView
                     android:id="@+id/network"
                     android:layout_width="wrap_content"
@@ -365,10 +381,24 @@
                     android:text="nextwork"
                     android:textSize="14dp"
                     android:textStyle="bold"
+                    android:layout_marginRight="2dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.24"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/rating" />
+                <TextView
+                    android:id="@+id/firstAirDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/source_sans_pro_regular"
+                    android:text="first air date"
+                    android:textStyle="bold"
+                    android:textSize="14dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/showDetailsoverview"
@@ -404,6 +434,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/season_label" />
 
 
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
@@ -425,18 +457,7 @@ android:orientation="horizontal">
     app:layout_constraintHorizontal_bias="0.7"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/textView4" />
-<TextView
-    android:id="@+id/firstAirDate"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:fontFamily="@font/source_sans_pro_regular"
-    android:text="first air date"
-    android:layout_marginTop="4dp"
-    android:textStyle="bold"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="1.0"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
 </LinearLayout>
 <LinearLayout
 android:layout_width="wrap_content"

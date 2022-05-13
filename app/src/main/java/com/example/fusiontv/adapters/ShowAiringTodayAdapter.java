@@ -37,7 +37,7 @@ public class ShowAiringTodayAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
 
         //vote avg is over 10 and ratings bar is over 5, so divide by two to get correct rating
-        //((ShowViewHolder)holder).ratings.setRating((mShows.get(i).getVote_average())/2);
+        //((ShowAiringTodayViewHolder)holder).ratings.setRating((mShows.get(i).getVote_average())/2);
 
         //Imageview - using Glide library
         Glide.with(holder.itemView.getContext()).load("https://image.tmdb.org/t/p/w500/"+mShows.get(i).getBackdrop_path()).into(((ShowAiringTodayViewHolder)holder).imageView);

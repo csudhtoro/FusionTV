@@ -91,8 +91,6 @@ public class CastProfileFragment extends Fragment implements OnShowListener {
             }
         });
 
-
-
         assert getArguments() != null;
         Cast cast = getArguments().getParcelable("show2");
 
@@ -106,6 +104,7 @@ public class CastProfileFragment extends Fragment implements OnShowListener {
 
         Glide.with(this).load("https://image.tmdb.org/t/p/w500" + cast.getProfilePath()).apply(new RequestOptions().transform(new RoundedCorners(60)))
                 .into(actorPhoto);
+        actorName.setText(cast.getName());
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Credentials.Base_URL)
@@ -220,7 +219,20 @@ public class CastProfileFragment extends Fragment implements OnShowListener {
 
 
     private void PutActorImageDataIntoRecyclerView(List<Profile> imageList) {
-        ActorImageAdapter actorImageAdapter = new ActorImageAdapter(getContext(), imageList);
+        ActorImageAdapter actorImageAdapter = new ActorImageAdapter(getContext(), imageList, new ActorImageAdapter.ActorImageClickListener() {
+            @Override
+            public void onItemClick(Profile result) {
+                EnlargeImageFragment enlargeImageFragment = new EnlargeImageFragment();
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentFrameLayout, enlargeImageFragment)
+                        .addToBackStack(null)
+                        .commit();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("image", result.getFilePath());
+                enlargeImageFragment.setArguments(bundle);
+            }
+        });
         imageRecyclerView.setLayoutManager(new LinearLayoutManager(getContext() ,LinearLayoutManager.HORIZONTAL, false));
         imageRecyclerView.setAdapter(actorImageAdapter);
     }
@@ -234,6 +246,8 @@ public class CastProfileFragment extends Fragment implements OnShowListener {
                 tvShowModel.setId(result.getId());
                 tvShowModel.setPoster_path(result.getPosterPath());
                 tvShowModel.setBackdrop_path(result.getBackdropPath());
+                tvShowModel.setName(result.getName());
+                tvShowModel.setOverview(result.getOverview());
 
                 ShowDetailFragment showDetailFragment = new ShowDetailFragment();
                 getFragmentManager().beginTransaction()
