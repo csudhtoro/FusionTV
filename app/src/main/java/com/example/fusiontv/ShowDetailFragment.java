@@ -12,15 +12,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +37,7 @@ import com.example.fusiontv.adapters.GenreAdapter;
 import com.example.fusiontv.adapters.OnShowListener;
 import com.example.fusiontv.adapters.RecommendationAdapter;
 import com.example.fusiontv.adapters.SeasonAdapter;
+import com.example.fusiontv.adapters.ShowSimilarViewHolder;
 import com.example.fusiontv.adapters.SimilarAdapter;
 import com.example.fusiontv.models.Backdrop;
 import com.example.fusiontv.models.Cast;
@@ -49,6 +53,7 @@ import com.example.fusiontv.response.SeasonResponse;
 import com.example.fusiontv.response.TVShowSearchResponse;
 import com.example.fusiontv.utils.Credentials;
 import com.example.fusiontv.utils.TVApi;
+import com.example.fusiontv.viewmodels.ShowListViewModel;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.shadow.ShadowRenderer;
 import com.google.firebase.auth.FirebaseAuth;
@@ -89,30 +94,33 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
     String currUserId;
     DatabaseReference db;
 
-    List<Cast> castList;
-    List<TVShowModel> similarList;
     List<Backdrop> imageList;
-    List<TVShowModel> recommendationList;
-    List<Genre> genreList;
-    List<Season> seasonList;
-    //List<SeasonDetail> seasonList;
 
-    RecyclerView castRecyclerView;
+    //SIMILAR
     RecyclerView similarRecyclerView;
-    RecyclerView screenshotRecyclerView;
+    private SimilarAdapter showSimilarRecyclerViewAdapter;
+
+
+    //RECOMMENDED
     RecyclerView recommendationRecyclerView;
+    private RecommendationAdapter showRecommendedRecyclerViewAdapter;
+
+
+    //CAST
+    RecyclerView castRecyclerView;
+    private CastAdapter showCastRecyclerViewAdapter;
+
+
+    RecyclerView screenshotRecyclerView;
     RecyclerView genreRecyclerView;
     RecyclerView seasonRecyclerView;
-
-    private SimilarAdapter similarAdapter;
-    private CastAdapter castAdapter;
 
     //Widgets
     private ImageView posterImage, backdropImage, favoriteIcon, backArrow, scheduleIcon;
     private TextView showOverview, firstAirDate, lastAirDate, nextAirDate, network, runtime, voteAvg, season, episodes, appBarShowName, showName;
     private RatingBar showRatingBar;
-    private ProgressBar progressBar;
 
+    private ShowListViewModel showListViewModel;
 
 
     @Override
@@ -134,6 +142,8 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        showListViewModel = new ViewModelProvider(this).get(ShowListViewModel.class);
+
             castRecyclerView = (RecyclerView) getView().findViewById(R.id.cast_recyclerview);
             similarRecyclerView = (RecyclerView) getView().findViewById(R.id.similar_shows_recyclerview);
             screenshotRecyclerView = (RecyclerView) getView().findViewById(R.id.screenshots_recyclerview);
@@ -145,59 +155,52 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
             backdropImage = (ImageView) getView().findViewById(R.id.showDetailsBackdrop);
             showOverview = (TextView) getView().findViewById(R.id.showDetailsoverview);
             firstAirDate = (TextView) getView().findViewById(R.id.firstAirDate);
-            //lastAirDate = (TextView) getView().findViewById(R.id.lastAirDate);
-            //nextAirDate = (TextView) getView().findViewById(R.id.nextAirDate);
             network = (TextView) getView().findViewById(R.id.network);
-            //runtime = (TextView) getView().findViewById(R.id.runtime);
             voteAvg = (TextView) getView().findViewById(R.id.rating);
             showRatingBar = (RatingBar) getView().findViewById(R.id.ratingBar);
-            progressBar = (ProgressBar) getView().findViewById(R.id.cpi);
-            //season = (TextView) getView().findViewById(R.id.seasons);
-            //episodes = (TextView) getView().findViewById(R.id.episodes);
             appBarShowName = (TextView) getView().findViewById(R.id.appBar_show_name);
             showName = (TextView) getView().findViewById(R.id.show_name);
             favoriteIcon = (ImageView) getView().findViewById(R.id.favorite_icon);
             scheduleIcon = (ImageView) getView().findViewById(R.id.schedule_icon);
             backArrow = (ImageView) getView().findViewById(R.id.back_arrow);
+            //season = (TextView) getView().findViewById(R.id.seasons);
+            //episodes = (TextView) getView().findViewById(R.id.episodes);
+            //runtime = (TextView) getView().findViewById(R.id.runtime);
+            //lastAirDate = (TextView) getView().findViewById(R.id.lastAirDate);
+            //nextAirDate = (TextView) getView().findViewById(R.id.nextAirDate);
 
 
             currUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
             //LOAD SHOW DATA BASED ON INTENT FROM OTHER FRAGMENTS/ACTIVITIES
-            //TVShowModel tvShowModel = getActivity().getIntent().getParcelableExtra("showId");
-
-        progressBar.setVisibility(View.VISIBLE);
 
             assert getArguments() != null;
             TVShowModel tvShowModel = getArguments().getParcelable("showInfo");
 
-            int showId = tvShowModel.getTv_id();
 
-        //pulling images from api (poster and backdrop)
-        Glide.with(this).load("https://image.tmdb.org/t/p/w500" +tvShowModel.getPoster_path()).apply(new RequestOptions().transform(new RoundedCorners(60)))
-                .into(posterImage);
+            //SHOW DETAILS
+            showListViewModel.searchShowDetails(tvShowModel.getTv_id());
+            ObserveShowDetailShowChange();
 
-        Glide.with(this).load("https://image.tmdb.org/t/p/w780" +tvShowModel.getBackdrop_path())
-                .into(backdropImage);
+            //CAST
+            showListViewModel.searchShowCast(tvShowModel.getTv_id());
+            ObserveShowCastChange();
+            PutCastDataIntoRecyclerView();
 
-        showName.setText(tvShowModel.getName());
-        appBarShowName.setText(tvShowModel.getName());
-        voteAvg.setText(String.valueOf(tvShowModel.getVote_average()));
-        showRatingBar.setRating((tvShowModel.getVote_average()) / 2);
+            //SIMILAR
+            showListViewModel.searchShowSimilar(tvShowModel.getTv_id(), 1);
+            PutSimilarDataIntoRecyclerView();
+            ObserveShowSimilarChange();
 
-        if (tvShowModel.getOverview() != null) {
-            showOverview.setText(tvShowModel.getOverview());
-        } else {
-            showOverview.setText("No Overview");
-        }
+            //RECOMMENDED
+            showListViewModel.searchShowRecommended(tvShowModel.getTv_id(), 1);
+            PutRecommendationDataIntoRecyclerView();
+            ObserveShowRecommendedChange();
 
 
-            GetDataFromInternet(tvShowModel);
-            GetCastRetrofitResponse(tvShowModel);
-            GetSimilarRetrofitResponse(tvShowModel);
+
             GetImagesRetrofitResponse(tvShowModel);
-            GetRecommendationRetrofitResponse(tvShowModel);
             CheckFavorites(tvShowModel);
 
 
@@ -214,164 +217,7 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
     }
 
 
-    //API CALL CODE
-    private void GetDataFromInternet(TVShowModel tvShowModel) {
-
-
-        final ShowDetailModel[] showDetail = new ShowDetailModel[1];
-
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Credentials.Base_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        TVApi tvApi = retrofit.create(TVApi.class);
-
-        Call<ShowDetailModel> call = tvApi.getShowDetails(tvShowModel.getTv_id(), Credentials.API_KEY);
-
-        call.enqueue(new Callback<ShowDetailModel>() {
-            @Override
-            public void onResponse(Call<ShowDetailModel> call, Response<ShowDetailModel> response) {
-
-                showDetail[0] = response.body();
-
-                genreList = new ArrayList<>(response.body().getGenres());
-                seasonList = new ArrayList<>(response.body().getSeasons());
-
-
-
-                //CREATING SHOW GENRE RECYCLERVIEW
-                //PutGenreDataIntoRecyclerView(genreList);
-                //PutSeasonDataIntoRecyclerView(seasonList, tvShowModel.getTv_id());
-
-                if (response.body().getNetworks() != null && response.body().getNetworks().size() > 0) {
-                    network.setText(response.body().getNetworks().get(0).getName());
-                } else {
-                    network.setText("N/A");
-                }
-                if (response.body().getFirstAirDate() != null) {
-                    firstAirDate.setText(returnYear(response.body().getFirstAirDate()));
-                } else {
-                    firstAirDate.setText("N/A");
-                }
-                /*if (response.body().getLastAirDate() != null) {
-                    lastAirDate.setText(convertDate(response.body().getLastAirDate()));
-                } else {
-                    lastAirDate.setText("N/A");
-                }
-                if (response.body().getNextEpisodeToAir() != null) {
-                    nextAirDate.setText(convertDate(response.body().getNextEpisodeToAir().getAirDate()));
-                } else {
-                    nextAirDate.setText("N/A");
-                }*/
-
-                //if (response.body().getEpisodeRunTime() != null && response.body().getEpisodeRunTime().size() > 0) {
-                    //runtime.setText(response.body().getEpisodeRunTime().get(0).toString());
-                //} else {
-                    //runtime.setText("N/A");
-                //}
-                //if (response.body().getNumberOfSeasons() != null) {
-                    //season.setText(response.body().getNumberOfSeasons().toString());
-                //} else {
-                    //season.setText("N/A");
-                //}
-                //if (response.body().getNumberOfEpisodes() != null) {
-                    //episodes.setText(response.body().getNumberOfEpisodes().toString());
-                //} else {
-                    //episodes.setText("N/A");
-                //}
-
-
-                //CHECKING IF SHOW IS IN WATCHLIST AND PREPARING DB
-                CheckWatchList(showDetail[0]);
-
-                PutGenreDataIntoRecyclerView(genreList);
-                PutSeasonDataIntoRecyclerView(seasonList,tvShowModel.getTv_id());
-            }
-            @Override
-            public void onFailure(Call<ShowDetailModel> call, Throwable t) {
-
-            }
-        });
-
-
-    }
-    private void GetCastRetrofitResponse(TVShowModel tvShowModel) {
-        TVApi tvApi = Services.getTvApi();
-
-        Call<CastResponse> responseCall = tvApi
-                .searchCast(tvShowModel.getTv_id(),
-                        Credentials.API_KEY);
-
-        responseCall.enqueue(new Callback<CastResponse>() {
-            @Override
-            public void onResponse(Call<CastResponse> call, Response<CastResponse> response) {
-                if(response.code() == 200) {
-                    //Log.v("Tag", "the response is: " +response.body().toString());
-
-                    castList = new ArrayList<>(response.body().getCast());
-
-                    for(Cast cast : castList) {
-                        //Log.v("Tag", "Actor: " + cast.getName());
-                    }
-                }
-                else {
-                    try {
-                        Log.v("Tag", "Error: " +response.errorBody().string());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                PutCastDataIntoRecyclerView(castList);
-            }
-
-            @Override
-            public void onFailure(Call<CastResponse> call, Throwable t) {
-
-            }
-        });
-
-    }
-    private void GetSimilarRetrofitResponse(TVShowModel tvShowModel) {
-        TVApi tvApi = Services.getTvApi();
-
-        Call<TVShowSearchResponse> responseCall = tvApi
-                .searchSimilar(
-                        tvShowModel.getTv_id(),
-                        Credentials.API_KEY,
-                        1);
-
-        responseCall.enqueue(new Callback<TVShowSearchResponse>() {
-            @Override
-            public void onResponse(Call<TVShowSearchResponse> call, Response<TVShowSearchResponse> response) {
-                if(response.code() == 200) {
-                    //Log.v("Tag", "The response is: " +response.body().toString());
-
-                    similarList = new ArrayList<>(response.body().getShows());
-
-                    for(TVShowModel similar : similarList) {
-                        //Log.v("Tag", "Show title: " +similar.getName());
-                    }
-
-                }
-                else {
-                    try {
-                        Log.v("Tag", "Error: " +response.errorBody().string());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                PutSimilarDataIntoRecyclerView(similarList);
-            }
-
-            @Override
-            public void onFailure(Call<TVShowSearchResponse> call, Throwable t) {
-
-            }
-        });
-    }
+    //API CALL CODE - CONVERT ALL THIS CODE INTO VIEWMODELS LIKE SHOWDETAIL CHANGE ABOVE
     private void GetImagesRetrofitResponse(TVShowModel tvShowModel) {
         TVApi tvApi = Services.getTvApi();
 
@@ -411,110 +257,59 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
             }
         });
     }
-    private void GetRecommendationRetrofitResponse(TVShowModel tvShowModel) {
-        TVApi tvApi = Services.getTvApi();
-
-        Call<TVShowSearchResponse> responseCall = tvApi
-                .searchRecommendations(
-                        tvShowModel.getTv_id(),
-                        Credentials.API_KEY,
-                        1
-                );
-
-        responseCall.enqueue(new Callback<TVShowSearchResponse>() {
-            @Override
-            public void onResponse(Call<TVShowSearchResponse> call, Response<TVShowSearchResponse> response) {
-                if(response.code() == 200) {
-                    //Log.v("Tag", "The response is: " +response.body().toString());
-
-                    recommendationList = new ArrayList<>(response.body().getShows());
-
-                    for(TVShowModel recommendation : recommendationList) {
-                        //Log.v("Tag", "show name: " +recommendation.getName());
-                    }
-
-                }
-                else {
-                    try {
-                        Log.v("Tag", "Error: " +response.errorBody().string());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                PutRecommendationDataIntoRecyclerView(recommendationList);
-            }
-
-            @Override
-            public void onFailure(Call<TVShowSearchResponse> call, Throwable t) {
-
-            }
-        });
-    }
 
     //RECYCLERVIEW CODE
-    private void PutSimilarDataIntoRecyclerView(List<TVShowModel> similarList) {
-        SimilarAdapter similarAdapter = new SimilarAdapter(getContext(), similarList, new SimilarAdapter.SimilarClickListener() {
+    private void PutSimilarDataIntoRecyclerView() {
+        showSimilarRecyclerViewAdapter = new SimilarAdapter(this);
 
-            @Override
-            public void onItemClick(TVShowModel result) {
-
-                ShowDetailFragment showDetailFragment = new ShowDetailFragment();
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentFrameLayout, showDetailFragment)
-                        .addToBackStack(null)
-                        .commit();
-
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("showInfo", result);
-                showDetailFragment.setArguments(bundle);
-
-            }
-        });
+        similarRecyclerView.setAdapter(showSimilarRecyclerViewAdapter);
         similarRecyclerView.setLayoutManager(new LinearLayoutManager(getContext() ,LinearLayoutManager.HORIZONTAL, false));
-        similarRecyclerView.setAdapter(similarAdapter);
-    }
-    private void PutCastDataIntoRecyclerView(List<Cast> castList) {
-        CastAdapter castAdapter = new CastAdapter(getContext(), castList, new CastAdapter.CastClickListener() {
-            @Override
-            public void onItemClick(Cast cast) {
-                CastProfileFragment castProfileFragment = new CastProfileFragment();
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentFrameLayout, castProfileFragment)
-                        .addToBackStack(null)
-                        .commit();
 
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("show2", cast);
-                castProfileFragment.setArguments(bundle);
+        //RecyclerView Pagination
+        //Loading next page of api response
+        similarRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                if(!recyclerView.canScrollHorizontally(1)) {
+                    //Here we need to display the next result on the next page of api
+                    //showListViewModel.searchNextPage();
+                    showListViewModel.searchSimilarNextPage();
+                }
             }
         });
+    }
+    private void PutCastDataIntoRecyclerView() {
+        showCastRecyclerViewAdapter = new CastAdapter(this);
+
+        castRecyclerView.setAdapter(showCastRecyclerViewAdapter);
         castRecyclerView.setLayoutManager(new LinearLayoutManager(getContext() ,LinearLayoutManager.HORIZONTAL, false));
-        castRecyclerView.setAdapter(castAdapter);
+
     }
     private void PutGenreDataIntoRecyclerView(List<Genre> genreList) {
         GenreAdapter genreAdapter = new GenreAdapter(getContext(), genreList);
         genreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext() ,LinearLayoutManager.HORIZONTAL, false));
         genreRecyclerView.setAdapter(genreAdapter);
     }
-    private void PutRecommendationDataIntoRecyclerView(List<TVShowModel> recommendationList) {
-        RecommendationAdapter recommendationAdapter = new RecommendationAdapter(getContext(), recommendationList, new RecommendationAdapter.RecommendClickListener() {
+
+    private void PutRecommendationDataIntoRecyclerView() {
+        showRecommendedRecyclerViewAdapter = new RecommendationAdapter(this);
+
+        recommendationRecyclerView.setAdapter(showRecommendedRecyclerViewAdapter);
+        recommendationRecyclerView.setLayoutManager(new LinearLayoutManager(getContext() ,LinearLayoutManager.HORIZONTAL, false));
+
+
+        //RecyclerView Pagination
+        //Loading next page of api response
+        recommendationRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onItemClick(TVShowModel result) {
-
-                ShowDetailFragment showDetailFragment = new ShowDetailFragment();
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentFrameLayout, showDetailFragment)
-                        .addToBackStack(null)
-                        .commit();
-
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("showInfo", result);
-                showDetailFragment.setArguments(bundle);
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                if(!recyclerView.canScrollHorizontally(1)) {
+                    //Here we need to display the next result on the next page of api
+                    //showListViewModel.searchNextPage();
+                    showListViewModel.searchRecommendedNextPage();
+                }
             }
         });
-        recommendationRecyclerView.setLayoutManager(new LinearLayoutManager(getContext() ,LinearLayoutManager.HORIZONTAL, false));
-        recommendationRecyclerView.setAdapter(recommendationAdapter);
     }
     private void PutImageDataIntoRecyclerView(List<Backdrop> imageList) {
         BackdropAdapter backdropAdapter = new BackdropAdapter(getContext(), imageList, new BackdropAdapter.BackdropClickListener() {
@@ -548,18 +343,69 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
                 bundle.putParcelable("seasonInfo", season);
                 bundle.putInt("showId", showId);
                 seasonDetailFragment.setArguments(bundle);
-
-
-                //Toast.makeText(getContext(), "Clicked season", Toast.LENGTH_SHORT).show();
             }
         });
         seasonRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         seasonRecyclerView.setAdapter(seasonAdapter);
-        progressBar.setVisibility(View.INVISIBLE);
 
     }
 
+    //Observer for LiveData - ShowDetails
+    private void ObserveShowDetailShowChange() {
+        showListViewModel.getShowDetail().observe(getViewLifecycleOwner(), new Observer<ShowDetailModel>() {
+            @Override
+            public void onChanged(ShowDetailModel showDetailModel) {
+                if (showDetailModel != null) {
+                    showName.setText(showDetailModel.getName());
+                    Glide.with(getContext()).load("https://image.tmdb.org/t/p/w500" +showDetailModel.getPosterPath()).apply(new RequestOptions().transform(new RoundedCorners(60)))
+                            .into(posterImage);
+                    Glide.with(getContext()).load("https://image.tmdb.org/t/p/w780" +showDetailModel.getBackdropPath())
+                            .into(backdropImage);
+                    showName.setText(showDetailModel.getName());
+                    showOverview.setText(showDetailModel.getOverview());
+                    appBarShowName.setText(showDetailModel.getName());
+                    voteAvg.setText(String.valueOf(showDetailModel.getVoteAverage()));
+                    showRatingBar.setRating((showDetailModel.getVoteAverage()) / 2);
+                    if(showDetailModel.getNetworks() != null && showDetailModel.getNetworks().size() > 0) network.setText(showDetailModel.getNetworks().get(0).getName());
+                    firstAirDate.setText(returnYear(showDetailModel.getFirstAirDate()));
 
+                    PutGenreDataIntoRecyclerView(showDetailModel.getGenres());
+                    PutSeasonDataIntoRecyclerView(showDetailModel.getSeasons(),showDetailModel.getId());
+                }
+            }
+        });
+
+    }
+
+    //Observer for LiveData - Cast
+    private void ObserveShowCastChange() {
+        showListViewModel.getCast().observe(getViewLifecycleOwner(), new Observer<List<Cast>>() {
+            @Override
+            public void onChanged(List<Cast> casts) {
+                showCastRecyclerViewAdapter.setmShows(casts);
+            }
+        });
+    }
+
+    //Observer for LiveData - Similar
+    private void ObserveShowSimilarChange() {
+        showListViewModel.getShowsSimilar().observe(getViewLifecycleOwner(), new Observer<List<TVShowModel>>() {
+            @Override
+            public void onChanged(List<TVShowModel> tvShowModels) {
+                showSimilarRecyclerViewAdapter.setmShows(tvShowModels);
+            }
+        });
+    }
+
+    //Observer for LiveData - Recommended
+    private void ObserveShowRecommendedChange() {
+        showListViewModel.getShowsRecommended().observe(getViewLifecycleOwner(), new Observer<List<TVShowModel>>() {
+            @Override
+            public void onChanged(List<TVShowModel> tvShowModels) {
+                showRecommendedRecyclerViewAdapter.setmShows(tvShowModels);
+            }
+        });
+    }
 
     //FAVORITES
     private void CheckFavorites(TVShowModel tvShowModel) {
@@ -628,7 +474,6 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
         }
 
     }
-
     //WATCHLIST/SCHEDULE
     private void CheckWatchList(ShowDetailModel showDetailModel) {
 
@@ -705,13 +550,11 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
             return;
         }
     }
-
     //CHECK IF USER IS LOGGED IN
     private boolean checkUserLoggedIn(FirebaseUser user) {
         if(user != null) return true;
         return false;
     }
-
     //CONVERT THE DEFAULT TMDB DATE FORMATS TO MM-DD-YYYY
     private String convertDate(String inDate) {
 
@@ -731,7 +574,6 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
         }
         return outDate;
     }
-
     private String returnYear(String inDate) {
         SimpleDateFormat inSDF = new SimpleDateFormat("yyyy-mm-dd");
         SimpleDateFormat outSDF = new SimpleDateFormat("(yyyy)");
@@ -749,6 +591,8 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
         }
         return outDate;
     }
+
+
 
 
     //ON CLICK INTERFACE CODE
@@ -770,5 +614,44 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
     @Override
     public void onSeasonClick(int position) {
 
+    }
+
+    @Override
+    public void onShowSimilarClick(int position) {
+        ShowDetailFragment showDetailFragment = new ShowDetailFragment();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragmentFrameLayout, showDetailFragment)
+                .addToBackStack(DashboardFragment.class.getName())
+                .commit();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("showInfo", showSimilarRecyclerViewAdapter.getSelectedShow(position));
+        showDetailFragment.setArguments(bundle);
+    }
+
+    @Override
+    public void onShowRecommendedClick(int position) {
+        ShowDetailFragment showDetailFragment = new ShowDetailFragment();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragmentFrameLayout, showDetailFragment)
+                .addToBackStack(DashboardFragment.class.getName())
+                .commit();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("showInfo", showRecommendedRecyclerViewAdapter.getSelectedShow(position));
+        showDetailFragment.setArguments(bundle);
+    }
+
+    @Override
+    public void onShowCastClick(int position) {
+        CastProfileFragment castProfileFragment = new CastProfileFragment();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragmentFrameLayout, castProfileFragment)
+                .addToBackStack(DashboardFragment.class.getName())
+                .commit();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("show2", showCastRecyclerViewAdapter.getSelectedShow(position));
+        castProfileFragment.setArguments(bundle);
     }
 }

@@ -147,5 +147,20 @@ public class CastProfileActivity extends AppCompatActivity implements OnShowList
 
     }
 
+    @Override
+    public void onShowSimilarClick(int position) {
+
+    }
+
+    @Override
+    public void onShowRecommendedClick(int position) {
+
+    }
+
+    @Override
+    public void onShowCastClick(int position) {
+
+    }
+
 
 }

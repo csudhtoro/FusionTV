@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,12 +30,14 @@ import com.example.fusiontv.models.ActorProfile;
 import com.example.fusiontv.models.Cast;
 import com.example.fusiontv.models.Profile;
 import com.example.fusiontv.models.Season;
+import com.example.fusiontv.models.ShowDetailModel;
 import com.example.fusiontv.models.TVCredit;
 import com.example.fusiontv.models.TVCredits;
 import com.example.fusiontv.models.TVShowModel;
 import com.example.fusiontv.requests.Services;
 import com.example.fusiontv.utils.Credentials;
 import com.example.fusiontv.utils.TVApi;
+import com.example.fusiontv.viewmodels.ShowListViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -56,6 +60,8 @@ public class CastProfileFragment extends Fragment implements OnShowListener {
     RecyclerView imageRecyclerView;
     RecyclerView creditRecyclerView;
 
+    private ShowListViewModel showListViewModel;
+
     List<Profile> imageList;
     List<TVCredit> creditList;
 
@@ -69,6 +75,8 @@ public class CastProfileFragment extends Fragment implements OnShowListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        showListViewModel = new ViewModelProvider(this).get(ShowListViewModel.class);
 
         actorName = getView().findViewById(R.id.season_appBar_show_name);
         actorBday = getView().findViewById(R.id.actor_bday);
@@ -267,6 +275,7 @@ public class CastProfileFragment extends Fragment implements OnShowListener {
     }
 
 
+
     //CONVERT THE DEFAULT TMDB DATE FORMATS TO MM-DD-YYYY
     private String convertDate(String inDate) {
 
@@ -324,6 +333,21 @@ public class CastProfileFragment extends Fragment implements OnShowListener {
 
     @Override
     public void onSeasonClick(int position) {
+
+    }
+
+    @Override
+    public void onShowSimilarClick(int position) {
+
+    }
+
+    @Override
+    public void onShowRecommendedClick(int position) {
+
+    }
+
+    @Override
+    public void onShowCastClick(int position) {
 
     }
 }

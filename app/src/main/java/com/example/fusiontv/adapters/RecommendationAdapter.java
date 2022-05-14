@@ -20,58 +20,38 @@ import com.example.fusiontv.models.TVShowModel;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 
-public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAdapter.MyRecommendationViewHolder> {
+public class RecommendationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context mContext;
     private List<TVShowModel> mData;
-    private RecommendClickListener mItemListener;
+    private OnShowListener onShowRecommendedListener;
 
-    public RecommendationAdapter(Context mContext, List<TVShowModel> mData, RecommendClickListener recommendClickListener) {
-        this.mContext = mContext;
-        this.mData = mData;
-        this.mItemListener = recommendClickListener;
+    public RecommendationAdapter(OnShowListener onShowListener) {
+        this.onShowRecommendedListener = onShowListener;
     }
-
     @NonNull
     @Override
-    public MyRecommendationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v;
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        v = inflater.inflate(R.layout.recommendation_item, parent, false);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recommendation_item,
+                parent, false);
 
-        return new MyRecommendationViewHolder(v);
+        return new ShowRecommendedViewHolder(view, onShowRecommendedListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyRecommendationViewHolder Recommendationholder, int position) {
-        Recommendationholder.title.setText(mData.get(position).getName());
-
-        //Using Glide to display the image
-        Glide.with(mContext).load("https://image.tmdb.org/t/p/w500/"+mData.get(position).getPoster_path()).into(Recommendationholder.showImg);
-
-        Recommendationholder.itemView.setOnClickListener(view -> {
-            mItemListener.onItemClick(mData.get(position));
-        });
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        ((ShowRecommendedViewHolder)holder).title.setText(mData.get(position).getName());
+        Glide.with(((ShowRecommendedViewHolder) holder).itemView.getContext()).load("https://image.tmdb.org/t/p/w500/"+mData.get(position).getPoster_path()).into(((ShowRecommendedViewHolder) holder).imageView);
     }
 
     @Override
-    public int getItemCount() { return mData.size(); }
-
-    public interface RecommendClickListener {
-        void onItemClick(TVShowModel result);
+    public int getItemCount() {
+        if(mData != null) return mData.size();
+        return 0;
     }
 
-
-    public static class MyRecommendationViewHolder extends RecyclerView.ViewHolder {
-        TextView title;
-        ImageView showImg;
-
-        public MyRecommendationViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            title = itemView.findViewById(R.id.recommendation_show_title);
-            showImg = itemView.findViewById(R.id.recommendation_show_img);
-        }
+    public void setmShows(List<TVShowModel> mData) {
+        this.mData = mData;
+        notifyDataSetChanged();
     }
 
     //Getting the id of the show clicked

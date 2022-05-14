@@ -17,7 +17,6 @@ import java.util.List;
 public class ShowTrendingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<TVShowModel> mShows;
-    private List<ShowDetailModel> mShow;
     private OnShowListener onShowTrendingListener;
 
     public ShowTrendingAdapter(OnShowListener onShowListener) {

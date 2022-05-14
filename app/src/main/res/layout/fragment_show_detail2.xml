@@ -18,16 +18,6 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
 
-    <ProgressBar
-        android:id="@+id/cpi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:indicatorColor="@color/primaryDark"
-        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBar" />
-
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"

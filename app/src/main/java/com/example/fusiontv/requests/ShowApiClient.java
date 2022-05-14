@@ -7,7 +7,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.fusiontv.AppExecutors;
+import com.example.fusiontv.ShowDetails;
+import com.example.fusiontv.models.Cast;
+import com.example.fusiontv.models.ShowDetailModel;
 import com.example.fusiontv.models.TVShowModel;
+import com.example.fusiontv.response.CastResponse;
 import com.example.fusiontv.response.TVShowSearchResponse;
 import com.example.fusiontv.utils.Credentials;
 
@@ -46,6 +50,29 @@ public class ShowApiClient {
     private RetrieveShowsRunnableAiringToday retrieveShowsRunnableAiringToday;
 
 
+    //liveData for show details
+    private MutableLiveData<ShowDetailModel> mShowDetail;
+    //Show Detail runnable request
+    private RetrieveShowRunnableShowDetails retrieveShowRunnableShowDetails;
+
+    //liveData for show details
+    private MutableLiveData<List<Cast>> mCast;
+    //Show Detail runnable request
+    private RetrieveShowRunnableCast retrieveShowRunnableCast;
+
+    //liveData for similar shows
+    private MutableLiveData<List<TVShowModel>> mSimilar;
+    //Show Detail runnable request
+    private RetrieveShowRunnableSimilar retrieveShowRunnableSimilar;
+
+    //liveData for recommended shows
+    private MutableLiveData<List<TVShowModel>> mRecommended;
+    //Show Detail runnable request
+    private RetrieveShowRunnableRecommended retrieveShowRunnableRecommended;
+
+
+
+
     //Singleton method
     public static ShowApiClient getInstance() {
         if(instance == null) {
@@ -60,6 +87,10 @@ public class ShowApiClient {
         mShowsPopular = new MutableLiveData<>();
         mShowsTrending = new MutableLiveData<>();
         mShowsAiringToday = new MutableLiveData<>();
+        mShowDetail = new MutableLiveData<>();
+        mCast = new MutableLiveData<>();
+        mSimilar = new MutableLiveData<>();
+        mRecommended = new MutableLiveData<>();
     }
 
 
@@ -72,6 +103,11 @@ public class ShowApiClient {
         return mShowsTrending;
     }
     public LiveData<List<TVShowModel>> getShowsAiringToday() { return mShowsAiringToday; }
+    public LiveData<List<Cast>> getShowCast() { return mCast; }
+    public LiveData<List<TVShowModel>> getSimilarShows() { return mSimilar;}
+    public LiveData<List<TVShowModel>> getRecommendedShows() { return mRecommended; }
+    public LiveData<ShowDetailModel> getShowDetails() { return mShowDetail; }
+
 
 
     //SEARCH METHODS
@@ -155,6 +191,83 @@ public class ShowApiClient {
             }
         }, 1000, TimeUnit.MILLISECONDS);
     }
+    //SHOW DETAILS
+    public void searchShowDetails(int id) {
+        if(retrieveShowRunnableShowDetails != null) retrieveShowRunnableShowDetails = null;
+
+        retrieveShowRunnableShowDetails = new RetrieveShowRunnableShowDetails(id);
+        final Future myHandler4 = AppExecutors.getInstance().networkIO().submit(retrieveShowRunnableShowDetails);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler4.cancel(true);
+
+            }
+        },1000, TimeUnit.MILLISECONDS);
+    }
+    //CAST
+    public void searchShowsCast(int id) {
+
+        if(retrieveShowRunnableCast != null) {
+            retrieveShowRunnableCast = null;
+        }
+
+        retrieveShowRunnableCast = new RetrieveShowRunnableCast(id);
+
+        final Future myHandler5 = AppExecutors.getInstance().networkIO().submit(retrieveShowRunnableCast);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler5.cancel(true);
+
+            }
+        }, 1000, TimeUnit.MILLISECONDS);
+    }
+    //SIMILAR
+    public void searchSimilar(int id, int pageNumber) {
+        if(retrieveShowRunnableSimilar != null) {
+            retrieveShowRunnableSimilar = null;
+        }
+
+        retrieveShowRunnableSimilar = new RetrieveShowRunnableSimilar(id, pageNumber);
+
+        final Future myHandler6 = AppExecutors.getInstance().networkIO().submit(retrieveShowRunnableSimilar);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler6.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
+    //RECOMMENDED
+    public void searchRecommended(int id, int pageNumber) {
+        if(retrieveShowRunnableRecommended != null) {
+            retrieveShowRunnableRecommended = null;
+        }
+
+        retrieveShowRunnableRecommended = new RetrieveShowRunnableRecommended(id, pageNumber);
+
+        final Future myHandler7 = AppExecutors.getInstance().networkIO().submit(retrieveShowRunnableRecommended);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler7.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
+
+
+
 
     //RUNNABLE METHODS
     //Retrieving REST API by runnable class
@@ -397,6 +510,237 @@ public class ShowApiClient {
         //Search query in background thread
         private Call<TVShowSearchResponse> getAiringTrending(int pageNumber) {
             return Services.getTvApi().getTrendingShows(
+                    Credentials.API_KEY,
+                    pageNumber
+            );
+
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+
+
+    }
+
+    //Retrieving REST API Show Details by runnable class
+    private class RetrieveShowRunnableShowDetails implements Runnable {
+
+        private int id;
+        boolean cancelRequest;
+
+        public RetrieveShowRunnableShowDetails(int id) {
+            this.id = id;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response5 = getShowDetails(id).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response5.code() == 200) {
+                    ShowDetailModel show = ((ShowDetailModel)response5.body());
+                        //Sending data to live data
+                        //PostValue: used for background thread
+                        //setValue: not used for background thread
+                        mShowDetail.postValue(show);
+
+                }
+                else {
+                    String error = response5.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mShowsTrending.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mShowDetail.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<ShowDetailModel> getShowDetails(int id) {
+            return Services.getTvApi().getShowDetails(
+                    id,
+                    Credentials.API_KEY
+            );
+
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+
+
+    }
+
+    //Retrieving REST API Show Cast by runnable class
+    private class RetrieveShowRunnableCast implements Runnable {
+
+        private int id;
+        boolean cancelRequest;
+
+        public RetrieveShowRunnableCast(int id) {
+            this.id = id;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response6 = getShowCast(id).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response6.code() == 200) {
+                    List<Cast> list = new ArrayList<>(((CastResponse)response6.body()).getCast());
+                        mCast.postValue(list);
+                }
+                else {
+                    String error = response6.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mShowsTrending.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mShowDetail.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<CastResponse> getShowCast(int id) {
+            return Services.getTvApi().searchCast(
+                    id,
+                    Credentials.API_KEY
+            );
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+
+
+    }
+
+    //Retrieving REST API Similar by runnable class
+    private class RetrieveShowRunnableSimilar implements Runnable {
+
+        private int id;
+        private int pageNumber;
+        boolean cancelRequest;
+
+        public RetrieveShowRunnableSimilar(int id, int pageNumber) {
+            this.id = id;
+            this.pageNumber = pageNumber;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response7 = getSimilar(id, pageNumber).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response7.code() == 200) {
+                    List<TVShowModel> list = new ArrayList<>(((TVShowSearchResponse)response7.body()).getShows());
+                    if(pageNumber == 1) {
+                        //Sending data to live data
+                        //PostValue: used for background thread
+                        //setValue: not used for background thread
+
+                        mSimilar.postValue(list);
+                    }
+                    else {
+                        List<TVShowModel> currentShows = mSimilar.getValue();
+                        currentShows.addAll(list);
+                        mSimilar.postValue(currentShows);
+                    }
+                }
+                else {
+                    String error = response7.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mSimilar.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mSimilar.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<TVShowSearchResponse> getSimilar(int id, int pageNumber) {
+            return Services.getTvApi().searchSimilar(
+                    id,
+                    Credentials.API_KEY,
+                    pageNumber
+            );
+
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+
+
+    }
+
+    //Retrieving REST API Recommended by runnable class
+    private class RetrieveShowRunnableRecommended implements Runnable {
+
+        private int id;
+        private int pageNumber;
+        boolean cancelRequest;
+
+        public RetrieveShowRunnableRecommended(int id, int pageNumber) {
+            this.id = id;
+            this.pageNumber = pageNumber;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response8 = getRecommended(id, pageNumber).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response8.code() == 200) {
+                    List<TVShowModel> list = new ArrayList<>(((TVShowSearchResponse)response8.body()).getShows());
+                    if(pageNumber == 1) {
+                        //Sending data to live data
+                        //PostValue: used for background thread
+                        //setValue: not used for background thread
+
+                        mRecommended.postValue(list);
+                    }
+                    else {
+                        List<TVShowModel> currentShows = mRecommended.getValue();
+                        currentShows.addAll(list);
+                        mRecommended.postValue(currentShows);
+                    }
+                }
+                else {
+                    String error = response8.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mRecommended.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mRecommended.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<TVShowSearchResponse> getRecommended(int id, int pageNumber) {
+            return Services.getTvApi().searchRecommendations(
+                    id,
                     Credentials.API_KEY,
                     pageNumber
             );

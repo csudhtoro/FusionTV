@@ -216,4 +216,19 @@ public class SeasonDetailFragment extends Fragment implements OnShowListener {
     public void onSeasonClick(int position) {
 
     }
+
+    @Override
+    public void onShowSimilarClick(int position) {
+
+    }
+
+    @Override
+    public void onShowRecommendedClick(int position) {
+
+    }
+
+    @Override
+    public void onShowCastClick(int position) {
+
+    }
 }

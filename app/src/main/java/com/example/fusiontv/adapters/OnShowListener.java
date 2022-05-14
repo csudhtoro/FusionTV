@@ -17,4 +17,11 @@ public interface OnShowListener {
     void onWatchlistClick(int position);
 
     void onSeasonClick(int position);
+
+    void onShowSimilarClick(int position);
+
+    void onShowRecommendedClick(int position);
+
+    void onShowCastClick(int position);
+
 }

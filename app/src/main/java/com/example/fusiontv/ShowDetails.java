@@ -333,7 +333,7 @@ public class ShowDetails extends AppCompatActivity implements OnShowListener {
                         e.printStackTrace();
                     }
                 }
-                PutCastDataIntoRecyclerView(castList);
+                //PutCastDataIntoRecyclerView(castList);
             }
 
             @Override
@@ -373,7 +373,7 @@ public class ShowDetails extends AppCompatActivity implements OnShowListener {
                     }
                 }
 
-                PutSimilarDataIntoRecyclerView(similarList);
+                //PutSimilarDataIntoRecyclerView(similarList);
             }
 
             @Override
@@ -452,7 +452,7 @@ public class ShowDetails extends AppCompatActivity implements OnShowListener {
                     }
                 }
 
-                PutRecommendationDataIntoRecyclerView(recommendationList);
+                //PutRecommendationDataIntoRecyclerView(recommendationList);
             }
 
             @Override
@@ -463,7 +463,7 @@ public class ShowDetails extends AppCompatActivity implements OnShowListener {
     }
 
     //RECYCLERVIEW CODE
-    private void PutSimilarDataIntoRecyclerView(List<TVShowModel> similarList) {
+    /*private void PutSimilarDataIntoRecyclerView(List<TVShowModel> similarList) {
         SimilarAdapter similarAdapter = new SimilarAdapter(this, similarList, new SimilarAdapter.SimilarClickListener() {
 
             @Override
@@ -475,8 +475,8 @@ public class ShowDetails extends AppCompatActivity implements OnShowListener {
         });
         similarRecyclerView.setLayoutManager(new LinearLayoutManager(this ,LinearLayoutManager.HORIZONTAL, false));
         similarRecyclerView.setAdapter(similarAdapter);
-    }
-    private void PutCastDataIntoRecyclerView(List<Cast> castList) {
+    }*/
+    /*private void PutCastDataIntoRecyclerView(List<Cast> castList) {
         CastAdapter castAdapter = new CastAdapter(this, castList, new CastAdapter.CastClickListener() {
             @Override
             public void onItemClick(Cast cast) {
@@ -487,13 +487,13 @@ public class ShowDetails extends AppCompatActivity implements OnShowListener {
         });
         castRecyclerView.setLayoutManager(new LinearLayoutManager(this ,LinearLayoutManager.HORIZONTAL, false));
         castRecyclerView.setAdapter(castAdapter);
-    }
+    }*/
     private void PutGenreDataIntoRecyclerView(List<Genre> genreList) {
         GenreAdapter genreAdapter = new GenreAdapter(this, genreList);
         genreRecyclerView.setLayoutManager(new LinearLayoutManager(this ,LinearLayoutManager.HORIZONTAL, false));
         genreRecyclerView.setAdapter(genreAdapter);
     }
-    private void PutRecommendationDataIntoRecyclerView(List<TVShowModel> recommendationList) {
+    /*private void PutRecommendationDataIntoRecyclerView(List<TVShowModel> recommendationList) {
         RecommendationAdapter recommendationAdapter = new RecommendationAdapter(this, recommendationList, new RecommendationAdapter.RecommendClickListener() {
             @Override
             public void onItemClick(TVShowModel result) {
@@ -504,7 +504,7 @@ public class ShowDetails extends AppCompatActivity implements OnShowListener {
         });
         recommendationRecyclerView.setLayoutManager(new LinearLayoutManager(this ,LinearLayoutManager.HORIZONTAL, false));
         recommendationRecyclerView.setAdapter(recommendationAdapter);
-    }
+    }*/
     private void PutImageDataIntoRecyclerView(List<Backdrop> imageList) {
         BackdropAdapter backdropAdapter = new BackdropAdapter(this, imageList, new BackdropAdapter.BackdropClickListener() {
             @Override
@@ -559,6 +559,21 @@ public class ShowDetails extends AppCompatActivity implements OnShowListener {
 
     @Override
     public void onSeasonClick(int position) {
+
+    }
+
+    @Override
+    public void onShowSimilarClick(int position) {
+
+    }
+
+    @Override
+    public void onShowRecommendedClick(int position) {
+
+    }
+
+    @Override
+    public void onShowCastClick(int position) {
 
     }
 

@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.fusiontv.models.Cast;
 import com.example.fusiontv.models.Credit;
+import com.example.fusiontv.models.ShowDetailModel;
 import com.example.fusiontv.models.TVShowModel;
 import com.example.fusiontv.requests.ShowApiClient;
+import com.example.fusiontv.response.CastResponse;
 
 import java.util.List;
 
@@ -38,6 +40,11 @@ public class ShowRepository {
     public LiveData<List<TVShowModel>> getShowsPopular() {return showApiClient.getShowsPopular();}
     public LiveData<List<TVShowModel>> getShowsTrending() {return showApiClient.getShowsTrending();}
     public LiveData<List<TVShowModel>> getShowsAiringToday() {return showApiClient.getShowsAiringToday();}
+    public LiveData<List<Cast>> getShowCast() { return showApiClient.getShowCast(); }
+    public LiveData<List<TVShowModel>> getShowsSimilar() { return showApiClient.getSimilarShows(); }
+    public LiveData<List<TVShowModel>> getShowsRecommended() { return showApiClient.getRecommendedShows(); }
+    public LiveData<ShowDetailModel> getShowDetails() {return showApiClient.getShowDetails();}
+
 
 
     //SEARCH METHODS
@@ -63,7 +70,20 @@ public class ShowRepository {
         showApiClient.searchShowsApiAiringToday(pageNumber);
     }
 
+    public void searchShowSimilar(int id, int pageNumber) {
+        mId = id;
+        mPageNumber = pageNumber;
+        showApiClient.searchSimilar(id, mPageNumber);
+    }
 
+    public void searchShowRecommended(int id, int pageNumber) {
+        mId = id;
+        mPageNumber = pageNumber;
+        showApiClient.searchRecommended(id, mPageNumber);
+    }
+
+    public void searchShowDetails(int id) { showApiClient.searchShowDetails(mId = id); }
+    public void searchCast(int id) { showApiClient.searchShowsCast(mId = id); }
 
     public void searchNextPage() {
         searchShowApi(mQuery, mPageNumber+1);
@@ -75,6 +95,10 @@ public class ShowRepository {
         searchShowTrending(mPageNumber+1);
     }
     public void searchAiringTodayNextPage() { searchShowAiringToday(mPageNumber+1); }
+    public void searchNextSimilarPage() {
+        searchShowSimilar(mId, mPageNumber+1);
+    }
+    public void searchNextRecommendedPage() { searchShowRecommended(mId, mPageNumber+1); }
 
 
 }
