@@ -45,7 +45,8 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:strokeWidth="0.5dp">
+                app:strokeWidth="0.5dp"
+                app:strokeColor="@color/primaryDark">
 
                 <ImageView
                     android:id="@+id/season_poster"
@@ -70,10 +71,6 @@
                         android:layout_height="wrap_content"/>
 
                 </LinearLayout>
-
-
-
-
 
                 <TextView
                     android:id="@+id/season_overview"

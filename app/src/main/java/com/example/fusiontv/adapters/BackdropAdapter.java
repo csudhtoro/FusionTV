@@ -20,54 +20,47 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
-public class BackdropAdapter extends RecyclerView.Adapter<BackdropAdapter.MyBackdropViewHolder> {
+public class BackdropAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context mContext;
     private List<Backdrop> mData;
-    private BackdropClickListener mItemListener;
+    private OnShowListener onShowImageListener;
 
-    public BackdropAdapter(Context mContext, List<Backdrop> mData, BackdropClickListener backdropClickListener) {
-        this.mContext = mContext;
-        this.mData = mData;
-        this.mItemListener = backdropClickListener;
+    public BackdropAdapter(OnShowListener onShowListener) {
+        this.onShowImageListener = onShowListener;
     }
-
     @NonNull
     @Override
-    public BackdropAdapter.MyBackdropViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v;
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        v = inflater.inflate(R.layout.image_item, parent, false);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_item,
+                parent, false);
 
-        return new MyBackdropViewHolder(v);
+
+        return new ShowImageViewHolder(view, onShowImageListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BackdropAdapter.MyBackdropViewHolder Backdropholder, int position) {
-        //Using Glide to display the image
-        Glide.with(mContext).load("https://image.tmdb.org/t/p/w500/"+mData.get(position).getFilePath()).into(Backdropholder.screen);
-
-        Backdropholder.itemView.setOnClickListener(view -> {
-            mItemListener.onItemClick(mData.get(position));
-        });
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Glide.with(((ShowImageViewHolder) holder).itemView.getContext()).load("https://image.tmdb.org/t/p/w500/"+mData.get(position).getFilePath()).into(((ShowImageViewHolder)holder).imageView);
     }
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        if(mData != null) return mData.size();
+        return 0;
     }
 
-    public interface BackdropClickListener {
-        void onItemClick(Backdrop result);
+    public void setmShows(List<Backdrop> mData) {
+        this.mData = mData;
+        notifyDataSetChanged();
     }
 
-    public static class MyBackdropViewHolder extends RecyclerView.ViewHolder {
-
-        ImageView screen;
-
-        public MyBackdropViewHolder(@NonNull View itemView) {
-            super(itemView);
-            screen = itemView.findViewById(R.id.screen_img);
+    //Getting the id of the show clicked
+    public Backdrop getSelectedShow(int position) {
+        if(mData != null) {
+            if(mData.size() > 0) {
+                return mData.get(position);
+            }
         }
+        return null;
     }
 }

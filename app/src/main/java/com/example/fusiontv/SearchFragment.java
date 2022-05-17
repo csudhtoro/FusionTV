@@ -152,6 +152,12 @@ public class SearchFragment extends Fragment implements OnShowListener {
 
         ShowDetailFragment showDetailFragment = new ShowDetailFragment();
         getFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.fragment_slide_up,
+                        R.anim.fragment_slide_down,
+                        R.anim.fragment_slide_up,
+                        R.anim.fragment_slide_down
+                )
                 .replace(R.id.fragmentFrameLayout, showDetailFragment)
                 .addToBackStack(DashboardFragment.class.getName())
                 .commit();
@@ -188,6 +194,26 @@ public class SearchFragment extends Fragment implements OnShowListener {
 
     @Override
     public void onShowCastClick(int position) {
+
+    }
+
+    @Override
+    public void onShowBackdropClick(int position) {
+
+    }
+
+    @Override
+    public void onActorTVCreditClick(int position) {
+
+    }
+
+    @Override
+    public void onShowActorImageClick(int position) {
+
+    }
+
+    @Override
+    public void onShowGenreClick(int adapterPosition) {
 
     }
 }

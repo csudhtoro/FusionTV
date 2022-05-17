@@ -11,7 +11,10 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:strokeColor="@color/primaryDark"
+        app:strokeWidth="0.2dp"
+        android:backgroundTint="@color/primary">
 
 
     <ImageView

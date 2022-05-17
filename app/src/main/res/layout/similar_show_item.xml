@@ -6,16 +6,6 @@
     android:layout_margin="15dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!--<androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:cardElevation="10dp"
-        app:cardMaxElevation="15dp"
-        app:cardBackgroundColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">-->
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_view"
@@ -23,13 +13,12 @@
             android:layout_height="match_parent"
             app:cardElevation="10dp"
             app:cardMaxElevation="15dp"
-            app:cardBackgroundColor="@color/black"
-            app:strokeWidth="0.5dp"
-            app:strokeColor="@color/white"
+            app:cardBackgroundColor="@color/primary"
+            app:strokeWidth="0.2dp"
+            app:strokeColor="@color/primaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
-
 
 
         <LinearLayout
@@ -59,15 +48,10 @@
                     android:gravity="center"
                     android:text="Title"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/secondaryLight"
                     android:textFontWeight="700"
                     android:textSize="12sp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="100"/>
             </LinearLayout>
 
             <!--<RatingBar

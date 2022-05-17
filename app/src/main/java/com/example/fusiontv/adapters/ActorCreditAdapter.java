@@ -1,79 +1,58 @@
 package com.example.fusiontv.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.fusiontv.R;
-import com.example.fusiontv.models.Profile;
-import com.example.fusiontv.models.TVCredit;
-import com.example.fusiontv.models.TVCredits;
 import com.example.fusiontv.models.TVShowModel;
 
 import java.util.List;
 
-public class ActorCreditAdapter extends RecyclerView.Adapter<ActorCreditAdapter.MyActorCreditViewHolder> {
+public class ActorCreditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context mContext;
-    private List<TVCredit> mData;
-    private CreditClickListener mItemListener;
+    private List<TVShowModel> mData;
+    private OnShowListener onActorTVCreditListener;
 
-    public ActorCreditAdapter(Context mContext, List<TVCredit> mData, CreditClickListener creditClickListener) {
-        this.mContext = mContext;
-        this.mData = mData;
-        this.mItemListener = creditClickListener;
+    public ActorCreditAdapter(OnShowListener onShowListener) {
+        this.onActorTVCreditListener = onShowListener;
     }
-
     @NonNull
     @Override
-    public ActorCreditAdapter.MyActorCreditViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v;
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        v = inflater.inflate(R.layout.recommendation_item, parent, false);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recommendation_item,
+                parent, false);
 
-        return new MyActorCreditViewHolder(v);
+        return new ActorTVCreditViewHolder(view, onActorTVCreditListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ActorCreditAdapter.MyActorCreditViewHolder actorCreditViewHolder, int position) {
-        actorCreditViewHolder.name.setText(mData.get(position).getName());
-
-        //Using Glide to display the image
-        Glide.with(mContext).load("https://image.tmdb.org/t/p/w500/"+mData.get(position).getPosterPath()).into(actorCreditViewHolder.screen);
-
-        actorCreditViewHolder.itemView.setOnClickListener(view -> {
-            mItemListener.onItemClick(mData.get(position));
-        });
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        ((ActorTVCreditViewHolder)holder).name.setText(mData.get(position).getName());
+        Glide.with(((ActorTVCreditViewHolder) holder).itemView.getContext())
+                .load("https://image.tmdb.org/t/p/w500/"+mData.get(position)
+                        .getPoster_path())
+                .into(((ActorTVCreditViewHolder)holder).imageView);
     }
+
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        if(mData != null) return mData.size();
+        return 0;
     }
 
-    public interface CreditClickListener {
-        void onItemClick(TVCredit result);
+    public void setmShows(List<TVShowModel> mData) {
+        this.mData = mData;
+        notifyDataSetChanged();
     }
 
-    public static class MyActorCreditViewHolder extends RecyclerView.ViewHolder {
-
-        ImageView screen;
-        TextView name;
-        public MyActorCreditViewHolder(@NonNull View itemView) {
-            super(itemView);
-            screen = itemView.findViewById(R.id.recommendation_show_img);
-            name = itemView.findViewById(R.id.recommendation_show_title);
-        }
-    }
     //Getting the id of the show clicked
-    public TVCredit getSelectedShow(int position) {
+    public TVShowModel getSelectedShow(int position) {
         if(mData != null) {
             if(mData.size() > 0) {
                 return mData.get(position);

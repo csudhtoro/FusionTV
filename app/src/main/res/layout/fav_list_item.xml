@@ -9,8 +9,8 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:strokeColor="@color/white"
-        app:strokeWidth=".8dp">
+        app:strokeColor="@color/primaryDark"
+        app:strokeWidth=".2dp">
 
     <ImageView
         android:id="@+id/show_img"

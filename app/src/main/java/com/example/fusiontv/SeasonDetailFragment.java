@@ -1,13 +1,10 @@
 package com.example.fusiontv;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,18 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.fusiontv.adapters.ActorCreditAdapter;
-import com.example.fusiontv.adapters.ActorImageAdapter;
 import com.example.fusiontv.adapters.EpisodeAdapter;
 import com.example.fusiontv.adapters.OnShowListener;
-import com.example.fusiontv.models.Actor;
-import com.example.fusiontv.models.Cast;
 import com.example.fusiontv.models.Episode;
 import com.example.fusiontv.models.Season;
-import com.example.fusiontv.models.TVCredit;
-import com.example.fusiontv.models.TVCredits;
-import com.example.fusiontv.models.TVShowModel;
-import com.example.fusiontv.requests.Services;
 import com.example.fusiontv.utils.Credentials;
 import com.example.fusiontv.utils.TVApi;
 
@@ -147,21 +136,11 @@ public class SeasonDetailFragment extends Fragment implements OnShowListener {
             }
         });
     }
-
     private void PutEpisodeDataIntoRecyclerView(List<Episode> episodeList) {
         EpisodeAdapter episodeAdapter = new EpisodeAdapter(getContext(), episodeList);
         episodeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         episodeRecyclerView.setAdapter(episodeAdapter);
     }
-
-    /*private void PutEpisodeDataIntoRecyclerView(List<Episode> episodeList) {
-        LinearLayout episodeLinearLayout = (LinearLayout) getView().findViewById(R.id.episode_list);
-
-        for(int i = 0; i < episodeList.size(); i++) {
-            View view = getLayoutInflater().inflate(R.layout.episode_item, null);
-            episodeLinearLayout.addView(view);
-        }
-    }*/
 
 
     //CONVERT THE DEFAULT TMDB DATE FORMATS TO MM-DD-YYYY
@@ -229,6 +208,26 @@ public class SeasonDetailFragment extends Fragment implements OnShowListener {
 
     @Override
     public void onShowCastClick(int position) {
+
+    }
+
+    @Override
+    public void onShowBackdropClick(int position) {
+
+    }
+
+    @Override
+    public void onActorTVCreditClick(int position) {
+
+    }
+
+    @Override
+    public void onShowActorImageClick(int position) {
+
+    }
+
+    @Override
+    public void onShowGenreClick(int adapterPosition) {
 
     }
 }

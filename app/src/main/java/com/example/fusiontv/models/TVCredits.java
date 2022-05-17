@@ -12,7 +12,7 @@ public class TVCredits implements Parcelable
 
     @SerializedName("cast")
     @Expose
-    private List<TVCredit> cast = null;
+    private List<TVShowModel> cast = null;
     @SerializedName("crew")
     @Expose
     private List<Crew> crew = null;
@@ -37,7 +37,7 @@ public class TVCredits implements Parcelable
             ;
 
     protected TVCredits(android.os.Parcel in) {
-        in.readList(this.cast, (com.example.fusiontv.models.TVCredit.class.getClassLoader()));
+        in.readList(this.cast, (com.example.fusiontv.models.TVShowModel.class.getClassLoader()));
         in.readList(this.crew, (com.example.fusiontv.models.Crew.class.getClassLoader()));
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
     }
@@ -55,18 +55,18 @@ public class TVCredits implements Parcelable
      * @param id
      * @param crew
      */
-    public TVCredits(List<TVCredit> cast, List<Crew> crew, Integer id) {
+    public TVCredits(List<TVShowModel> cast, List<Crew> crew, Integer id) {
         super();
         this.cast = cast;
         this.crew = crew;
         this.id = id;
     }
 
-    public List<TVCredit> getCast() {
+    public List<TVShowModel> getCast() {
         return cast;
     }
 
-    public void TVCredit(List<TVCredit> cast) {
+    public void TVCredit(List<TVShowModel> cast) {
         this.cast = cast;
     }
 

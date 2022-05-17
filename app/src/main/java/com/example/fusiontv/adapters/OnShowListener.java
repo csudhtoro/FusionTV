@@ -24,4 +24,11 @@ public interface OnShowListener {
 
     void onShowCastClick(int position);
 
+    void onShowBackdropClick(int position);
+
+    void onActorTVCreditClick(int position);
+
+    void onShowActorImageClick(int position);
+
+    void onShowGenreClick(int adapterPosition);
 }

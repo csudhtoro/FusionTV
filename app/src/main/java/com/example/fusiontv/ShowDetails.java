@@ -412,7 +412,7 @@ public class ShowDetails extends AppCompatActivity implements OnShowListener {
                     }
                 }
 
-                PutImageDataIntoRecyclerView(imageList);
+                //PutImageDataIntoRecyclerView(imageList);
             }
 
             @Override
@@ -505,7 +505,7 @@ public class ShowDetails extends AppCompatActivity implements OnShowListener {
         recommendationRecyclerView.setLayoutManager(new LinearLayoutManager(this ,LinearLayoutManager.HORIZONTAL, false));
         recommendationRecyclerView.setAdapter(recommendationAdapter);
     }*/
-    private void PutImageDataIntoRecyclerView(List<Backdrop> imageList) {
+    /*private void PutImageDataIntoRecyclerView(List<Backdrop> imageList) {
         BackdropAdapter backdropAdapter = new BackdropAdapter(this, imageList, new BackdropAdapter.BackdropClickListener() {
             @Override
             public void onItemClick(Backdrop result) {
@@ -514,7 +514,7 @@ public class ShowDetails extends AppCompatActivity implements OnShowListener {
         });
         screenshotRecyclerView.setLayoutManager(new LinearLayoutManager(this ,LinearLayoutManager.HORIZONTAL, false));
         screenshotRecyclerView.setAdapter(backdropAdapter);
-    }
+    }*/
 
     private boolean checkUserLoggedIn(FirebaseUser user) {
         if(user != null) return true;
@@ -574,6 +574,26 @@ public class ShowDetails extends AppCompatActivity implements OnShowListener {
 
     @Override
     public void onShowCastClick(int position) {
+
+    }
+
+    @Override
+    public void onShowBackdropClick(int position) {
+
+    }
+
+    @Override
+    public void onActorTVCreditClick(int position) {
+
+    }
+
+    @Override
+    public void onShowActorImageClick(int position) {
+
+    }
+
+    @Override
+    public void onShowGenreClick(int adapterPosition) {
 
     }
 

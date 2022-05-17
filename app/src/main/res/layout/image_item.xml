@@ -12,9 +12,9 @@
         android:layout_height="match_parent"
         app:cardElevation="10dp"
         app:cardMaxElevation="15dp"
-        app:cardBackgroundColor="@color/black"
+        app:cardBackgroundColor="@color/primary"
         app:strokeWidth="0.2dp"
-        app:strokeColor="@color/white"
+        app:strokeColor="@color/primaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

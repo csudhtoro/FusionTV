@@ -162,5 +162,25 @@ public class CastProfileActivity extends AppCompatActivity implements OnShowList
 
     }
 
+    @Override
+    public void onShowBackdropClick(int position) {
+
+    }
+
+    @Override
+    public void onActorTVCreditClick(int position) {
+
+    }
+
+    @Override
+    public void onShowActorImageClick(int position) {
+
+    }
+
+    @Override
+    public void onShowGenreClick(int adapterPosition) {
+
+    }
+
 
 }

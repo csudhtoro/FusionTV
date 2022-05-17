@@ -2,20 +2,13 @@ package com.example.fusiontv.utils;
 
 import com.example.fusiontv.models.Actor;
 import com.example.fusiontv.models.ActorProfile;
-import com.example.fusiontv.models.Episode;
-import com.example.fusiontv.models.Profile;
 import com.example.fusiontv.models.Season;
 import com.example.fusiontv.models.SeasonDetail;
 import com.example.fusiontv.models.ShowDetailModel;
-import com.example.fusiontv.models.TVCredit;
 import com.example.fusiontv.models.TVCredits;
 import com.example.fusiontv.models.TVShowModel;
-import com.example.fusiontv.response.ActorResponse;
 import com.example.fusiontv.response.CastResponse;
 import com.example.fusiontv.response.BackdropResponse;
-import com.example.fusiontv.response.RecommendationResponse;
-import com.example.fusiontv.response.SeasonResponse;
-import com.example.fusiontv.response.SimilarResponse;
 import com.example.fusiontv.response.TVShowSearchResponse;
 
 import retrofit2.Call;
@@ -142,6 +135,13 @@ public interface TVApi {
     Call<Season> searchSeasonDetails(
             @Path("tv_id") int tvId,
             @Path("season_number") int seasonNum,
+            @Query("api_key") String key
+    );
+    //Get tv show list by genre - https://api.themoviedb.org/3/discover/tv?api_key=5711ccb17a8987bca87b6e6fd7dc4823&language=en-US&with_genres=37
+    @GET("/3/discover/tv?")
+    Call<TVShowSearchResponse> searchByGenre(
+            @Query("with_genres") int id,
+            @Query("page") int page,
             @Query("api_key") String key
     );
 }

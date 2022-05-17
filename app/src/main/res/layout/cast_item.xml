@@ -12,9 +12,9 @@
         android:layout_height="90dp"
         app:cardCornerRadius="120dp"
         android:elevation="12dp"
-        app:strokeColor="@color/white"
-        app:strokeWidth=".8dp"
-        app:cardBackgroundColor="@color/black">
+        app:strokeColor="@color/primaryDark"
+        app:strokeWidth=".2dp"
+        app:cardBackgroundColor="@color/primary">
 
         <ImageView
             android:id="@+id/profile_pic"
@@ -35,7 +35,7 @@
         android:fontFamily="@font/source_sans_pro_regular"
         android:text="Actor Name"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@color/secondaryLight"
         android:textFontWeight="700"
         android:textSize="10dp">
 

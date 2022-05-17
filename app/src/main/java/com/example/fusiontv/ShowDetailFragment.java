@@ -1,11 +1,5 @@
 package com.example.fusiontv;
 
-import android.animation.ObjectAnimator;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BlurMaskFilter;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,12 +7,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
 
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,25 +30,14 @@ import com.example.fusiontv.adapters.GenreAdapter;
 import com.example.fusiontv.adapters.OnShowListener;
 import com.example.fusiontv.adapters.RecommendationAdapter;
 import com.example.fusiontv.adapters.SeasonAdapter;
-import com.example.fusiontv.adapters.ShowSimilarViewHolder;
 import com.example.fusiontv.adapters.SimilarAdapter;
 import com.example.fusiontv.models.Backdrop;
 import com.example.fusiontv.models.Cast;
 import com.example.fusiontv.models.Genre;
 import com.example.fusiontv.models.Season;
-import com.example.fusiontv.models.SeasonDetail;
 import com.example.fusiontv.models.ShowDetailModel;
 import com.example.fusiontv.models.TVShowModel;
-import com.example.fusiontv.requests.Services;
-import com.example.fusiontv.response.BackdropResponse;
-import com.example.fusiontv.response.CastResponse;
-import com.example.fusiontv.response.SeasonResponse;
-import com.example.fusiontv.response.TVShowSearchResponse;
-import com.example.fusiontv.utils.Credentials;
-import com.example.fusiontv.utils.TVApi;
 import com.example.fusiontv.viewmodels.ShowListViewModel;
-import com.google.android.material.progressindicator.CircularProgressIndicator;
-import com.google.android.material.shadow.ShadowRenderer;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -63,29 +45,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.ms.square.android.expandabletextview.ExpandableTextView;
 
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-
-import kotlin.jvm.internal.markers.KMutableSet;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class ShowDetailFragment extends Fragment implements OnShowListener {
@@ -94,21 +57,21 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
     String currUserId;
     DatabaseReference db;
 
-    List<Backdrop> imageList;
-
     //SIMILAR
     RecyclerView similarRecyclerView;
     private SimilarAdapter showSimilarRecyclerViewAdapter;
-
 
     //RECOMMENDED
     RecyclerView recommendationRecyclerView;
     private RecommendationAdapter showRecommendedRecyclerViewAdapter;
 
-
     //CAST
     RecyclerView castRecyclerView;
     private CastAdapter showCastRecyclerViewAdapter;
+
+    //IMAGES
+    RecyclerView imageRecyclerView;
+    private BackdropAdapter showImageRecyclerViewAdapter;
 
 
     RecyclerView screenshotRecyclerView;
@@ -116,7 +79,7 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
     RecyclerView seasonRecyclerView;
 
     //Widgets
-    private ImageView posterImage, backdropImage, favoriteIcon, backArrow, scheduleIcon;
+    private ImageView posterImage, backdropImage, favoriteIcon, backArrow, scheduleIcon, networkLogo;
     private TextView showOverview, firstAirDate, lastAirDate, nextAirDate, network, runtime, voteAvg, season, episodes, appBarShowName, showName;
     private RatingBar showRatingBar;
 
@@ -155,7 +118,8 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
             backdropImage = (ImageView) getView().findViewById(R.id.showDetailsBackdrop);
             showOverview = (TextView) getView().findViewById(R.id.showDetailsoverview);
             firstAirDate = (TextView) getView().findViewById(R.id.firstAirDate);
-            network = (TextView) getView().findViewById(R.id.network);
+            //network = (TextView) getView().findViewById(R.id.network);
+            networkLogo = (ImageView) getView().findViewById(R.id.network);
             voteAvg = (TextView) getView().findViewById(R.id.rating);
             showRatingBar = (RatingBar) getView().findViewById(R.id.ratingBar);
             appBarShowName = (TextView) getView().findViewById(R.id.appBar_show_name);
@@ -168,41 +132,41 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
             //runtime = (TextView) getView().findViewById(R.id.runtime);
             //lastAirDate = (TextView) getView().findViewById(R.id.lastAirDate);
             //nextAirDate = (TextView) getView().findViewById(R.id.nextAirDate);
-
-
             currUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
             //LOAD SHOW DATA BASED ON INTENT FROM OTHER FRAGMENTS/ACTIVITIES
-
             assert getArguments() != null;
+
             TVShowModel tvShowModel = getArguments().getParcelable("showInfo");
+            int showId = tvShowModel.getTv_id();
 
 
             //SHOW DETAILS
-            showListViewModel.searchShowDetails(tvShowModel.getTv_id());
+            showListViewModel.searchShowDetails(showId);
             ObserveShowDetailShowChange();
 
             //CAST
-            showListViewModel.searchShowCast(tvShowModel.getTv_id());
+            showListViewModel.searchShowCast(showId);
             ObserveShowCastChange();
             PutCastDataIntoRecyclerView();
 
             //SIMILAR
-            showListViewModel.searchShowSimilar(tvShowModel.getTv_id(), 1);
+            showListViewModel.searchShowSimilar(showId, 1);
             PutSimilarDataIntoRecyclerView();
             ObserveShowSimilarChange();
 
             //RECOMMENDED
-            showListViewModel.searchShowRecommended(tvShowModel.getTv_id(), 1);
+            showListViewModel.searchShowRecommended(showId, 1);
             PutRecommendationDataIntoRecyclerView();
             ObserveShowRecommendedChange();
 
+            //IMAGES
+            showListViewModel.searchShowImages(showId);
+            PutImageDataIntoRecyclerView();
+            ObserveShowImageChange();
 
-
-            GetImagesRetrofitResponse(tvShowModel);
             CheckFavorites(tvShowModel);
-
 
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,47 +180,6 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
         });
     }
 
-
-    //API CALL CODE - CONVERT ALL THIS CODE INTO VIEWMODELS LIKE SHOWDETAIL CHANGE ABOVE
-    private void GetImagesRetrofitResponse(TVShowModel tvShowModel) {
-        TVApi tvApi = Services.getTvApi();
-
-        Call<BackdropResponse> responseCall = tvApi
-                .searchImages(
-                        tvShowModel.getTv_id(),
-                        Credentials.API_KEY
-                );
-
-        responseCall.enqueue(new Callback<BackdropResponse>() {
-            @Override
-            public void onResponse(Call<BackdropResponse> call, Response<BackdropResponse> response) {
-                if(response.code() == 200) {
-                    //Log.v("Tag", "The response is: " +response.body().toString());
-
-                    imageList = new ArrayList<>(response.body().getImages());
-
-                    for(Backdrop image : imageList) {
-                        //Log.v("Tag", "Image path: " +image.getFilePath());
-                    }
-
-                }
-                else {
-                    try {
-                        Log.v("Tag", "Error: " +response.errorBody().string());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                PutImageDataIntoRecyclerView(imageList);
-            }
-
-            @Override
-            public void onFailure(Call<BackdropResponse> call, Throwable t) {
-
-            }
-        });
-    }
 
     //RECYCLERVIEW CODE
     private void PutSimilarDataIntoRecyclerView() {
@@ -285,12 +208,6 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
         castRecyclerView.setLayoutManager(new LinearLayoutManager(getContext() ,LinearLayoutManager.HORIZONTAL, false));
 
     }
-    private void PutGenreDataIntoRecyclerView(List<Genre> genreList) {
-        GenreAdapter genreAdapter = new GenreAdapter(getContext(), genreList);
-        genreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext() ,LinearLayoutManager.HORIZONTAL, false));
-        genreRecyclerView.setAdapter(genreAdapter);
-    }
-
     private void PutRecommendationDataIntoRecyclerView() {
         showRecommendedRecyclerViewAdapter = new RecommendationAdapter(this);
 
@@ -311,23 +228,17 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
             }
         });
     }
-    private void PutImageDataIntoRecyclerView(List<Backdrop> imageList) {
-        BackdropAdapter backdropAdapter = new BackdropAdapter(getContext(), imageList, new BackdropAdapter.BackdropClickListener() {
-            @Override
-            public void onItemClick(Backdrop result) {
-                EnlargeImageFragment enlargeImageFragment = new EnlargeImageFragment();
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentFrameLayout, enlargeImageFragment)
-                        .addToBackStack(null)
-                        .commit();
+    private void PutImageDataIntoRecyclerView() {
+        showImageRecyclerViewAdapter = new BackdropAdapter(this);
 
-                Bundle bundle = new Bundle();
-                bundle.putString("image", result.getFilePath());
-                enlargeImageFragment.setArguments(bundle);
-            }
-        });
+        screenshotRecyclerView.setAdapter(showImageRecyclerViewAdapter);
         screenshotRecyclerView.setLayoutManager(new LinearLayoutManager(getContext() ,LinearLayoutManager.HORIZONTAL, false));
-        screenshotRecyclerView.setAdapter(backdropAdapter);
+
+    }
+    private void PutGenreDataIntoRecyclerView(List<Genre> genreList) {
+        GenreAdapter genreAdapter = new GenreAdapter(getContext(), genreList);
+        genreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext() ,LinearLayoutManager.HORIZONTAL, false));
+        genreRecyclerView.setAdapter(genreAdapter);
     }
     private void PutSeasonDataIntoRecyclerView(List<Season> seasonList, int showId) {
         SeasonAdapter  seasonAdapter = new SeasonAdapter(getContext(), seasonList, new SeasonAdapter.SeasonClickListener() {
@@ -335,6 +246,12 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
             public void onItemClick(Season season) {
                 SeasonDetailFragment seasonDetailFragment = new SeasonDetailFragment();
                 getFragmentManager().beginTransaction()
+                        .setCustomAnimations(
+                                R.anim.fragment_slide_up,
+                                R.anim.fragment_slide_down,
+                                R.anim.fragment_slide_up,
+                                R.anim.fragment_slide_down
+                        )
                         .replace(R.id.fragmentFrameLayout, seasonDetailFragment)
                         .addToBackStack(null)
                         .commit();
@@ -349,6 +266,7 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
         seasonRecyclerView.setAdapter(seasonAdapter);
 
     }
+
 
     //Observer for LiveData - ShowDetails
     private void ObserveShowDetailShowChange() {
@@ -366,7 +284,11 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
                     appBarShowName.setText(showDetailModel.getName());
                     voteAvg.setText(String.valueOf(showDetailModel.getVoteAverage()));
                     showRatingBar.setRating((showDetailModel.getVoteAverage()) / 2);
-                    if(showDetailModel.getNetworks() != null && showDetailModel.getNetworks().size() > 0) network.setText(showDetailModel.getNetworks().get(0).getName());
+                    //if(showDetailModel.getNetworks() != null && showDetailModel.getNetworks().size() > 0) network.setText(showDetailModel.getNetworks().get(0).getName());
+                    if(showDetailModel.getNetworks() != null && showDetailModel.getNetworks().size() > 0) {
+                        Glide.with(getContext()).load("https://image.tmdb.org/t/p/w500" +showDetailModel.getNetworks().get(0).getLogoPath())
+                                .into(networkLogo);
+                    }
                     firstAirDate.setText(returnYear(showDetailModel.getFirstAirDate()));
 
                     PutGenreDataIntoRecyclerView(showDetailModel.getGenres());
@@ -374,9 +296,7 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
                 }
             }
         });
-
     }
-
     //Observer for LiveData - Cast
     private void ObserveShowCastChange() {
         showListViewModel.getCast().observe(getViewLifecycleOwner(), new Observer<List<Cast>>() {
@@ -386,7 +306,6 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
             }
         });
     }
-
     //Observer for LiveData - Similar
     private void ObserveShowSimilarChange() {
         showListViewModel.getShowsSimilar().observe(getViewLifecycleOwner(), new Observer<List<TVShowModel>>() {
@@ -396,7 +315,6 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
             }
         });
     }
-
     //Observer for LiveData - Recommended
     private void ObserveShowRecommendedChange() {
         showListViewModel.getShowsRecommended().observe(getViewLifecycleOwner(), new Observer<List<TVShowModel>>() {
@@ -406,6 +324,18 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
             }
         });
     }
+    //Observer for LiveData - Images
+    private void ObserveShowImageChange() {
+        showListViewModel.getShowImages().observe(getViewLifecycleOwner(), new Observer<List<Backdrop>>() {
+            @Override
+            public void onChanged(List<Backdrop> images) {
+                showImageRecyclerViewAdapter.setmShows(images);
+            }
+        });
+    }
+
+
+
 
     //FAVORITES
     private void CheckFavorites(TVShowModel tvShowModel) {
@@ -619,7 +549,13 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
     @Override
     public void onShowSimilarClick(int position) {
         ShowDetailFragment showDetailFragment = new ShowDetailFragment();
-        getFragmentManager().beginTransaction()
+        getParentFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                    R.anim.fragment_slide_up,
+                    R.anim.fragment_slide_down,
+                    R.anim.fragment_slide_up,
+                    R.anim.fragment_slide_down
+                )
                 .replace(R.id.fragmentFrameLayout, showDetailFragment)
                 .addToBackStack(DashboardFragment.class.getName())
                 .commit();
@@ -632,7 +568,13 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
     @Override
     public void onShowRecommendedClick(int position) {
         ShowDetailFragment showDetailFragment = new ShowDetailFragment();
-        getFragmentManager().beginTransaction()
+        getParentFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.fragment_slide_up,
+                        R.anim.fragment_slide_down,
+                        R.anim.fragment_slide_up,
+                        R.anim.fragment_slide_down
+                )
                 .replace(R.id.fragmentFrameLayout, showDetailFragment)
                 .addToBackStack(DashboardFragment.class.getName())
                 .commit();
@@ -645,7 +587,13 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
     @Override
     public void onShowCastClick(int position) {
         CastProfileFragment castProfileFragment = new CastProfileFragment();
-        getFragmentManager().beginTransaction()
+        getParentFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.fragment_slide_up,
+                        R.anim.fragment_slide_down,
+                        R.anim.fragment_slide_up,
+                        R.anim.fragment_slide_down
+                )
                 .replace(R.id.fragmentFrameLayout, castProfileFragment)
                 .addToBackStack(DashboardFragment.class.getName())
                 .commit();
@@ -653,5 +601,39 @@ public class ShowDetailFragment extends Fragment implements OnShowListener {
         Bundle bundle = new Bundle();
         bundle.putParcelable("show2", showCastRecyclerViewAdapter.getSelectedShow(position));
         castProfileFragment.setArguments(bundle);
+    }
+
+    @Override
+    public void onShowBackdropClick(int position) {
+        EnlargeImageFragment enlargeImageFragment = new EnlargeImageFragment();
+        getParentFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.fragment_slide_up,
+                        R.anim.fragment_slide_down,
+                        R.anim.fragment_slide_up,
+                        R.anim.fragment_slide_down
+                )
+                .replace(R.id.fragmentFrameLayout, enlargeImageFragment)
+                .addToBackStack(DashboardFragment.class.getName())
+                .commit();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("image", showImageRecyclerViewAdapter.getSelectedShow(position).getFilePath());
+        enlargeImageFragment.setArguments(bundle);
+    }
+
+    @Override
+    public void onActorTVCreditClick(int position) {
+
+    }
+
+    @Override
+    public void onShowActorImageClick(int position) {
+
+    }
+
+    @Override
+    public void onShowGenreClick(int adapterPosition) {
+
     }
 }

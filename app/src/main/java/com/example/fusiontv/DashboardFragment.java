@@ -1,17 +1,15 @@
 package com.example.fusiontv;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +21,6 @@ import com.example.fusiontv.adapters.ShowTrendingAdapter;
 import com.example.fusiontv.adapters.ViewPagerAdapter;
 import com.example.fusiontv.models.TVShowModel;
 import com.example.fusiontv.viewmodels.ShowListViewModel;
-import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
@@ -42,6 +39,10 @@ public class DashboardFragment extends Fragment implements OnShowListener {
     private ShowListViewModel showListViewModel;
     boolean isPopular = true;
 
+    //TabLayout
+    TabLayout tabLayout;
+    ViewPager2 viewPager2;
+    ViewPagerAdapter viewPagerAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,6 +61,36 @@ public class DashboardFragment extends Fragment implements OnShowListener {
 
         showListViewModel = new ViewModelProvider(this).get(ShowListViewModel.class);
 
+        tabLayout = getView().findViewById(R.id.tablayout);
+        viewPager2 = getView().findViewById(R.id.view_pager);
+        viewPagerAdapter = new ViewPagerAdapter(this);
+        viewPager2.setAdapter(viewPagerAdapter);
+        viewPager2.setUserInputEnabled(false);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager2.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                tabLayout.getTabAt(position).select();
+            }
+        });
 
         //TRENDING SHOWS RECYCLERVIEW
         ConfigureTrendingRecyclerView();
@@ -111,31 +142,7 @@ public class DashboardFragment extends Fragment implements OnShowListener {
 
 
 
-    //4 - Calling method in Main Activity
-    /*private void searchShowApi(String query, int pageNumber) {
-        showListViewModel.searchShowApi(query, pageNumber);
-    }*/
 
-    //5 - Initializing recyclerView and adding data to it - RECYCLERVIEW FOR POPULAR SHOWS
-    /*private void ConfigurePopularRecyclerView() {
-        showRecyclerViewAdapter = new ShowRecyclerView(this);
-
-        popularRecyclerView.setAdapter(showRecyclerViewAdapter);
-        popularRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-
-        //RecyclerView Pagination
-        //Loading next page of api response
-        popularRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                if(!recyclerView.canScrollHorizontally(1)) {
-                    //Here we need to display the next result on the next page of api
-                    //showListViewModel.searchNextPage();
-                    showListViewModel.searchPopularNextPage();
-                }
-            }
-        });
-    }*/
     //5 - Initializing recyclerView and adding data to it - RECYCLERVIEW FOR POPULAR SHOWS
     private void ConfigureTrendingRecyclerView() {
         showTrendingRecyclerViewAdapter = new ShowTrendingAdapter(this);
@@ -195,6 +202,12 @@ public class DashboardFragment extends Fragment implements OnShowListener {
 
         ShowDetailFragment showDetailFragment = new ShowDetailFragment();
         getFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.fragment_slide_up,
+                        R.anim.fragment_slide_down,
+                        R.anim.fragment_slide_up,
+                        R.anim.fragment_slide_down
+                )
                             .replace(R.id.fragmentFrameLayout, showDetailFragment)
                             .addToBackStack(DashboardFragment.class.getName())
                             .commit();
@@ -210,6 +223,12 @@ public class DashboardFragment extends Fragment implements OnShowListener {
 
         ShowDetailFragment showDetailFragment = new ShowDetailFragment();
         getFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.fragment_slide_up,
+                        R.anim.fragment_slide_down,
+                        R.anim.fragment_slide_up,
+                        R.anim.fragment_slide_down
+                )
                 .replace(R.id.fragmentFrameLayout, showDetailFragment)
                 .addToBackStack(DashboardFragment.class.getName())
                 .commit();
@@ -251,6 +270,26 @@ public class DashboardFragment extends Fragment implements OnShowListener {
 
     @Override
     public void onShowCastClick(int position) {
+
+    }
+
+    @Override
+    public void onShowBackdropClick(int position) {
+
+    }
+
+    @Override
+    public void onActorTVCreditClick(int position) {
+
+    }
+
+    @Override
+    public void onShowActorImageClick(int position) {
+
+    }
+
+    @Override
+    public void onShowGenreClick(int adapterPosition) {
 
     }
 

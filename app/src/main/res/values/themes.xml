@@ -19,6 +19,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:fontFamily">@font/source_sans_pro</item>
+    </style>
+
     <style name="Theme.FusionTV.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.FusionTV.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

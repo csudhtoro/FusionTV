@@ -1,46 +1,42 @@
 package com.example.fusiontv.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.fusiontv.R;
-import com.example.fusiontv.models.Result;
 import com.example.fusiontv.models.TVShowModel;
 
 import java.util.List;
 
-public class SimilarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ActionAdventureAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<TVShowModel> mData;
-    private OnShowListener onShowSimilarListener;
+    private OnShowListener onGenreListener;
 
-    public SimilarAdapter(OnShowListener onShowListener) {
-        this.onShowSimilarListener = onShowListener;
+    public ActionAdventureAdapter(OnShowListener onShowListener) {
+        this.onGenreListener = onShowListener;
     }
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.similar_show_item,
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.genre_list_item,
                 parent, false);
 
-        return new ShowSimilarViewHolder(view, onShowSimilarListener);
+        return new ActionAdventureViewHolder(view, onGenreListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((ShowSimilarViewHolder)holder).title.setText(mData.get(position).getName());
-        Glide.with(((ShowSimilarViewHolder) holder).itemView.getContext())
+        ((ActionAdventureViewHolder)holder).title.setText(mData.get(position).getName());
+        Glide.with(((ActionAdventureViewHolder) holder).itemView.getContext())
                 .load("https://image.tmdb.org/t/p/w500/"+mData.get(position)
                         .getPoster_path())
-                .into(((ShowSimilarViewHolder)holder).imageView);
+                .into(((ActionAdventureViewHolder)holder).imageView);
     }
 
     @Override

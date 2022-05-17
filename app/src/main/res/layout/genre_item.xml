@@ -5,6 +5,8 @@
     android:background="@color/primary"
     app:shapeAppearance="@color/primary"
     app:cardCornerRadius="10dp"
+    app:strokeWidth="0.5dp"
+    app:strokeColor="@color/primaryDark"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
        <androidx.cardview.widget.CardView
@@ -20,7 +22,7 @@
                   android:background="@color/primary"
                   android:fontFamily="@font/source_sans_pro_regular"
                   android:text="Genre"
-                  android:textColor="@color/white"
+                  android:textColor="@color/secondaryLight"
                   android:textSize="9dp">
 
               </TextView>

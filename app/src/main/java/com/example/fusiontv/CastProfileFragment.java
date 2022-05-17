@@ -11,13 +11,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -26,44 +24,34 @@ import com.example.fusiontv.adapters.ActorCreditAdapter;
 import com.example.fusiontv.adapters.ActorImageAdapter;
 import com.example.fusiontv.adapters.OnShowListener;
 import com.example.fusiontv.models.Actor;
-import com.example.fusiontv.models.ActorProfile;
 import com.example.fusiontv.models.Cast;
 import com.example.fusiontv.models.Profile;
-import com.example.fusiontv.models.Season;
-import com.example.fusiontv.models.ShowDetailModel;
-import com.example.fusiontv.models.TVCredit;
-import com.example.fusiontv.models.TVCredits;
 import com.example.fusiontv.models.TVShowModel;
-import com.example.fusiontv.requests.Services;
-import com.example.fusiontv.utils.Credentials;
-import com.example.fusiontv.utils.TVApi;
 import com.example.fusiontv.viewmodels.ShowListViewModel;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CastProfileFragment extends Fragment implements OnShowListener {
 
 
     //Widgets
     private ImageView actorPhoto, backArrow;
-    private TextView actorName, actorPopularity, actorBday, actorBiography, actorBirthplace;
+    private TextView actorName, actorBday, actorBiography, actorBirthplace;
 
-    RecyclerView imageRecyclerView;
-    RecyclerView creditRecyclerView;
 
     private ShowListViewModel showListViewModel;
 
-    List<Profile> imageList;
-    List<TVCredit> creditList;
+    //ACTOR IMAGES
+    RecyclerView imageRecyclerView;
+    private ActorImageAdapter actorImageRecyclerViewAdapter;
+
+    //ACTOR TV CREDITS
+    RecyclerView creditRecyclerView;
+    private ActorCreditAdapter actorCreditRecyclerViewAdapter;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,8 +64,10 @@ public class CastProfileFragment extends Fragment implements OnShowListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //VIEWMODEL
         showListViewModel = new ViewModelProvider(this).get(ShowListViewModel.class);
 
+        //FORM VARIABLES
         actorName = getView().findViewById(R.id.season_appBar_show_name);
         actorBday = getView().findViewById(R.id.actor_bday);
         actorBiography = getView().findViewById(R.id.actor_bio);
@@ -85,9 +75,11 @@ public class CastProfileFragment extends Fragment implements OnShowListener {
         actorBirthplace = getView().findViewById(R.id.actor_birthplace);
         backArrow = getView().findViewById(R.id.cast_profile_back_arrow);
 
+        //RECYCLERVIEWS
         imageRecyclerView = getView().findViewById(R.id.imageRecyclerview);
         creditRecyclerView = getView().findViewById(R.id.tvCreditRecyclerview);
 
+        //BACK ARROW
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,181 +91,76 @@ public class CastProfileFragment extends Fragment implements OnShowListener {
             }
         });
 
+
         assert getArguments() != null;
         Cast cast = getArguments().getParcelable("show2");
 
-        GetDataFromInternet(cast);
-        GetActorImagesRetrofitResponse(cast);
-        GetActorTVCreditsRetrofitResponse(cast);
+
+        //ACTOR DETAILS
+        showListViewModel.searchActorDetails(cast.getId());
+        ObserveActorDetailShowChange();
+
+        //ACTOR IMAGES
+        showListViewModel.searchActorImages(cast.getId());
+        PutActorImageDataIntoRecyclerView();
+        ObserveActorImageChange();
+
+        //ACTOR TV CREDITS
+        showListViewModel.searchActorTVCredits(cast.getId());
+        PutActorCreditDataIntoRecyclerView();
+        ObserveActorTVCreditChange();
 
     }
 
-    private void GetDataFromInternet(Cast cast) {
-
-        Glide.with(this).load("https://image.tmdb.org/t/p/w500" + cast.getProfilePath()).apply(new RequestOptions().transform(new RoundedCorners(60)))
-                .into(actorPhoto);
-        actorName.setText(cast.getName());
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Credentials.Base_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        TVApi tvApi = retrofit.create(TVApi.class);
-
-        Call<Actor> call = tvApi.searchActor(cast.getId(), Credentials.API_KEY);
-
-        call.enqueue(new Callback<Actor>() {
+    //Observer for LiveData - Actor Details
+    private void ObserveActorDetailShowChange() {
+        showListViewModel.getActorDetail().observe(getViewLifecycleOwner(), new Observer<Actor>() {
             @Override
-            public void onResponse(Call<Actor> call, Response<Actor> response) {
-
-                if (response.code() == 200) {
-                    Log.v("Tag", "response body = "+response.body().toString());
-
-                    if (response.body().getName() != null) {
-                        actorName.setText(response.body().getName());
-                    } else {
-                        actorName.setText("N/A");
-                    }
-                    if (response.body().getBirthday() != null) {
-                        actorBday.setText(convertDate(response.body().getBirthday()));
-                    } else {
-                        actorBday.setText("N/A");
-                    }
-                    if (response.body().getPlaceOfBirth()!= null) {
-                        actorBirthplace.setText(response.body().getPlaceOfBirth());
-                    } else {
-                        actorBirthplace.setText("N/A");
-                    }
-                    if (response.body().getBiography() != null) {
-                        actorBiography.setText(response.body().getBiography());
-                    } else {
-                        actorPopularity.setText("N/A");
-                    }
+            public void onChanged(Actor actor) {
+                if(actor != null) {
+                    actorName.setText(actor.getName());
+                    actorBday.setText(convertDate(actor.getBirthday()));
+                    actorBirthplace.setText(actor.getPlaceOfBirth());
+                    actorBiography.setText(actor.getBiography());
+                    Glide.with(getContext()).load("https://image.tmdb.org/t/p/w780"+actor.getProfilePath())
+                            .apply(new RequestOptions().transform(new RoundedCorners(60)))
+                            .into(actorPhoto);
                 }
-            }
-            @Override
-            public void onFailure(Call<Actor> call, Throwable t) {
-
-            }
-        });
-
-        //}
-    }
-    private void GetActorImagesRetrofitResponse(Cast cast) {
-        TVApi tvApi = Services.getTvApi();
-
-        Call<ActorProfile> responseCall = tvApi
-                .searchActorImages(
-                        cast.getId(),
-                        Credentials.API_KEY
-                );
-
-        responseCall.enqueue(new Callback<ActorProfile>() {
-            @Override
-            public void onResponse(Call<ActorProfile> call, Response<ActorProfile> response) {
-                if(response.code() == 200) {
-                    imageList = new ArrayList<>(response.body().getProfiles());
-                }
-                else {
-                    try {
-                        Log.v("Tag", "Error: " +response.errorBody().string());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                PutActorImageDataIntoRecyclerView(imageList);
-            }
-
-            @Override
-            public void onFailure(Call<ActorProfile> call, Throwable t) {
-
             }
         });
     }
-    private void GetActorTVCreditsRetrofitResponse(Cast cast) {
-        TVApi tvApi = Services.getTvApi();
-
-        Call<TVCredits> responseCall = tvApi
-                .searchActorCredits(
-                        cast.getId(),
-                        Credentials.API_KEY
-                );
-
-        responseCall.enqueue(new Callback<TVCredits>() {
+    //Observer for LiveData - Actor Images
+    private void ObserveActorImageChange() {
+        showListViewModel.getActorImages().observe(getViewLifecycleOwner(), new Observer<List<Profile>>() {
             @Override
-            public void onResponse(Call<TVCredits> call, Response<TVCredits> response) {
-                if(response.code() == 200) {
-                    creditList = new ArrayList<>(response.body().getCast());
-                }
-                else {
-                    try {
-                        Log.v("Tag", "Error: " +response.errorBody().string());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                PutActorCreditDataIntoRecyclerView(creditList);
+            public void onChanged(List<Profile> profiles) {
+                actorImageRecyclerViewAdapter.setmShows(profiles);
             }
-
+        });
+    }
+    //Observer for LiveData - Actor TV Credits
+    private void ObserveActorTVCreditChange() {
+        showListViewModel.getActorTVCredits().observe(getViewLifecycleOwner(), new Observer<List<TVShowModel>>() {
             @Override
-            public void onFailure(Call<TVCredits> call, Throwable t) {
-
+            public void onChanged(List<TVShowModel> tvShowModel) {
+                actorCreditRecyclerViewAdapter.setmShows(tvShowModel);
             }
         });
     }
 
 
-    private void PutActorImageDataIntoRecyclerView(List<Profile> imageList) {
-        ActorImageAdapter actorImageAdapter = new ActorImageAdapter(getContext(), imageList, new ActorImageAdapter.ActorImageClickListener() {
-            @Override
-            public void onItemClick(Profile result) {
-                EnlargeImageFragment enlargeImageFragment = new EnlargeImageFragment();
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentFrameLayout, enlargeImageFragment)
-                        .addToBackStack(null)
-                        .commit();
+    private void PutActorImageDataIntoRecyclerView() {
+        actorImageRecyclerViewAdapter = new ActorImageAdapter(this);
 
-                Bundle bundle = new Bundle();
-                bundle.putString("image", result.getFilePath());
-                enlargeImageFragment.setArguments(bundle);
-            }
-        });
+        imageRecyclerView.setAdapter(actorImageRecyclerViewAdapter);
         imageRecyclerView.setLayoutManager(new LinearLayoutManager(getContext() ,LinearLayoutManager.HORIZONTAL, false));
-        imageRecyclerView.setAdapter(actorImageAdapter);
     }
-    private void PutActorCreditDataIntoRecyclerView(List<TVCredit> creditList) {
-        ActorCreditAdapter actorCreditAdapter = new ActorCreditAdapter(getContext(), creditList, new ActorCreditAdapter.CreditClickListener() {
-            @Override
-            public void onItemClick(TVCredit result) {
+    private void PutActorCreditDataIntoRecyclerView() {
+        actorCreditRecyclerViewAdapter = new ActorCreditAdapter(this);
 
-                TVShowModel tvShowModel = new TVShowModel();
-
-                tvShowModel.setId(result.getId());
-                tvShowModel.setPoster_path(result.getPosterPath());
-                tvShowModel.setBackdrop_path(result.getBackdropPath());
-                tvShowModel.setName(result.getName());
-                tvShowModel.setOverview(result.getOverview());
-
-                ShowDetailFragment showDetailFragment = new ShowDetailFragment();
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentFrameLayout, showDetailFragment)
-                        .addToBackStack(null)
-                        .commit();
-
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("showInfo", tvShowModel);
-                showDetailFragment.setArguments(bundle);
-
-                //Toast.makeText(getContext(), "Clicked season", Toast.LENGTH_SHORT).show();
-            }
-        });
+        creditRecyclerView.setAdapter(actorCreditRecyclerViewAdapter);
         creditRecyclerView.setLayoutManager(new LinearLayoutManager(getContext() ,LinearLayoutManager.HORIZONTAL, false));
-        creditRecyclerView.setAdapter(actorCreditAdapter);
     }
-
 
 
     //CONVERT THE DEFAULT TMDB DATE FORMATS TO MM-DD-YYYY
@@ -296,58 +183,96 @@ public class CastProfileFragment extends Fragment implements OnShowListener {
         return outDate;
     }
 
+
     @Override
     public void onShowClick(int position) {
 
     }
-
     @Override
     public void onGenreClick(String Genre) {
 
     }
-
     @Override
     public void onShowAiringTodayClick(int position) {
 
     }
-
     @Override
     public void onShowTrendingTodayClick(int position) {
 
     }
-
     @Override
     public void onShowSearchClick(int position) {
 
     }
-
     @Override
     public void onFavoritesClick(int position) {
 
     }
-
     @Override
     public void onWatchlistClick(int adapterPosition) {
 
     }
-
     @Override
     public void onSeasonClick(int position) {
 
     }
-
     @Override
     public void onShowSimilarClick(int position) {
 
     }
-
     @Override
     public void onShowRecommendedClick(int position) {
 
     }
-
     @Override
     public void onShowCastClick(int position) {
+
+    }
+    @Override
+    public void onShowBackdropClick(int position) {
+
+    }
+
+    @Override
+    public void onActorTVCreditClick(int position) {
+        ShowDetailFragment showDetailFragment = new ShowDetailFragment();
+        getParentFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.fragment_slide_up,
+                        R.anim.fragment_slide_down,
+                        R.anim.fragment_slide_up,
+                        R.anim.fragment_slide_down
+                )
+                .replace(R.id.fragmentFrameLayout, showDetailFragment)
+                .addToBackStack(DashboardFragment.class.getName())
+                .commit();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("showInfo", actorCreditRecyclerViewAdapter.getSelectedShow(position));
+        showDetailFragment.setArguments(bundle);
+    }
+
+    @Override
+    public void onShowActorImageClick(int position) {
+        EnlargeImageFragment enlargeImageFragment = new EnlargeImageFragment();
+        getParentFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.fragment_slide_up,
+                        R.anim.fragment_slide_down,
+                        R.anim.fragment_slide_up,
+                        R.anim.fragment_slide_down
+                )
+                .replace(R.id.fragmentFrameLayout, enlargeImageFragment)
+                .addToBackStack(DashboardFragment.class.getName())
+                .commit();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("image", actorImageRecyclerViewAdapter.getSelectedShow(position).getFilePath());
+        enlargeImageFragment.setArguments(bundle);
+    }
+
+    @Override
+    public void onShowGenreClick(int adapterPosition) {
 
     }
 }

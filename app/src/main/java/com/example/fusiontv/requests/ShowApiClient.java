@@ -7,10 +7,17 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.fusiontv.AppExecutors;
-import com.example.fusiontv.ShowDetails;
+import com.example.fusiontv.models.Actor;
+import com.example.fusiontv.models.ActorProfile;
+import com.example.fusiontv.models.Backdrop;
 import com.example.fusiontv.models.Cast;
+import com.example.fusiontv.models.Profile;
+import com.example.fusiontv.models.Season;
+import com.example.fusiontv.models.SeasonDetail;
 import com.example.fusiontv.models.ShowDetailModel;
+import com.example.fusiontv.models.TVCredits;
 import com.example.fusiontv.models.TVShowModel;
+import com.example.fusiontv.response.BackdropResponse;
 import com.example.fusiontv.response.CastResponse;
 import com.example.fusiontv.response.TVShowSearchResponse;
 import com.example.fusiontv.utils.Credentials;
@@ -49,13 +56,12 @@ public class ShowApiClient {
     //Popular runnable request
     private RetrieveShowsRunnableAiringToday retrieveShowsRunnableAiringToday;
 
-
     //liveData for show details
     private MutableLiveData<ShowDetailModel> mShowDetail;
     //Show Detail runnable request
     private RetrieveShowRunnableShowDetails retrieveShowRunnableShowDetails;
 
-    //liveData for show details
+    //liveData for cast details
     private MutableLiveData<List<Cast>> mCast;
     //Show Detail runnable request
     private RetrieveShowRunnableCast retrieveShowRunnableCast;
@@ -69,6 +75,42 @@ public class ShowApiClient {
     private MutableLiveData<List<TVShowModel>> mRecommended;
     //Show Detail runnable request
     private RetrieveShowRunnableRecommended retrieveShowRunnableRecommended;
+
+    //liveData for show images
+    private MutableLiveData<List<Backdrop>> mImages;
+    //Show Detail runnable request
+    private RetrieveShowRunnableShowImages retrieveShowRunnableShowImages;
+
+    //liveData for actor details
+    private MutableLiveData<Actor> mActor;
+    //Show Detail runnable request
+    private RetrieveShowRunnableShowActor retrieveShowRunnableShowActor;
+
+    //liveData for actor images
+    private MutableLiveData<List<Profile>> mActorImages;
+    //Show Detail runnable request
+    private RetrieveShowRunnableActorImages retrieveShowRunnableActorImages;
+
+    //liveData for actor tv credits
+    private MutableLiveData<List<TVShowModel>> mActorTVCredits;
+    //Show Detail runnable request
+    private RetrieveShowRunnableActorTVCredits retrieveShowRunnableActorTVCredits;
+
+    //liveData for season details
+    private MutableLiveData<SeasonDetail> mSeasonDetail;
+    //Show Detail runnable request
+    private RetrieveShowRunnableSeasonDetails retrieveShowRunnableSeasonDetails;
+
+    //LiveData for search tv shows by genre
+    private MutableLiveData<List<TVShowModel>> mActionAdventureGenres;
+    //Global runnable request
+    private RetrieveShowsRunnableActionAdventureGenres retrieveShowsRunnableActionAdventureGenres;
+
+    //LiveData for search tv shows by genre
+    private MutableLiveData<List<TVShowModel>> mAnimationGenres;
+    //Global runnable request
+    private RetrieveShowsRunnableAnimationGenres retrieveShowsRunnableAnimationGenres;
+
 
 
 
@@ -91,6 +133,13 @@ public class ShowApiClient {
         mCast = new MutableLiveData<>();
         mSimilar = new MutableLiveData<>();
         mRecommended = new MutableLiveData<>();
+        mImages = new MutableLiveData<>();
+        mActor = new MutableLiveData<>();
+        mActorImages = new MutableLiveData<>();
+        mActorTVCredits = new MutableLiveData<>();
+        mSeasonDetail = new MutableLiveData<>();
+        mActionAdventureGenres = new MutableLiveData<>();
+        mAnimationGenres = new MutableLiveData<>();
     }
 
 
@@ -106,7 +155,14 @@ public class ShowApiClient {
     public LiveData<List<Cast>> getShowCast() { return mCast; }
     public LiveData<List<TVShowModel>> getSimilarShows() { return mSimilar;}
     public LiveData<List<TVShowModel>> getRecommendedShows() { return mRecommended; }
+    public LiveData<List<Backdrop>> getShowImages() { return mImages; }
     public LiveData<ShowDetailModel> getShowDetails() { return mShowDetail; }
+    public LiveData<SeasonDetail> getSeasonDetails() { return mSeasonDetail; }
+    public LiveData<Actor> getActorDetails() { return mActor; }
+    public LiveData<List<Profile>> getActorImages() { return mActorImages; }
+    public LiveData<List<TVShowModel>> getActorTVCredit() { return mActorTVCredits; }
+    public LiveData<List<TVShowModel>> getActionAdventureGenre() { return mActionAdventureGenres; }
+    public LiveData<List<TVShowModel>> getAnimationGenre() { return mAnimationGenres; }
 
 
 
@@ -265,8 +321,133 @@ public class ShowApiClient {
             }
         }, 3000, TimeUnit.MILLISECONDS);
     }
+    //IMAGES
+    public void searchImages(int id) {
+        if(retrieveShowRunnableShowImages != null) {
+            retrieveShowRunnableShowImages = null;
+        }
 
+        retrieveShowRunnableShowImages = new RetrieveShowRunnableShowImages(id);
 
+        final Future myHandler8 = AppExecutors.getInstance().networkIO().submit(retrieveShowRunnableShowImages);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler8.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
+    //ACTOR DETAILS
+    public void searchActorDetails(int id) {
+        if(retrieveShowRunnableShowActor != null) retrieveShowRunnableShowActor = null;
+
+        retrieveShowRunnableShowActor = new RetrieveShowRunnableShowActor(id);
+        final Future myHandler9 = AppExecutors.getInstance().networkIO().submit(retrieveShowRunnableShowActor);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler9.cancel(true);
+
+            }
+        },1000, TimeUnit.MILLISECONDS);
+    }
+    //ACTOR IMAGES
+    public void searchActorImages(int id) {
+        if(retrieveShowRunnableActorImages != null) {
+            retrieveShowRunnableActorImages = null;
+        }
+
+        retrieveShowRunnableActorImages = new RetrieveShowRunnableActorImages(id);
+
+        final Future myHandler10 = AppExecutors.getInstance().networkIO().submit(retrieveShowRunnableActorImages);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler10.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
+    //ACTOR IMAGES
+    public void searchActorTVCredits(int id) {
+        if(retrieveShowRunnableActorTVCredits != null) {
+            retrieveShowRunnableActorTVCredits = null;
+        }
+
+        retrieveShowRunnableActorTVCredits = new RetrieveShowRunnableActorTVCredits(id);
+
+        final Future myHandler11 = AppExecutors.getInstance().networkIO().submit(retrieveShowRunnableActorTVCredits);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler11.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
+    //SEASON DETAILS
+    public void searchSeasonDetails(int id, int num) {
+        if(retrieveShowRunnableSeasonDetails != null) retrieveShowRunnableSeasonDetails = null;
+
+        retrieveShowRunnableSeasonDetails = new RetrieveShowRunnableSeasonDetails(id, num);
+        final Future myHandler12 = AppExecutors.getInstance().networkIO().submit(retrieveShowRunnableSeasonDetails);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler12.cancel(true);
+
+            }
+        },1000, TimeUnit.MILLISECONDS);
+    }
+
+    //GENRES
+    public void searchShowsByActionAdventure(int id, int pageNumber) {
+
+        if(retrieveShowsRunnableActionAdventureGenres != null) {
+            retrieveShowsRunnableActionAdventureGenres = null;
+        }
+
+        retrieveShowsRunnableActionAdventureGenres = new RetrieveShowsRunnableActionAdventureGenres(id, pageNumber);
+        final Future myHandler13 = AppExecutors.getInstance().networkIO().submit(retrieveShowsRunnableActionAdventureGenres);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler13.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
+    public void searchShowsByAnimation(int id, int pageNumber) {
+
+        if(retrieveShowsRunnableAnimationGenres != null) {
+            retrieveShowsRunnableAnimationGenres = null;
+        }
+
+        retrieveShowsRunnableAnimationGenres = new RetrieveShowsRunnableAnimationGenres(id, pageNumber);
+        final Future myHandler14 = AppExecutors.getInstance().networkIO().submit(retrieveShowsRunnableAnimationGenres);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler14.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
 
 
     //RUNNABLE METHODS
@@ -315,9 +496,6 @@ public class ShowApiClient {
                     e.printStackTrace();
                     mShows.postValue(null);
                 }
-
-
-
 
             }
                 //Search query in background thread
@@ -686,8 +864,6 @@ public class ShowApiClient {
             Log.v("Tag", "Cancelling Search Request");
             cancelRequest = true;
         }
-
-
     }
 
     //Retrieving REST API Recommended by runnable class
@@ -754,5 +930,382 @@ public class ShowApiClient {
 
     }
 
+    //Retrieving REST API Show Images by runnable class
+    private class RetrieveShowRunnableShowImages implements Runnable {
+
+        private int id;
+        boolean cancelRequest;
+
+        public RetrieveShowRunnableShowImages(int id) {
+            this.id = id;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response9 = getImages(id).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response9.code() == 200) {
+                    List<Backdrop> list = new ArrayList<>(((BackdropResponse)response9.body()).getImages());
+                        mImages.postValue(list);
+                }
+                else {
+                    String error = response9.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mImages.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mImages.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<BackdropResponse> getImages(int id) {
+            return Services.getTvApi().searchImages(
+                    id,
+                    Credentials.API_KEY
+            );
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+    }
+
+    //Retrieving REST API Actor Details by runnable class
+    private class RetrieveShowRunnableShowActor implements Runnable {
+
+        private int id;
+        boolean cancelRequest;
+
+        public RetrieveShowRunnableShowActor(int id) {
+            this.id = id;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response10 = getActorDetails(id).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response10.code() == 200) {
+                    Actor actor = ((Actor)response10.body());
+                    //Sending data to live data
+                    //PostValue: used for background thread
+                    //setValue: not used for background thread
+                    mActor.postValue(actor);
+
+                }
+                else {
+                    String error = response10.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mActor.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mActor.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<Actor> getActorDetails(int id) {
+            return Services.getTvApi().searchActor(
+                    id,
+                    Credentials.API_KEY
+            );
+
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+
+
+    }
+
+    //Retrieving REST API Actor Images by runnable class
+    private class RetrieveShowRunnableActorImages implements Runnable {
+
+        private int id;
+        boolean cancelRequest;
+
+        public RetrieveShowRunnableActorImages(int id) {
+            this.id = id;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response11 = getActorImages(id).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response11.code() == 200) {
+                    List<Profile> list = new ArrayList<>(((ActorProfile)response11.body()).getProfiles());
+                    mActorImages.postValue(list);
+                }
+                else {
+                    String error = response11.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mActorImages.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mActorImages.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<ActorProfile> getActorImages(int id) {
+            return Services.getTvApi().searchActorImages(
+                    id,
+                    Credentials.API_KEY
+            );
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+    }
+
+    //Retrieving REST API Actor Images by runnable class
+    private class RetrieveShowRunnableActorTVCredits implements Runnable {
+
+        private int id;
+        boolean cancelRequest;
+
+        public RetrieveShowRunnableActorTVCredits(int id) {
+            this.id = id;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response12 = getTVCredits(id).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response12.code() == 200) {
+                    List<TVShowModel> list = new ArrayList<>(((TVCredits)response12.body()).getCast());
+                    mActorTVCredits.postValue(list);
+                }
+                else {
+                    String error = response12.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mActorTVCredits.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mActorTVCredits.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<TVCredits> getTVCredits(int id) {
+            return Services.getTvApi().searchActorCredits(
+                    id,
+                    Credentials.API_KEY
+            );
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+    }
+
+    //Retrieving REST API Season Details by runnable class
+    private class RetrieveShowRunnableSeasonDetails implements Runnable {
+
+        private int id;
+        private int num;
+        boolean cancelRequest;
+
+        public RetrieveShowRunnableSeasonDetails(int id, int num) {
+            this.id = id;
+            this.num = num;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response13 = getSeasonDetails(id, num).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response13.code() == 200) {
+                    SeasonDetail season = ((SeasonDetail)response13.body());
+                    //Sending data to live data
+                    //PostValue: used for background thread
+                    //setValue: not used for background thread
+                    mSeasonDetail.postValue(season);
+
+                }
+                else {
+                    String error = response13.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mSeasonDetail.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mSeasonDetail.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<Season> getSeasonDetails(int id, int num) {
+            return Services.getTvApi().searchSeasonDetails(
+                    id,
+                    num,
+                    Credentials.API_KEY
+            );
+
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+
+
+    }
+
+    //Retrieving REST API Season Details by runnable class
+    private class RetrieveShowsRunnableActionAdventureGenres implements Runnable {
+
+        private int id;
+        private int pageNumber;
+        boolean cancelRequest;
+
+        public RetrieveShowsRunnableActionAdventureGenres(int id, int pageNumber) {
+            this.id = id;
+            this.pageNumber = pageNumber;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response14 = getActionAdventureShows(id, pageNumber).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response14.code() == 200) {
+                    List<TVShowModel> list = new ArrayList<>(((TVShowSearchResponse)response14.body()).getShows());
+                    if(pageNumber == 1) {
+                        //Sending data to live data
+                        //PostValue: used for background thread
+                        //setValue: not used for background thread
+                        mActionAdventureGenres.postValue(list);
+                    }
+                    else {
+                        List<TVShowModel> currentShows = mActionAdventureGenres.getValue();
+                        currentShows.addAll(list);
+                        mActionAdventureGenres.postValue(currentShows);
+                    }
+                }
+                else {
+                    String error = response14.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mActionAdventureGenres.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mActionAdventureGenres.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<TVShowSearchResponse> getActionAdventureShows(int id, int pageNumber) {
+            return Services.getTvApi().searchByGenre(
+                    id,
+                    pageNumber,
+                    Credentials.API_KEY
+            );
+
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+
+
+    }
+
+    //Retrieving REST API Season Details by runnable class
+    private class RetrieveShowsRunnableAnimationGenres implements Runnable {
+
+        private int id;
+        private int pageNumber;
+        boolean cancelRequest;
+
+        public RetrieveShowsRunnableAnimationGenres(int id, int pageNumber) {
+            this.id = id;
+            this.pageNumber = pageNumber;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response15 = getAnimationShows(id, pageNumber).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response15.code() == 200) {
+                    List<TVShowModel> list = new ArrayList<>(((TVShowSearchResponse)response15.body()).getShows());
+                    if(pageNumber == 1) {
+                        //Sending data to live data
+                        //PostValue: used for background thread
+                        //setValue: not used for background thread
+                        mAnimationGenres.postValue(list);
+                    }
+                    else {
+                        List<TVShowModel> currentShows = mAnimationGenres.getValue();
+                        currentShows.addAll(list);
+                        mAnimationGenres.postValue(currentShows);
+                    }
+                }
+                else {
+                    String error = response15.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mAnimationGenres.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mAnimationGenres.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<TVShowSearchResponse> getAnimationShows(int id, int pageNumber) {
+            return Services.getTvApi().searchByGenre(
+                    id,
+                    pageNumber,
+                    Credentials.API_KEY
+            );
+
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+
+
+    }
 
 }

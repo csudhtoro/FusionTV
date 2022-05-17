@@ -1,7 +1,5 @@
 package com.example.fusiontv.response;
 
-import com.example.fusiontv.models.ActorProfile;
-import com.example.fusiontv.models.TVCredit;
 import com.example.fusiontv.models.TVCredits;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

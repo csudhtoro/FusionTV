@@ -14,57 +14,55 @@ import com.example.fusiontv.R;
 import com.example.fusiontv.models.ActorProfile;
 import com.example.fusiontv.models.Backdrop;
 import com.example.fusiontv.models.Profile;
+import com.example.fusiontv.models.TVShowModel;
 
 import java.util.List;
 
-public class ActorImageAdapter extends RecyclerView.Adapter<ActorImageAdapter.MyActorImageViewHolder> {
+public class ActorImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context mContext;
     private List<Profile> mData;
-    private ActorImageClickListener mItemListener;
+    private OnShowListener onShowActorImageListener;
 
-    public ActorImageAdapter(Context mContext, List<Profile> mData, ActorImageClickListener actorImageClickListener) {
-        this.mContext = mContext;
-        this.mData = mData;
-        this.mItemListener = actorImageClickListener;
+    public ActorImageAdapter(OnShowListener onShowListener) {
+        this.onShowActorImageListener = onShowListener;
     }
 
     @NonNull
     @Override
-    public ActorImageAdapter.MyActorImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v;
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        v = inflater.inflate(R.layout.larger_image_item, parent, false);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.larger_image_item,
+                parent, false);
 
-        return new MyActorImageViewHolder(v);
+        return new ActorImageViewHolder(view, onShowActorImageListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ActorImageAdapter.MyActorImageViewHolder actorImageViewHolder, int position) {
-        //Using Glide to display the image
-        Glide.with(mContext).load("https://image.tmdb.org/t/p/w500/"+mData.get(position).getFilePath()).into(actorImageViewHolder.screen);
-
-        actorImageViewHolder.itemView.setOnClickListener(view -> {
-            mItemListener.onItemClick(mData.get(position));
-        });
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Glide.with(((ActorImageViewHolder) holder).itemView.getContext())
+                .load("https://image.tmdb.org/t/p/w500/"+mData.get(position)
+                        .getFilePath())
+                .into(((ActorImageViewHolder)holder).imageView);
     }
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        if(mData != null) return mData.size();
+        return 0;
     }
 
-    public interface ActorImageClickListener {
-        void onItemClick(Profile result);
+    public void setmShows(List<Profile> mData) {
+        this.mData = mData;
+        notifyDataSetChanged();
     }
 
-    public static class MyActorImageViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView screen;
-
-        public MyActorImageViewHolder(@NonNull View itemView) {
-            super(itemView);
-            screen = itemView.findViewById(R.id.screen_img);
+    //Getting the id of the show clicked
+    public Profile getSelectedShow(int position) {
+        if(mData != null) {
+            if(mData.size() > 0) {
+                return mData.get(position);
+            }
         }
+        return null;
     }
 }

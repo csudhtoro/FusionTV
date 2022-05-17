@@ -13,9 +13,9 @@
             android:layout_height="match_parent"
             app:cardElevation="10dp"
             app:cardMaxElevation="15dp"
-            app:cardBackgroundColor="@color/black"
-            app:strokeWidth="0.5dp"
-            app:strokeColor="@color/white"
+            app:cardBackgroundColor="@color/primary"
+            app:strokeWidth="0.2dp"
+            app:strokeColor="@color/primaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -49,7 +49,7 @@
                     android:gravity="left"
                     android:singleLine="true"
                     android:text="Title"
-                    android:textColor="@color/white"
+                    android:textColor="@color/secondaryLight"
                     android:textFontWeight="700"
                     android:textSize="12sp" />
 
@@ -68,7 +68,7 @@
                         android:fontFamily="@font/source_sans_pro_regular"
                         android:gravity="left"
                         android:text="Genre"
-                        android:textColor="@color/white"
+                        android:textColor="@color/secondaryLight"
                         android:textSize="8sp" />
 
 
