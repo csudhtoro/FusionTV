@@ -1,6 +1,9 @@
-package com.example.fusiontv;
+package com.example.fusiontv.fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,29 +13,32 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.fusiontv.adapters.ActionAdventureAdapter;
+import com.example.fusiontv.R;
+import com.example.fusiontv.utils.SpacingRV;
+import com.example.fusiontv.adapters.CrimeAdapter;
 import com.example.fusiontv.adapters.OnShowListener;
 import com.example.fusiontv.models.TVShowModel;
 import com.example.fusiontv.viewmodels.ShowListViewModel;
 
 import java.util.List;
 
-public class ActionAdventureFragment extends Fragment implements OnShowListener {
+public class CrimeFragment extends Fragment implements OnShowListener {
 
     private ShowListViewModel showListViewModel;
 
-    RecyclerView actionAdventureRecyclerView;
-    private ActionAdventureAdapter actionAdventureRecyclerViewAdapter;
+    RecyclerView crime_recyclerview;
+    private CrimeAdapter crimeRecyclerViewAdapter;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_action_adventure, container, false);
+        return inflater.inflate(R.layout.fragment_crime, container, false);
     }
 
     @Override
@@ -40,43 +46,41 @@ public class ActionAdventureFragment extends Fragment implements OnShowListener 
         super.onViewCreated(view, savedInstanceState);
 
         showListViewModel = new ViewModelProvider(this).get(ShowListViewModel.class);
-        actionAdventureRecyclerView = (RecyclerView) getView().findViewById(R.id.action_adventure_recyclerview);
+        crime_recyclerview = (RecyclerView) getView().findViewById(R.id.crime_recyclerview);
 
 
-        showListViewModel.searchShowByActionAdventure(10759, 1);
-        PutActionAdventureDataIntoRecyclerView();
+        showListViewModel.searchShowByCrime(80, 1);
+        PutCrimeDataIntoRecyclerView();
         ObserveGenreChange();
-
     }
 
-    private void PutActionAdventureDataIntoRecyclerView() {
-        actionAdventureRecyclerViewAdapter = new ActionAdventureAdapter(this);
+    private void PutCrimeDataIntoRecyclerView() {
+        crimeRecyclerViewAdapter = new CrimeAdapter(this);
 
         SpacingRV rvDecorator = new SpacingRV(-35, -35);
-        actionAdventureRecyclerView.addItemDecoration(rvDecorator);
+        crime_recyclerview.addItemDecoration(rvDecorator);
 
-        actionAdventureRecyclerView.setAdapter(actionAdventureRecyclerViewAdapter);
-        actionAdventureRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-
+        crime_recyclerview.setAdapter(crimeRecyclerViewAdapter);
+        crime_recyclerview.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         //RecyclerView Pagination
         //Loading next page of api response
-        actionAdventureRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        crime_recyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                if(!recyclerView.canScrollHorizontally(1)) {
+                /*if(!recyclerView.canScrollHorizontally(1)) {
                     //Here we need to display the next result on the next page of api
                     //showListViewModel.searchNextPage();
-                    showListViewModel.searchActionAdventureNextPage();
-                }
+                    showListViewModel.searchCrimeNextPage();
+                }*/
             }
         });
     }
     private void ObserveGenreChange() {
-        showListViewModel.getShowsByActionAdventure().observe(getViewLifecycleOwner(), new Observer<List<TVShowModel>>() {
+        showListViewModel.getShowsByCrime().observe(getViewLifecycleOwner(), new Observer<List<TVShowModel>>() {
             @Override
             public void onChanged(List<TVShowModel> tvShowModels) {
-                actionAdventureRecyclerViewAdapter.setmShows(tvShowModels);
+                crimeRecyclerViewAdapter.setmShows(tvShowModels);
             }
         });
     }

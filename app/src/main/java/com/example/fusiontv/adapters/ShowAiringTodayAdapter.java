@@ -7,9 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import com.bumptech.glide.Glide;
 import com.example.fusiontv.R;
-import com.example.fusiontv.ShowDetails;
 import com.example.fusiontv.models.ShowDetailModel;
 import com.example.fusiontv.models.TVShowModel;
+
 import java.util.List;
 
 public class ShowAiringTodayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

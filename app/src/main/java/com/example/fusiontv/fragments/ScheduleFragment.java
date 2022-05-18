@@ -1,4 +1,4 @@
-package com.example.fusiontv;
+package com.example.fusiontv.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fusiontv.R;
 import com.example.fusiontv.adapters.OnShowListener;
 import com.example.fusiontv.adapters.WatchlistAdapter;
 import com.example.fusiontv.models.ShowDetailModel;
@@ -28,9 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 public class ScheduleFragment extends Fragment implements OnShowListener {

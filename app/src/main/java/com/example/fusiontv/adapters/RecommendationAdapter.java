@@ -1,23 +1,16 @@
 package com.example.fusiontv.adapters;
 
-import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.fusiontv.R;
-import com.example.fusiontv.ShowDetails;
-import com.example.fusiontv.models.ResultRec;
 import com.example.fusiontv.models.TVShowModel;
 
-import java.util.ConcurrentModificationException;
 import java.util.List;
 
 public class RecommendationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

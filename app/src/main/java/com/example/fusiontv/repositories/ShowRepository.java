@@ -49,11 +49,27 @@ public class ShowRepository {
     public LiveData<List<Backdrop>> getShowsImages() { return showApiClient.getShowImages(); }
     public LiveData<List<Profile>> getActorImages() { return showApiClient.getActorImages(); }
     public LiveData<List<TVShowModel>> getActorTVCredits() { return showApiClient.getActorTVCredit(); }
-    public LiveData<List<TVShowModel>> getShowsByActionAdventure() { return showApiClient.getActionAdventureGenre(); }
-    public LiveData<List<TVShowModel>> getShowsByAnimation() { return showApiClient.getAnimationGenre(); }
     public LiveData<ShowDetailModel> getShowDetails() {return showApiClient.getShowDetails();}
     public LiveData<SeasonDetail> getSeasonDetails() {return showApiClient.getSeasonDetails();}
     public LiveData<Actor> getActorDetails() { return showApiClient.getActorDetails(); }
+
+    //GENRES
+    public LiveData<List<TVShowModel>> getShowsByActionAdventure() { return showApiClient.getActionAdventureGenre(); }
+    public LiveData<List<TVShowModel>> getShowsByAnimation() { return showApiClient.getAnimationGenre(); }
+    public LiveData<List<TVShowModel>> getShowsByComedy() { return showApiClient.getComedyGenre(); }
+    public LiveData<List<TVShowModel>> getShowsByCrime() { return showApiClient.getCrimeGenre(); }
+    public LiveData<List<TVShowModel>> getShowsByDocumentary() { return showApiClient.getDocumentaryGenre(); }
+    public LiveData<List<TVShowModel>> getShowsByDrama() { return showApiClient.getDramaGenre(); }
+    public LiveData<List<TVShowModel>> getShowsByFamily() { return showApiClient.getFamilyGenre(); }
+    public LiveData<List<TVShowModel>> getShowsByKids() { return showApiClient.getKidsGenre(); }
+    public LiveData<List<TVShowModel>> getShowsByMystery() { return showApiClient.getMysteryGenre(); }
+    public LiveData<List<TVShowModel>> getShowsByNews() { return showApiClient.getNewsGenre(); }
+    public LiveData<List<TVShowModel>> getShowsByReality() { return showApiClient.getRealityGenre(); }
+    public LiveData<List<TVShowModel>> getShowsBySciFiFantasy() { return showApiClient.getSciFiFantasyGenre(); }
+    public LiveData<List<TVShowModel>> getShowsBySoap() { return showApiClient.getSoapGenre(); }
+    public LiveData<List<TVShowModel>> getShowsByTalk() { return showApiClient.getTalkGenre(); }
+    public LiveData<List<TVShowModel>> getShowsByWarPolitics() { return showApiClient.getWarPoliticsGenre(); }
+    public LiveData<List<TVShowModel>> getShowsByWestern() { return showApiClient.getWesternGenre(); }
 
 
 
@@ -91,6 +107,8 @@ public class ShowRepository {
         mNum = num;
         showApiClient.searchSeasonDetails(id, mNum);
     }
+
+    //GENRES
     public void searchShowsByActionAdventure(int id, int pageNumber) {
         mId = id;
         mPageNumber = pageNumber;
@@ -101,7 +119,76 @@ public class ShowRepository {
         mPageNumber = pageNumber;
         showApiClient.searchShowsByAnimation(id, mPageNumber);
     }
-
+    public void searchShowsByComedy(int id, int pageNumber) {
+        mId = id;
+        mPageNumber = pageNumber;
+        showApiClient.searchShowsByComedy(id, mPageNumber);
+    }
+    public void searchShowsByCrime(int id, int pageNumber) {
+        mId = id;
+        mPageNumber = pageNumber;
+        showApiClient.searchShowsByCrime(id, mPageNumber);
+    }
+    public void searchShowsByDocumentary(int id, int pageNumber) {
+        mId = id;
+        mPageNumber = pageNumber;
+        showApiClient.searchShowsByDocumentary(id, mPageNumber);
+    }
+    public void searchShowsByDrama(int id, int pageNumber) {
+        mId = id;
+        mPageNumber = pageNumber;
+        showApiClient.searchShowsByDrama(id, mPageNumber);
+    }
+    public void searchShowsByFamily(int id, int pageNumber) {
+        mId = id;
+        mPageNumber = pageNumber;
+        showApiClient.searchShowsByFamily(id, mPageNumber);
+    }
+    public void searchShowsByKids(int id, int pageNumber) {
+        mId = id;
+        mPageNumber = pageNumber;
+        showApiClient.searchShowsByKids(id, mPageNumber);
+    }
+    public void searchShowsByMystery(int id, int pageNumber) {
+        mId = id;
+        mPageNumber = pageNumber;
+        showApiClient.searchShowsByMystery(id, mPageNumber);
+    }
+    public void searchShowsByNews(int id, int pageNumber) {
+        mId = id;
+        mPageNumber = pageNumber;
+        showApiClient.searchShowsByNews(id, mPageNumber);
+    }
+    public void searchShowsByReality(int id, int pageNumber) {
+        mId = id;
+        mPageNumber = pageNumber;
+        showApiClient.searchShowsByReality(id, mPageNumber);
+    }
+    public void searchShowsBySciFiFantasy(int id, int pageNumber) {
+        mId = id;
+        mPageNumber = pageNumber;
+        showApiClient.searchShowsBySciFiFantasy(id, mPageNumber);
+    }
+    public void searchShowsBySoap(int id, int pageNumber) {
+        mId = id;
+        mPageNumber = pageNumber;
+        showApiClient.searchShowsBySoap(id, mPageNumber);
+    }
+    public void searchShowsByTalk(int id, int pageNumber) {
+        mId = id;
+        mPageNumber = pageNumber;
+        showApiClient.searchShowsByTalk(id, mPageNumber);
+    }
+    public void searchShowsByWarPolitics(int id, int pageNumber) {
+        mId = id;
+        mPageNumber = pageNumber;
+        showApiClient.searchShowsByWarPolitics(id, mPageNumber);
+    }
+    public void searchShowsByWestern(int id, int pageNumber) {
+        mId = id;
+        mPageNumber = pageNumber;
+        showApiClient.searchShowsByWestern(id, mPageNumber);
+    }
 
     public void searchShowDetails(int id) { showApiClient.searchShowDetails(mId = id); }
     public void searchCast(int id) { showApiClient.searchShowsCast(mId = id); }
@@ -109,6 +196,7 @@ public class ShowRepository {
     public void searchActorImages(int id) { showApiClient.searchActorImages(mId = id); }
     public void searchActorTVCredits(int id) { showApiClient.searchActorTVCredits(mId = id); }
     public void searchActor(int id) { showApiClient.searchActorDetails(mId = id); }
+
 
     public void searchNextPage() {
         searchShowApi(mQuery, mPageNumber+1);
@@ -124,8 +212,25 @@ public class ShowRepository {
         searchShowSimilar(mId, mPageNumber+1);
     }
     public void searchNextRecommendedPage() { searchShowRecommended(mId, mPageNumber+1); }
-    public void searchNextActionAdventurePage() { searchShowsByActionAdventure(mId, mPageNumber+1); }
+
+    //GENRES
+    /*public void searchNextActionAdventurePage() { searchShowsByActionAdventure(mId, mPageNumber+1); }
     public void searchNextAnimationPage() { searchShowsByAnimation(mId, mPageNumber+1); }
+    public void searchNextComedyPage() { searchShowsByComedy(mId, mPageNumber+1); }
+    public void searchNextCrimePage() { searchShowsByCrime(mId, mPageNumber+1); }
+    public void searchNextDocumentaryPage() { searchShowsByDocumentary(mId, mPageNumber+1); }
+    public void searchNextDramaPage() { searchShowsByDrama(mId, mPageNumber+1); }
+    public void searchNextFamilyPage() { searchShowsByFamily(mId, mPageNumber+1); }
+    public void searchNextKidsPage() { searchShowsByKids(mId, mPageNumber+1); }
+    public void searchNextMysteryPage() { searchShowsByMystery(mId, mPageNumber+1); }
+    public void searchNextNewsPage() { searchShowsByNews(mId, mPageNumber+1); }
+    public void searchNextRealityPage() { searchShowsByReality(mId, mPageNumber+1); }
+    public void searchNextSciFiFantasyPage() { searchShowsBySciFiFantasy(mId, mPageNumber+1); }
+    public void searchNextSoapPage() { searchShowsBySoap(mId, mPageNumber+1); }
+    public void searchNextTalkPage() { searchShowsByTalk(mId, mPageNumber+1); }
+    public void searchNextWarPoliticsPage() { searchShowsByWarPolitics(mId, mPageNumber+1); }
+    public void searchNextWesternPage() { searchShowsByWestern(mId, mPageNumber+1); }*/
+
 
 
 }

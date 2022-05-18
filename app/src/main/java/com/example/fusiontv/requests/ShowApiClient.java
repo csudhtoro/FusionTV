@@ -6,7 +6,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.fusiontv.AppExecutors;
+import com.example.fusiontv.utils.AppExecutors;
 import com.example.fusiontv.models.Actor;
 import com.example.fusiontv.models.ActorProfile;
 import com.example.fusiontv.models.Backdrop;
@@ -111,6 +111,76 @@ public class ShowApiClient {
     //Global runnable request
     private RetrieveShowsRunnableAnimationGenres retrieveShowsRunnableAnimationGenres;
 
+    //LiveData for search tv shows by genre
+    private MutableLiveData<List<TVShowModel>> mComedyGenres;
+    //Global runnable request
+    private RetrieveShowsRunnableComedyGenres retrieveShowsRunnableComedyGenres;
+
+    //LiveData for search tv shows by genre
+    private MutableLiveData<List<TVShowModel>> mCrimeGenres;
+    //Global runnable request
+    private RetrieveShowsRunnableCrimeGenres retrieveShowsRunnableCrimeGenres;
+
+    //LiveData for search tv shows by genre
+    private MutableLiveData<List<TVShowModel>> mDocumentaryGenres;
+    //Global runnable request
+    private RetrieveShowsRunnableDocumentaryGenres retrieveShowsRunnableDocumentaryGenres;
+
+    //LiveData for search tv shows by genre
+    private MutableLiveData<List<TVShowModel>> mDramaGenres;
+    //Global runnable request
+    private RetrieveShowsRunnableDramaGenres retrieveShowsRunnableDramaGenres;
+
+    //LiveData for search tv shows by genre
+    private MutableLiveData<List<TVShowModel>> mFamilyGenres;
+    //Global runnable request
+    private RetrieveShowsRunnableFamilyGenres retrieveShowsRunnableFamilyGenres;
+
+    //LiveData for search tv shows by genre
+    private MutableLiveData<List<TVShowModel>> mKidsGenres;
+    //Global runnable request
+    private RetrieveShowsRunnableKidsGenres retrieveShowsRunnableKidsGenres;
+
+    //LiveData for search tv shows by genre
+    private MutableLiveData<List<TVShowModel>> mMysteryGenres;
+    //Global runnable request
+    private RetrieveShowsRunnableMysteryGenres retrieveShowsRunnableMysteryGenres;
+
+    //LiveData for search tv shows by genre
+    private MutableLiveData<List<TVShowModel>> mNewsGenres;
+    //Global runnable request
+    private RetrieveShowsRunnableNewsGenres retrieveShowsRunnableNewsGenres;
+
+    //LiveData for search tv shows by genre
+    private MutableLiveData<List<TVShowModel>> mRealityGenres;
+    //Global runnable request
+    private RetrieveShowsRunnableRealityGenres retrieveShowsRunnableRealityGenres;
+
+    //LiveData for search tv shows by genre
+    private MutableLiveData<List<TVShowModel>> mSciFiFantasyGenres;
+    //Global runnable request
+    private RetrieveShowsRunnableSciFiFantasyGenres retrieveShowsRunnableSciFiFantasyGenres;
+
+    //LiveData for search tv shows by genre
+    private MutableLiveData<List<TVShowModel>> mSoapGenres;
+    //Global runnable request
+    private RetrieveShowsRunnableSoapGenres retrieveShowsRunnableSoapGenres;
+
+    //LiveData for search tv shows by genre
+    private MutableLiveData<List<TVShowModel>> mTalkGenres;
+    //Global runnable request
+    private RetrieveShowsRunnableTalkGenres retrieveShowsRunnableTalkGenres;
+
+    //LiveData for search tv shows by genre
+    private MutableLiveData<List<TVShowModel>> mWarPoliticsGenres;
+    //Global runnable request
+    private RetrieveShowsRunnableWarPoliticsGenres retrieveShowsRunnableWarPoliticsGenres;
+
+    //LiveData for search tv shows by genre
+    private MutableLiveData<List<TVShowModel>> mWesternGenres;
+    //Global runnable request
+    private RetrieveShowsRunnableWesternGenres retrieveShowsRunnableWesternGenres;
+
 
 
 
@@ -140,6 +210,20 @@ public class ShowApiClient {
         mSeasonDetail = new MutableLiveData<>();
         mActionAdventureGenres = new MutableLiveData<>();
         mAnimationGenres = new MutableLiveData<>();
+        mComedyGenres = new MutableLiveData<>();
+        mCrimeGenres = new MutableLiveData<>();
+        mDocumentaryGenres = new MutableLiveData<>();
+        mDramaGenres = new MutableLiveData<>();
+        mFamilyGenres = new MutableLiveData<>();
+        mKidsGenres = new MutableLiveData<>();
+        mMysteryGenres = new MutableLiveData<>();
+        mNewsGenres = new MutableLiveData<>();
+        mRealityGenres = new MutableLiveData<>();
+        mSciFiFantasyGenres = new MutableLiveData<>();
+        mSoapGenres = new MutableLiveData<>();
+        mTalkGenres = new MutableLiveData<>();
+        mWarPoliticsGenres = new MutableLiveData<>();
+        mWesternGenres = new MutableLiveData<>();
     }
 
 
@@ -161,8 +245,24 @@ public class ShowApiClient {
     public LiveData<Actor> getActorDetails() { return mActor; }
     public LiveData<List<Profile>> getActorImages() { return mActorImages; }
     public LiveData<List<TVShowModel>> getActorTVCredit() { return mActorTVCredits; }
+
+    //GENRES
     public LiveData<List<TVShowModel>> getActionAdventureGenre() { return mActionAdventureGenres; }
     public LiveData<List<TVShowModel>> getAnimationGenre() { return mAnimationGenres; }
+    public LiveData<List<TVShowModel>> getComedyGenre() { return mComedyGenres; }
+    public LiveData<List<TVShowModel>> getCrimeGenre() { return mCrimeGenres; }
+    public LiveData<List<TVShowModel>> getDocumentaryGenre() { return mDocumentaryGenres; }
+    public LiveData<List<TVShowModel>> getDramaGenre() { return mDramaGenres; }
+    public LiveData<List<TVShowModel>> getFamilyGenre() { return mFamilyGenres; }
+    public LiveData<List<TVShowModel>> getKidsGenre() { return mKidsGenres; }
+    public LiveData<List<TVShowModel>> getMysteryGenre() { return mMysteryGenres; }
+    public LiveData<List<TVShowModel>> getNewsGenre() { return mNewsGenres; }
+    public LiveData<List<TVShowModel>> getRealityGenre() { return mRealityGenres; }
+    public LiveData<List<TVShowModel>> getSciFiFantasyGenre() { return mSciFiFantasyGenres; }
+    public LiveData<List<TVShowModel>> getSoapGenre() { return mSoapGenres; }
+    public LiveData<List<TVShowModel>> getTalkGenre() { return mTalkGenres; }
+    public LiveData<List<TVShowModel>> getWarPoliticsGenre() { return mWarPoliticsGenres; }
+    public LiveData<List<TVShowModel>> getWesternGenre() { return mWesternGenres; }
 
 
 
@@ -448,6 +548,258 @@ public class ShowApiClient {
             }
         }, 3000, TimeUnit.MILLISECONDS);
     }
+    public void searchShowsByComedy(int id, int pageNumber) {
+
+        if(retrieveShowsRunnableComedyGenres != null) {
+            retrieveShowsRunnableComedyGenres = null;
+        }
+
+        retrieveShowsRunnableComedyGenres = new RetrieveShowsRunnableComedyGenres(id, pageNumber);
+        final Future myHandler15 = AppExecutors.getInstance().networkIO().submit(retrieveShowsRunnableComedyGenres);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler15.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
+    public void searchShowsByCrime(int id, int pageNumber) {
+
+        if(retrieveShowsRunnableCrimeGenres != null) {
+            retrieveShowsRunnableCrimeGenres = null;
+        }
+
+        retrieveShowsRunnableCrimeGenres = new RetrieveShowsRunnableCrimeGenres(id, pageNumber);
+        final Future myHandler16 = AppExecutors.getInstance().networkIO().submit(retrieveShowsRunnableCrimeGenres);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler16.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
+    public void searchShowsByDocumentary(int id, int pageNumber) {
+
+        if(retrieveShowsRunnableDocumentaryGenres != null) {
+            retrieveShowsRunnableDocumentaryGenres = null;
+        }
+
+        retrieveShowsRunnableDocumentaryGenres = new RetrieveShowsRunnableDocumentaryGenres(id, pageNumber);
+        final Future myHandler17 = AppExecutors.getInstance().networkIO().submit(retrieveShowsRunnableDocumentaryGenres);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler17.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
+    public void searchShowsByDrama(int id, int pageNumber) {
+
+        if(retrieveShowsRunnableDramaGenres != null) {
+            retrieveShowsRunnableDramaGenres = null;
+        }
+
+        retrieveShowsRunnableDramaGenres = new RetrieveShowsRunnableDramaGenres(id, pageNumber);
+        final Future myHandler18 = AppExecutors.getInstance().networkIO().submit(retrieveShowsRunnableDramaGenres);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler18.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
+    public void searchShowsByFamily(int id, int pageNumber) {
+
+        if(retrieveShowsRunnableFamilyGenres != null) {
+            retrieveShowsRunnableFamilyGenres = null;
+        }
+
+        retrieveShowsRunnableFamilyGenres = new RetrieveShowsRunnableFamilyGenres(id, pageNumber);
+        final Future myHandler19 = AppExecutors.getInstance().networkIO().submit(retrieveShowsRunnableFamilyGenres);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler19.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
+    public void searchShowsByKids(int id, int pageNumber) {
+
+        if(retrieveShowsRunnableKidsGenres != null) {
+            retrieveShowsRunnableKidsGenres = null;
+        }
+
+        retrieveShowsRunnableKidsGenres = new RetrieveShowsRunnableKidsGenres(id, pageNumber);
+        final Future myHandler20 = AppExecutors.getInstance().networkIO().submit(retrieveShowsRunnableKidsGenres);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler20.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
+    public void searchShowsByMystery(int id, int pageNumber) {
+
+        if(retrieveShowsRunnableMysteryGenres != null) {
+            retrieveShowsRunnableMysteryGenres = null;
+        }
+
+        retrieveShowsRunnableMysteryGenres = new RetrieveShowsRunnableMysteryGenres(id, pageNumber);
+        final Future myHandler21 = AppExecutors.getInstance().networkIO().submit(retrieveShowsRunnableMysteryGenres);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler21.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
+    public void searchShowsByNews(int id, int pageNumber) {
+
+        if(retrieveShowsRunnableNewsGenres != null) {
+            retrieveShowsRunnableNewsGenres = null;
+        }
+
+        retrieveShowsRunnableNewsGenres = new RetrieveShowsRunnableNewsGenres(id, pageNumber);
+        final Future myHandler22 = AppExecutors.getInstance().networkIO().submit(retrieveShowsRunnableNewsGenres);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler22.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
+    public void searchShowsByReality(int id, int pageNumber) {
+
+        if(retrieveShowsRunnableRealityGenres != null) {
+            retrieveShowsRunnableRealityGenres = null;
+        }
+
+        retrieveShowsRunnableRealityGenres = new RetrieveShowsRunnableRealityGenres(id, pageNumber);
+        final Future myHandler23 = AppExecutors.getInstance().networkIO().submit(retrieveShowsRunnableRealityGenres);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler23.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
+    public void searchShowsBySciFiFantasy(int id, int pageNumber) {
+
+        if(retrieveShowsRunnableSciFiFantasyGenres != null) {
+            retrieveShowsRunnableSciFiFantasyGenres = null;
+        }
+
+        retrieveShowsRunnableSciFiFantasyGenres = new RetrieveShowsRunnableSciFiFantasyGenres(id, pageNumber);
+        final Future myHandler24 = AppExecutors.getInstance().networkIO().submit(retrieveShowsRunnableSciFiFantasyGenres);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler24.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
+    public void searchShowsBySoap(int id, int pageNumber) {
+
+        if(retrieveShowsRunnableSoapGenres != null) {
+            retrieveShowsRunnableSoapGenres = null;
+        }
+
+        retrieveShowsRunnableSoapGenres = new RetrieveShowsRunnableSoapGenres(id, pageNumber);
+        final Future myHandler25 = AppExecutors.getInstance().networkIO().submit(retrieveShowsRunnableSoapGenres);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler25.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
+    public void searchShowsByTalk(int id, int pageNumber) {
+
+        if(retrieveShowsRunnableTalkGenres != null) {
+            retrieveShowsRunnableTalkGenres = null;
+        }
+
+        retrieveShowsRunnableTalkGenres = new RetrieveShowsRunnableTalkGenres(id, pageNumber);
+        final Future myHandler26 = AppExecutors.getInstance().networkIO().submit(retrieveShowsRunnableTalkGenres);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler26.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
+    public void searchShowsByWarPolitics(int id, int pageNumber) {
+
+        if(retrieveShowsRunnableWarPoliticsGenres != null) {
+            retrieveShowsRunnableWarPoliticsGenres = null;
+        }
+
+        retrieveShowsRunnableWarPoliticsGenres = new RetrieveShowsRunnableWarPoliticsGenres(id, pageNumber);
+        final Future myHandler27 = AppExecutors.getInstance().networkIO().submit(retrieveShowsRunnableWarPoliticsGenres);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler27.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
+    public void searchShowsByWestern(int id, int pageNumber) {
+
+        if(retrieveShowsRunnableWesternGenres != null) {
+            retrieveShowsRunnableWesternGenres = null;
+        }
+
+        retrieveShowsRunnableWesternGenres = new RetrieveShowsRunnableWesternGenres(id, pageNumber);
+        final Future myHandler28 = AppExecutors.getInstance().networkIO().submit(retrieveShowsRunnableWesternGenres);
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //Cancelling the retrofit call requests
+                myHandler28.cancel(true);
+
+            }
+        }, 3000, TimeUnit.MILLISECONDS);
+    }
 
 
     //RUNNABLE METHODS
@@ -514,7 +866,6 @@ public class ShowApiClient {
 
 
     }
-
     //Retrieving REST API Popular by runnable class
     private class RetrieveShowsRunnablePopular implements Runnable {
 
@@ -578,7 +929,6 @@ public class ShowApiClient {
 
 
     }
-
     //Retrieving REST API Airing Today by runnable class
     private class RetrieveShowsRunnableAiringToday implements Runnable {
 
@@ -639,7 +989,6 @@ public class ShowApiClient {
 
 
     }
-
     //Retrieving REST API Trending by runnable class
     private class RetrieveShowsRunnableTrending implements Runnable {
 
@@ -700,7 +1049,6 @@ public class ShowApiClient {
 
 
     }
-
     //Retrieving REST API Show Details by runnable class
     private class RetrieveShowRunnableShowDetails implements Runnable {
 
@@ -754,7 +1102,6 @@ public class ShowApiClient {
 
 
     }
-
     //Retrieving REST API Show Cast by runnable class
     private class RetrieveShowRunnableCast implements Runnable {
 
@@ -803,7 +1150,6 @@ public class ShowApiClient {
 
 
     }
-
     //Retrieving REST API Similar by runnable class
     private class RetrieveShowRunnableSimilar implements Runnable {
 
@@ -865,7 +1211,6 @@ public class ShowApiClient {
             cancelRequest = true;
         }
     }
-
     //Retrieving REST API Recommended by runnable class
     private class RetrieveShowRunnableRecommended implements Runnable {
 
@@ -929,7 +1274,6 @@ public class ShowApiClient {
 
 
     }
-
     //Retrieving REST API Show Images by runnable class
     private class RetrieveShowRunnableShowImages implements Runnable {
 
@@ -976,7 +1320,6 @@ public class ShowApiClient {
             cancelRequest = true;
         }
     }
-
     //Retrieving REST API Actor Details by runnable class
     private class RetrieveShowRunnableShowActor implements Runnable {
 
@@ -1030,7 +1373,6 @@ public class ShowApiClient {
 
 
     }
-
     //Retrieving REST API Actor Images by runnable class
     private class RetrieveShowRunnableActorImages implements Runnable {
 
@@ -1077,7 +1419,6 @@ public class ShowApiClient {
             cancelRequest = true;
         }
     }
-
     //Retrieving REST API Actor Images by runnable class
     private class RetrieveShowRunnableActorTVCredits implements Runnable {
 
@@ -1124,7 +1465,6 @@ public class ShowApiClient {
             cancelRequest = true;
         }
     }
-
     //Retrieving REST API Season Details by runnable class
     private class RetrieveShowRunnableSeasonDetails implements Runnable {
 
@@ -1181,7 +1521,6 @@ public class ShowApiClient {
 
 
     }
-
     //Retrieving REST API Season Details by runnable class
     private class RetrieveShowsRunnableActionAdventureGenres implements Runnable {
 
@@ -1244,7 +1583,6 @@ public class ShowApiClient {
 
 
     }
-
     //Retrieving REST API Season Details by runnable class
     private class RetrieveShowsRunnableAnimationGenres implements Runnable {
 
@@ -1307,5 +1645,833 @@ public class ShowApiClient {
 
 
     }
+    //Retrieving REST API Season Details by runnable class
+    private class RetrieveShowsRunnableComedyGenres implements Runnable {
 
+        private int id;
+        private int pageNumber;
+        boolean cancelRequest;
+
+        public RetrieveShowsRunnableComedyGenres(int id, int pageNumber) {
+            this.id = id;
+            this.pageNumber = pageNumber;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response16 = getComedyShows(id, pageNumber).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response16.code() == 200) {
+                    List<TVShowModel> list = new ArrayList<>(((TVShowSearchResponse)response16.body()).getShows());
+                    if(pageNumber == 1) {
+                        //Sending data to live data
+                        //PostValue: used for background thread
+                        //setValue: not used for background thread
+                        mComedyGenres.postValue(list);
+                    }
+                    else {
+                        List<TVShowModel> currentShows = mComedyGenres.getValue();
+                        currentShows.addAll(list);
+                        mComedyGenres.postValue(currentShows);
+                    }
+                }
+                else {
+                    String error = response16.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mComedyGenres.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mComedyGenres.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<TVShowSearchResponse> getComedyShows(int id, int pageNumber) {
+            return Services.getTvApi().searchByGenre(
+                    id,
+                    pageNumber,
+                    Credentials.API_KEY
+            );
+
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+
+
+    }
+    //Retrieving REST API Season Details by runnable class
+    private class RetrieveShowsRunnableCrimeGenres implements Runnable {
+
+        private int id;
+        private int pageNumber;
+        boolean cancelRequest;
+
+        public RetrieveShowsRunnableCrimeGenres(int id, int pageNumber) {
+            this.id = id;
+            this.pageNumber = pageNumber;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response17 = getCrimeShows(id, pageNumber).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response17.code() == 200) {
+                    List<TVShowModel> list = new ArrayList<>(((TVShowSearchResponse)response17.body()).getShows());
+                    if(pageNumber == 1) {
+                        //Sending data to live data
+                        //PostValue: used for background thread
+                        //setValue: not used for background thread
+                        mCrimeGenres.postValue(list);
+                    }
+                    else {
+                        List<TVShowModel> currentShows = mCrimeGenres.getValue();
+                        currentShows.addAll(list);
+                        mCrimeGenres.postValue(currentShows);
+                    }
+                }
+                else {
+                    String error = response17.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mCrimeGenres.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mCrimeGenres.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<TVShowSearchResponse> getCrimeShows(int id, int pageNumber) {
+            return Services.getTvApi().searchByGenre(
+                    id,
+                    pageNumber,
+                    Credentials.API_KEY
+            );
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+    }
+    //Retrieving REST API Season Details by runnable class
+    private class RetrieveShowsRunnableDocumentaryGenres implements Runnable {
+
+        private int id;
+        private int pageNumber;
+        boolean cancelRequest;
+
+        public RetrieveShowsRunnableDocumentaryGenres(int id, int pageNumber) {
+            this.id = id;
+            this.pageNumber = pageNumber;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response18 = getDocumentaryShows(id, pageNumber).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response18.code() == 200) {
+                    List<TVShowModel> list = new ArrayList<>(((TVShowSearchResponse)response18.body()).getShows());
+                    if(pageNumber == 1) {
+                        //Sending data to live data
+                        //PostValue: used for background thread
+                        //setValue: not used for background thread
+                        mDocumentaryGenres.postValue(list);
+                    }
+                    else {
+                        List<TVShowModel> currentShows = mCrimeGenres.getValue();
+                        currentShows.addAll(list);
+                        mDocumentaryGenres.postValue(currentShows);
+                    }
+                }
+                else {
+                    String error = response18.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mDocumentaryGenres.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mDocumentaryGenres.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<TVShowSearchResponse> getDocumentaryShows(int id, int pageNumber) {
+            return Services.getTvApi().searchByGenre(
+                    id,
+                    pageNumber,
+                    Credentials.API_KEY
+            );
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+    }
+    //Retrieving REST API Season Details by runnable class
+    private class RetrieveShowsRunnableDramaGenres implements Runnable {
+
+        private int id;
+        private int pageNumber;
+        boolean cancelRequest;
+
+        public RetrieveShowsRunnableDramaGenres(int id, int pageNumber) {
+            this.id = id;
+            this.pageNumber = pageNumber;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response19 = getDramaShows(id, pageNumber).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response19.code() == 200) {
+                    List<TVShowModel> list = new ArrayList<>(((TVShowSearchResponse)response19.body()).getShows());
+                    if(pageNumber == 1) {
+                        //Sending data to live data
+                        //PostValue: used for background thread
+                        //setValue: not used for background thread
+                        mDramaGenres.postValue(list);
+                    }
+                    else {
+                        List<TVShowModel> currentShows = mDramaGenres.getValue();
+                        currentShows.addAll(list);
+                        mDramaGenres.postValue(currentShows);
+                    }
+                }
+                else {
+                    String error = response19.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mDramaGenres.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mDramaGenres.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<TVShowSearchResponse> getDramaShows(int id, int pageNumber) {
+            return Services.getTvApi().searchByGenre(
+                    id,
+                    pageNumber,
+                    Credentials.API_KEY
+            );
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+    }
+    //Retrieving REST API Season Details by runnable class
+    private class RetrieveShowsRunnableFamilyGenres implements Runnable {
+
+        private int id;
+        private int pageNumber;
+        boolean cancelRequest;
+
+        public RetrieveShowsRunnableFamilyGenres(int id, int pageNumber) {
+            this.id = id;
+            this.pageNumber = pageNumber;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response20 = getFamilyShows(id, pageNumber).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response20.code() == 200) {
+                    List<TVShowModel> list = new ArrayList<>(((TVShowSearchResponse)response20.body()).getShows());
+                    if(pageNumber == 1) {
+                        //Sending data to live data
+                        //PostValue: used for background thread
+                        //setValue: not used for background thread
+                        mFamilyGenres.postValue(list);
+                    }
+                    else {
+                        List<TVShowModel> currentShows = mFamilyGenres.getValue();
+                        currentShows.addAll(list);
+                        mFamilyGenres.postValue(currentShows);
+                    }
+                }
+                else {
+                    String error = response20.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mFamilyGenres.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mFamilyGenres.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<TVShowSearchResponse> getFamilyShows(int id, int pageNumber) {
+            return Services.getTvApi().searchByGenre(
+                    id,
+                    pageNumber,
+                    Credentials.API_KEY
+            );
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+    }
+    //Retrieving REST API Season Details by runnable class
+    private class RetrieveShowsRunnableKidsGenres implements Runnable {
+
+        private int id;
+        private int pageNumber;
+        boolean cancelRequest;
+
+        public RetrieveShowsRunnableKidsGenres(int id, int pageNumber) {
+            this.id = id;
+            this.pageNumber = pageNumber;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response21 = getKidsShows(id, pageNumber).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response21.code() == 200) {
+                    List<TVShowModel> list = new ArrayList<>(((TVShowSearchResponse)response21.body()).getShows());
+                    if(pageNumber == 1) {
+                        //Sending data to live data
+                        //PostValue: used for background thread
+                        //setValue: not used for background thread
+                        mKidsGenres.postValue(list);
+                    }
+                    else {
+                        List<TVShowModel> currentShows = mKidsGenres.getValue();
+                        currentShows.addAll(list);
+                        mKidsGenres.postValue(currentShows);
+                    }
+                }
+                else {
+                    String error = response21.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mKidsGenres.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mKidsGenres.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<TVShowSearchResponse> getKidsShows(int id, int pageNumber) {
+            return Services.getTvApi().searchByGenre(
+                    id,
+                    pageNumber,
+                    Credentials.API_KEY
+            );
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+    }
+    //Retrieving REST API Season Details by runnable class
+    private class RetrieveShowsRunnableMysteryGenres implements Runnable {
+
+        private int id;
+        private int pageNumber;
+        boolean cancelRequest;
+
+        public RetrieveShowsRunnableMysteryGenres(int id, int pageNumber) {
+            this.id = id;
+            this.pageNumber = pageNumber;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response22 = getMysteryShows(id, pageNumber).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response22.code() == 200) {
+                    List<TVShowModel> list = new ArrayList<>(((TVShowSearchResponse)response22.body()).getShows());
+                    if(pageNumber == 1) {
+                        //Sending data to live data
+                        //PostValue: used for background thread
+                        //setValue: not used for background thread
+                        mMysteryGenres.postValue(list);
+                    }
+                    else {
+                        List<TVShowModel> currentShows = mMysteryGenres.getValue();
+                        currentShows.addAll(list);
+                        mMysteryGenres.postValue(currentShows);
+                    }
+                }
+                else {
+                    String error = response22.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mMysteryGenres.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mMysteryGenres.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<TVShowSearchResponse> getMysteryShows(int id, int pageNumber) {
+            return Services.getTvApi().searchByGenre(
+                    id,
+                    pageNumber,
+                    Credentials.API_KEY
+            );
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+    }
+    //Retrieving REST API Season Details by runnable class
+    private class RetrieveShowsRunnableNewsGenres implements Runnable {
+
+        private int id;
+        private int pageNumber;
+        boolean cancelRequest;
+
+        public RetrieveShowsRunnableNewsGenres(int id, int pageNumber) {
+            this.id = id;
+            this.pageNumber = pageNumber;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response23 = getNewsShows(id, pageNumber).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response23.code() == 200) {
+                    List<TVShowModel> list = new ArrayList<>(((TVShowSearchResponse)response23.body()).getShows());
+                    if(pageNumber == 1) {
+                        //Sending data to live data
+                        //PostValue: used for background thread
+                        //setValue: not used for background thread
+                        mNewsGenres.postValue(list);
+                    }
+                    else {
+                        List<TVShowModel> currentShows = mNewsGenres.getValue();
+                        currentShows.addAll(list);
+                        mNewsGenres.postValue(currentShows);
+                    }
+                }
+                else {
+                    String error = response23.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mNewsGenres.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mNewsGenres.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<TVShowSearchResponse> getNewsShows(int id, int pageNumber) {
+            return Services.getTvApi().searchByGenre(
+                    id,
+                    pageNumber,
+                    Credentials.API_KEY
+            );
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+    }
+    //Retrieving REST API Season Details by runnable class
+    private class RetrieveShowsRunnableRealityGenres implements Runnable {
+
+        private int id;
+        private int pageNumber;
+        boolean cancelRequest;
+
+        public RetrieveShowsRunnableRealityGenres(int id, int pageNumber) {
+            this.id = id;
+            this.pageNumber = pageNumber;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response24 = getRealityShows(id, pageNumber).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response24.code() == 200) {
+                    List<TVShowModel> list = new ArrayList<>(((TVShowSearchResponse)response24.body()).getShows());
+                    if(pageNumber == 1) {
+                        //Sending data to live data
+                        //PostValue: used for background thread
+                        //setValue: not used for background thread
+                        mRealityGenres.postValue(list);
+                    }
+                    else {
+                        List<TVShowModel> currentShows = mRealityGenres.getValue();
+                        currentShows.addAll(list);
+                        mRealityGenres.postValue(currentShows);
+                    }
+                }
+                else {
+                    String error = response24.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mRealityGenres.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mRealityGenres.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<TVShowSearchResponse> getRealityShows(int id, int pageNumber) {
+            return Services.getTvApi().searchByGenre(
+                    id,
+                    pageNumber,
+                    Credentials.API_KEY
+            );
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+    }
+    //Retrieving REST API Season Details by runnable class
+    private class RetrieveShowsRunnableSciFiFantasyGenres implements Runnable {
+
+        private int id;
+        private int pageNumber;
+        boolean cancelRequest;
+
+        public RetrieveShowsRunnableSciFiFantasyGenres(int id, int pageNumber) {
+            this.id = id;
+            this.pageNumber = pageNumber;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response25 = getSciFiFantasyShows(id, pageNumber).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response25.code() == 200) {
+                    List<TVShowModel> list = new ArrayList<>(((TVShowSearchResponse)response25.body()).getShows());
+                    if(pageNumber == 1) {
+                        //Sending data to live data
+                        //PostValue: used for background thread
+                        //setValue: not used for background thread
+                        mSciFiFantasyGenres.postValue(list);
+                    }
+                    else {
+                        List<TVShowModel> currentShows = mCrimeGenres.getValue();
+                        currentShows.addAll(list);
+                        mSciFiFantasyGenres.postValue(currentShows);
+                    }
+                }
+                else {
+                    String error = response25.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mSciFiFantasyGenres.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mSciFiFantasyGenres.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<TVShowSearchResponse> getSciFiFantasyShows(int id, int pageNumber) {
+            return Services.getTvApi().searchByGenre(
+                    id,
+                    pageNumber,
+                    Credentials.API_KEY
+            );
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+    }
+    //Retrieving REST API Season Details by runnable class
+    private class RetrieveShowsRunnableSoapGenres implements Runnable {
+
+        private int id;
+        private int pageNumber;
+        boolean cancelRequest;
+
+        public RetrieveShowsRunnableSoapGenres(int id, int pageNumber) {
+            this.id = id;
+            this.pageNumber = pageNumber;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response26 = getSoapShows(id, pageNumber).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response26.code() == 200) {
+                    List<TVShowModel> list = new ArrayList<>(((TVShowSearchResponse)response26.body()).getShows());
+                    if(pageNumber == 1) {
+                        //Sending data to live data
+                        //PostValue: used for background thread
+                        //setValue: not used for background thread
+                        mSoapGenres.postValue(list);
+                    }
+                    else {
+                        List<TVShowModel> currentShows = mCrimeGenres.getValue();
+                        currentShows.addAll(list);
+                        mSoapGenres.postValue(currentShows);
+                    }
+                }
+                else {
+                    String error = response26.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mSoapGenres.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mSoapGenres.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<TVShowSearchResponse> getSoapShows(int id, int pageNumber) {
+            return Services.getTvApi().searchByGenre(
+                    id,
+                    pageNumber,
+                    Credentials.API_KEY
+            );
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+    }
+    //Retrieving REST API Season Details by runnable class
+    private class RetrieveShowsRunnableTalkGenres implements Runnable {
+
+        private int id;
+        private int pageNumber;
+        boolean cancelRequest;
+
+        public RetrieveShowsRunnableTalkGenres(int id, int pageNumber) {
+            this.id = id;
+            this.pageNumber = pageNumber;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response27 = getTalkShows(id, pageNumber).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response27.code() == 200) {
+                    List<TVShowModel> list = new ArrayList<>(((TVShowSearchResponse)response27.body()).getShows());
+                    if(pageNumber == 1) {
+                        //Sending data to live data
+                        //PostValue: used for background thread
+                        //setValue: not used for background thread
+                        mTalkGenres.postValue(list);
+                    }
+                    else {
+                        List<TVShowModel> currentShows = mCrimeGenres.getValue();
+                        currentShows.addAll(list);
+                        mTalkGenres.postValue(currentShows);
+                    }
+                }
+                else {
+                    String error = response27.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mTalkGenres.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mTalkGenres.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<TVShowSearchResponse> getTalkShows(int id, int pageNumber) {
+            return Services.getTvApi().searchByGenre(
+                    id,
+                    pageNumber,
+                    Credentials.API_KEY
+            );
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+    }
+    //Retrieving REST API Season Details by runnable class
+    private class RetrieveShowsRunnableWarPoliticsGenres implements Runnable {
+
+        private int id;
+        private int pageNumber;
+        boolean cancelRequest;
+
+        public RetrieveShowsRunnableWarPoliticsGenres(int id, int pageNumber) {
+            this.id = id;
+            this.pageNumber = pageNumber;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response28 = getWarPoliticsShows(id, pageNumber).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response28.code() == 200) {
+                    List<TVShowModel> list = new ArrayList<>(((TVShowSearchResponse)response28.body()).getShows());
+                    if(pageNumber == 1) {
+                        //Sending data to live data
+                        //PostValue: used for background thread
+                        //setValue: not used for background thread
+                        mWarPoliticsGenres.postValue(list);
+                    }
+                    else {
+                        List<TVShowModel> currentShows = mCrimeGenres.getValue();
+                        currentShows.addAll(list);
+                        mWarPoliticsGenres.postValue(currentShows);
+                    }
+                }
+                else {
+                    String error = response28.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mWarPoliticsGenres.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mWarPoliticsGenres.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<TVShowSearchResponse> getWarPoliticsShows(int id, int pageNumber) {
+            return Services.getTvApi().searchByGenre(
+                    id,
+                    pageNumber,
+                    Credentials.API_KEY
+            );
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+    }
+    //Retrieving REST API Season Details by runnable class
+    private class RetrieveShowsRunnableWesternGenres implements Runnable {
+
+        private int id;
+        private int pageNumber;
+        boolean cancelRequest;
+
+        public RetrieveShowsRunnableWesternGenres(int id, int pageNumber) {
+            this.id = id;
+            this.pageNumber = pageNumber;
+            cancelRequest = false;
+        }
+
+        @Override
+        public void run() {
+            //Getting response objects
+            try {
+                Response response29 = getWesternShows(id, pageNumber).execute();
+                if (cancelRequest) {
+                    return;
+                }
+                if(response29.code() == 200) {
+                    List<TVShowModel> list = new ArrayList<>(((TVShowSearchResponse)response29.body()).getShows());
+                    if(pageNumber == 1) {
+                        //Sending data to live data
+                        //PostValue: used for background thread
+                        //setValue: not used for background thread
+                        mWesternGenres.postValue(list);
+                    }
+                    else {
+                        List<TVShowModel> currentShows = mCrimeGenres.getValue();
+                        currentShows.addAll(list);
+                        mWesternGenres.postValue(currentShows);
+                    }
+                }
+                else {
+                    String error = response29.errorBody().string();
+                    Log.v("Tag", "Error: " + error);
+                    mWesternGenres.postValue(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                mWesternGenres.postValue(null);
+            }
+
+        }
+        //Search query in background thread
+        private Call<TVShowSearchResponse> getWesternShows(int id, int pageNumber) {
+            return Services.getTvApi().searchByGenre(
+                    id,
+                    pageNumber,
+                    Credentials.API_KEY
+            );
+        }
+        private void cancelRequest() {
+            Log.v("Tag", "Cancelling Search Request");
+            cancelRequest = true;
+        }
+    }
 }

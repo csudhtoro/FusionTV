@@ -1,4 +1,4 @@
-package com.example.fusiontv;
+package com.example.fusiontv.utils;
 
 import android.graphics.Rect;
 import android.view.View;

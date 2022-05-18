@@ -1,4 +1,4 @@
-package com.example.fusiontv;
+package com.example.fusiontv.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,20 +13,22 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fusiontv.adapters.ActionAdventureAdapter;
-import com.example.fusiontv.adapters.AnimationAdapter;
+import com.example.fusiontv.R;
+import com.example.fusiontv.adapters.CrimeAdapter;
+import com.example.fusiontv.adapters.KidsAdapter;
 import com.example.fusiontv.adapters.OnShowListener;
 import com.example.fusiontv.models.TVShowModel;
+import com.example.fusiontv.utils.SpacingRV;
 import com.example.fusiontv.viewmodels.ShowListViewModel;
 
 import java.util.List;
 
-public class AnimationFragment extends Fragment implements OnShowListener {
+public class KidsFragment extends Fragment implements OnShowListener {
 
     private ShowListViewModel showListViewModel;
 
-    RecyclerView animationRecyclerView;
-    private AnimationAdapter animationRecyclerViewAdapter;
+    RecyclerView kidsRecyclerView;
+    private KidsAdapter kidsRecyclerViewAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class AnimationFragment extends Fragment implements OnShowListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_animation, container, false);
+        return inflater.inflate(R.layout.fragment_kids, container, false);
     }
 
     @Override
@@ -45,41 +47,41 @@ public class AnimationFragment extends Fragment implements OnShowListener {
         super.onViewCreated(view, savedInstanceState);
 
         showListViewModel = new ViewModelProvider(this).get(ShowListViewModel.class);
-        animationRecyclerView = (RecyclerView) getView().findViewById(R.id.animation_recyclerview);
+        kidsRecyclerView = (RecyclerView) getView().findViewById(R.id.kids_recyclerview);
 
 
-        showListViewModel.searchShowByAnimation(16, 1);
-        PutAnimationDataIntoRecyclerView();
+        showListViewModel.searchShowByKids(10762, 1);
+        PutkidsDataIntoRecyclerView();
         ObserveGenreChange();
     }
 
-    private void PutAnimationDataIntoRecyclerView() {
-        animationRecyclerViewAdapter = new AnimationAdapter(this);
+    private void PutkidsDataIntoRecyclerView() {
+        kidsRecyclerViewAdapter = new KidsAdapter(this);
 
         SpacingRV rvDecorator = new SpacingRV(-35, -35);
-        animationRecyclerView.addItemDecoration(rvDecorator);
+        kidsRecyclerView.addItemDecoration(rvDecorator);
 
-        animationRecyclerView.setAdapter(animationRecyclerViewAdapter);
-        animationRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        kidsRecyclerView.setAdapter(kidsRecyclerViewAdapter);
+        kidsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         //RecyclerView Pagination
         //Loading next page of api response
-        animationRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        kidsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                if(!recyclerView.canScrollHorizontally(1)) {
+                /*if(!recyclerView.canScrollHorizontally(1)) {
                     //Here we need to display the next result on the next page of api
                     //showListViewModel.searchNextPage();
-                    showListViewModel.searchAnimationNextPage();
-                }
+                    showListViewModel.searchCrimeNextPage();
+                }*/
             }
         });
     }
     private void ObserveGenreChange() {
-        showListViewModel.getShowsByAnimation().observe(getViewLifecycleOwner(), new Observer<List<TVShowModel>>() {
+        showListViewModel.getShowsByKids().observe(getViewLifecycleOwner(), new Observer<List<TVShowModel>>() {
             @Override
             public void onChanged(List<TVShowModel> tvShowModels) {
-                animationRecyclerViewAdapter.setmShows(tvShowModels);
+                kidsRecyclerViewAdapter.setmShows(tvShowModels);
             }
         });
     }

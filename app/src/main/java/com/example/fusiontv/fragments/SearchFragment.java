@@ -1,6 +1,5 @@
-package com.example.fusiontv;
+package com.example.fusiontv.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fusiontv.R;
 import com.example.fusiontv.adapters.OnShowListener;
 import com.example.fusiontv.adapters.ShowSearchAdapter;
 import com.example.fusiontv.models.TVShowModel;

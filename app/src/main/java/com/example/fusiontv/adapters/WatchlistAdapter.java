@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.fusiontv.R;
 import com.example.fusiontv.models.ShowDetailModel;
-import com.example.fusiontv.models.TVShowModel;
 
 import java.util.List;
 

@@ -6,6 +6,10 @@ import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.fusiontv.fragments.DashboardFragment;
+import com.example.fusiontv.fragments.FavoritesFragment;
+import com.example.fusiontv.fragments.ScheduleFragment;
+import com.example.fusiontv.fragments.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 

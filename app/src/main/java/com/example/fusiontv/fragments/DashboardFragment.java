@@ -1,4 +1,4 @@
-package com.example.fusiontv;
+package com.example.fusiontv.fragments;
 
 import android.os.Bundle;
 
@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.fusiontv.R;
 import com.example.fusiontv.adapters.OnShowListener;
 import com.example.fusiontv.adapters.ShowAiringTodayAdapter;
 import com.example.fusiontv.adapters.ShowTrendingAdapter;
@@ -66,6 +67,7 @@ public class DashboardFragment extends Fragment implements OnShowListener {
         viewPagerAdapter = new ViewPagerAdapter(this);
         viewPager2.setAdapter(viewPagerAdapter);
         viewPager2.setUserInputEnabled(false);
+        viewPager2.setSaveEnabled(false);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

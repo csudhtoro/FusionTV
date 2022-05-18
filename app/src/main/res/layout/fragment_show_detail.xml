@@ -7,7 +7,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShowDetailFragment">
+    tools:context=".fragments.ShowDetailFragment">
 
     <include
         android:id="@+id/appBar"

@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fusiontv.R;
+import com.example.fusiontv.adapters.OnShowListener;
 
 public class ShowRecommendedViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 

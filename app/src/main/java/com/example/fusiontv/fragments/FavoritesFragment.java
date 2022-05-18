@@ -1,22 +1,18 @@
-package com.example.fusiontv;
+package com.example.fusiontv.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fusiontv.R;
 import com.example.fusiontv.adapters.FavoritesAdapter;
 import com.example.fusiontv.adapters.OnShowListener;
 import com.example.fusiontv.models.TVShowModel;

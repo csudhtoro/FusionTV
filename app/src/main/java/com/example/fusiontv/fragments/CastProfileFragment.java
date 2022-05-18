@@ -1,4 +1,4 @@
-package com.example.fusiontv;
+package com.example.fusiontv.fragments;
 
 import android.os.Bundle;
 
@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.fusiontv.R;
 import com.example.fusiontv.adapters.ActorCreditAdapter;
 import com.example.fusiontv.adapters.ActorImageAdapter;
 import com.example.fusiontv.adapters.OnShowListener;

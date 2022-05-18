@@ -1,4 +1,4 @@
-package com.example.fusiontv;
+package com.example.fusiontv.models;
 
 public class User {
     public String fullname, email;

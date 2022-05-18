@@ -1,6 +1,5 @@
 package com.example.fusiontv.adapters;
 
-import android.media.Rating;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -10,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fusiontv.R;
+import com.example.fusiontv.adapters.OnShowListener;
 
 public class ShowViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
