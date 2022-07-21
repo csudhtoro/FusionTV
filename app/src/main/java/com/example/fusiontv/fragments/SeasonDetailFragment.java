@@ -144,25 +144,6 @@ public class SeasonDetailFragment extends Fragment implements OnShowListener {
     }
 
 
-    //CONVERT THE DEFAULT TMDB DATE FORMATS TO MM-DD-YYYY
-    private String convertDate(String inDate) {
-
-        SimpleDateFormat inSDF = new SimpleDateFormat("yyyy-mm-dd");
-        SimpleDateFormat outSDF = new SimpleDateFormat("mm-dd-yyyy");
-
-        String outDate = "";
-
-        if(inDate != null) {
-            try {
-                Date date = inSDF.parse(inDate);
-                outDate = outSDF.format(date);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return outDate;
-    }
 
     @Override
     public void onShowClick(int position) {
@@ -196,39 +177,40 @@ public class SeasonDetailFragment extends Fragment implements OnShowListener {
     public void onSeasonClick(int position) {
 
     }
-
     @Override
     public void onShowSimilarClick(int position) {
 
     }
-
     @Override
     public void onShowRecommendedClick(int position) {
 
     }
-
     @Override
     public void onShowCastClick(int position) {
 
     }
-
     @Override
     public void onShowBackdropClick(int position) {
 
     }
-
     @Override
     public void onActorTVCreditClick(int position) {
 
     }
-
     @Override
     public void onShowActorImageClick(int position) {
 
     }
-
     @Override
     public void onShowGenreClick(int adapterPosition) {
+
+    }
+    @Override
+    public void onFiscalWeekClick(int adapterPosition) {
+
+    }
+    @Override
+    public void onNotificationClick(int adapterPosition) {
 
     }
 }

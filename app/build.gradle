@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.fusiontv"
-        minSdk 22
+        minSdk 28
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -71,7 +71,5 @@ dependencies {
 
     //Fading imageview
     implementation 'com.github.bosphere.android-fadingedgelayout:fadingedgelayout:1.0.0'
-
-    implementation('com.ms-square:expandableTextView:0.1.4')
 
 }

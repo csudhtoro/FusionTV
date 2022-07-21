@@ -161,4 +161,14 @@ public class TalkFragment extends Fragment implements OnShowListener {
     public void onShowGenreClick(int adapterPosition) {
 
     }
+
+    @Override
+    public void onFiscalWeekClick(int adapterPosition) {
+
+    }
+
+    @Override
+    public void onNotificationClick(int adapterPosition) {
+
+    }
 }

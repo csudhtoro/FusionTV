@@ -12,16 +12,18 @@ import com.bumptech.glide.Glide;
 import com.example.fusiontv.R;
 import com.example.fusiontv.models.ShowDetailModel;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
-public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class NotifListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
     private List<ShowDetailModel> mShows;
-    private OnShowListener onShowWatchlistListener;
+    private OnShowListener onShowNotifListListener;
 
-    public WatchlistAdapter(OnShowListener onShowListener, Context mContext, List<ShowDetailModel> mShows) {
-        this.onShowWatchlistListener = onShowListener;
+    public NotifListAdapter(OnShowListener onShowListener, Context mContext, List<ShowDetailModel> mShows) {
+        this.onShowNotifListListener = onShowListener;
         this.mContext = mContext;
         this.mShows = mShows;
     }
@@ -29,15 +31,16 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.schedule_list_item,
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_item_add,
                 parent, false);
 
-        return new WatchlistViewHolder(view, onShowWatchlistListener);
+        return new NotifListViewHolder(view, onShowNotifListListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int i) {
-        ((WatchlistViewHolder)holder).title.setText(mShows.get(i).getName());
+        ((NotifListViewHolder)holder).title.setText(mShows.get(i).getName());
+        ((NotifListViewHolder)holder).nextAirDate.setText(convertDate(mShows.get(i).getNextEpisodeToAir().getAirDate()));
         //((ShowSearchViewHolder)holder).genre.setText(mShows.get(i).getGenres().get());
         //((ShowViewHolder)holder).runtime.setText("Runtime here");
         //((ShowViewHolder)holder).runtime.setText(mShows.get(i).getOriginal_language());
@@ -48,8 +51,7 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         //Imageview - using Glide library
         Glide.with(mContext)
                 .load("https://image.tmdb.org/t/p/w500/"+mShows.get(i).getPosterPath())
-                .into(((WatchlistViewHolder)holder).imageView);
-
+                .into(((NotifListViewHolder)holder).imageView);
 
     }
 
@@ -72,6 +74,30 @@ public class WatchlistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
         }
         return null;
+    }
+
+    public void remove(int position) {
+        mShows.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    private String convertDate(String inDate) {
+
+        SimpleDateFormat inSDF = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat outSDF = new SimpleDateFormat("mm-dd-yyyy");
+
+        String outDate = "";
+
+        if(inDate != null) {
+            try {
+                Date date = inSDF.parse(inDate);
+                outDate = outSDF.format(date);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return outDate;
     }
 }
 

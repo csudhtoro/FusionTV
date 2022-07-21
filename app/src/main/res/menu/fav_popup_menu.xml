@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/addToCalendar"
+        android:title="+ Add to Calendar?"
+        android:icon="@drawable/schedule_icon_clicked"/>
+    <item
+        android:id="@+id/doNotAddToCalendar"
+        android:title="Maybe Later"
+        android:icon="@drawable/schedule_icon_clicked"/>
+
+</menu>

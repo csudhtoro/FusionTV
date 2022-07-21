@@ -597,4 +597,14 @@ public class ShowDetails extends AppCompatActivity implements OnShowListener {
 
     }
 
+    @Override
+    public void onFiscalWeekClick(int adapterPosition) {
+
+    }
+
+    @Override
+    public void onNotificationClick(int adapterPosition) {
+
+    }
+
 }

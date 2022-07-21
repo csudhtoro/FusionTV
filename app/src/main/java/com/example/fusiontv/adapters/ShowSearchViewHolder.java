@@ -14,7 +14,7 @@ import com.example.fusiontv.adapters.OnShowListener;
 public class ShowSearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     //Widgets
-    TextView title, genre, runtime;
+    TextView title, vote_avg, genre;
     ImageView imageView;
     RatingBar ratings;
 
@@ -29,10 +29,11 @@ public class ShowSearchViewHolder extends RecyclerView.ViewHolder implements Vie
         this.onShowSearchListener = onShowListener;
 
 
-        title = itemView.findViewById(R.id.show_title);
-        //genre = itemView.findViewById(R.id.search_show_genre);
-        imageView = itemView.findViewById(R.id.show_img);
-        //ratings = itemView.findViewById(R.id.ratings);
+        title = itemView.findViewById(R.id.search_item_title);
+        genre = itemView.findViewById(R.id.search_item_genre);
+        imageView = itemView.findViewById(R.id.search_item_img);
+        vote_avg = itemView.findViewById(R.id.search_item_voteAvg);
+        ratings = itemView.findViewById(R.id.search_item_rating);
 
         itemView.setOnClickListener(this);
 

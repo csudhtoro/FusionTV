@@ -31,4 +31,8 @@ public interface OnShowListener {
     void onShowActorImageClick(int position);
 
     void onShowGenreClick(int adapterPosition);
+
+    void onFiscalWeekClick(int adapterPosition);
+
+    void onNotificationClick(int adapterPosition);
 }

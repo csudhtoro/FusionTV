@@ -1,5 +1,11 @@
 package com.example.fusiontv.fragments;
 
+import static com.example.fusiontv.utils.MyUtilities.UpdateFavAirDates;
+import static com.example.fusiontv.utils.MyUtilities.checkUserLoggedIn;
+import static com.example.fusiontv.utils.MyUtilities.getCurrUserId;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,14 +22,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.fusiontv.R;
+import com.example.fusiontv.adapters.FiscalWeekAdapter;
 import com.example.fusiontv.adapters.OnShowListener;
 import com.example.fusiontv.adapters.ShowAiringTodayAdapter;
+import com.example.fusiontv.adapters.ShowSearchAdapter;
 import com.example.fusiontv.adapters.ShowTrendingAdapter;
 import com.example.fusiontv.adapters.ViewPagerAdapter;
 import com.example.fusiontv.models.TVShowModel;
 import com.example.fusiontv.viewmodels.ShowListViewModel;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.List;
 
 public class DashboardFragment extends Fragment implements OnShowListener {
@@ -32,6 +47,9 @@ public class DashboardFragment extends Fragment implements OnShowListener {
     //private RecyclerView popularRecyclerView;
     private RecyclerView trendingRecyclerView;
     private RecyclerView airingTodayRecyclerView;
+    private RecyclerView fiscalWeekRecyclerView;
+    FirebaseUser currUser;
+
     private ShowAiringTodayAdapter showAiringTodayRecyclerViewAdapter;
     private ShowTrendingAdapter showTrendingRecyclerViewAdapter;
 
@@ -39,6 +57,7 @@ public class DashboardFragment extends Fragment implements OnShowListener {
     //ViewModel
     private ShowListViewModel showListViewModel;
     boolean isPopular = true;
+    private final String PREFS_NAME = "myPrefs";
 
     //TabLayout
     TabLayout tabLayout;
@@ -56,9 +75,18 @@ public class DashboardFragment extends Fragment implements OnShowListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        currUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(checkUserLoggedIn(currUser)) {
+
+            DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users").child(getCurrUserId()).child("Favorites");
+            dailyFavoritesCheck(db);
+        }
+
         //popularRecyclerView = getView().findViewById(R.id.popular_recyclerView);
         trendingRecyclerView = getView().findViewById(R.id.trending_recyclerView);
         airingTodayRecyclerView = getView().findViewById(R.id.airing_today_recyclerView);
+        fiscalWeekRecyclerView = getView().findViewById(R.id.fiscal_week_recyclerView);
 
         showListViewModel = new ViewModelProvider(this).get(ShowListViewModel.class);
 
@@ -105,6 +133,8 @@ public class DashboardFragment extends Fragment implements OnShowListener {
         ObserveAiringTodayShowChange();
         //Performing Airing today show query for data to show on activity
         showListViewModel.searchShowAiringToday(1);
+
+
     }
 
     //Observer for LiveData - Trending
@@ -141,10 +171,6 @@ public class DashboardFragment extends Fragment implements OnShowListener {
             }
         });
     }
-
-
-
-
     //5 - Initializing recyclerView and adding data to it - RECYCLERVIEW FOR POPULAR SHOWS
     private void ConfigureTrendingRecyclerView() {
         showTrendingRecyclerViewAdapter = new ShowTrendingAdapter(this);
@@ -165,7 +191,6 @@ public class DashboardFragment extends Fragment implements OnShowListener {
             }
         });
     }
-
     //5 - Initializing recyclerView and adding data to it - RECYCLERVIEW FOR AIRING TODAY SHOWS
     private void ConfigureAiringTodayRecyclerView() {
         showAiringTodayRecyclerViewAdapter = new ShowAiringTodayAdapter(this);
@@ -191,14 +216,12 @@ public class DashboardFragment extends Fragment implements OnShowListener {
     public void onShowClick(int position) {
 
     }
-
     @Override
     public void onGenreClick(String Genre) {
         //Intent intent = new Intent(getActivity(), ShowDetails.class);
         //intent.putExtra("show", showAiringTodayRecyclerViewAdapter.getSelectedShow(position));
         //startActivity(intent);
     }
-
     @Override
     public void onShowAiringTodayClick(int position) {
 
@@ -219,7 +242,6 @@ public class DashboardFragment extends Fragment implements OnShowListener {
         showDetailFragment.setArguments(bundle);
 
     }
-
     @Override
     public void onShowTrendingTodayClick(int position) {
 
@@ -239,60 +261,74 @@ public class DashboardFragment extends Fragment implements OnShowListener {
         bundle.putParcelable("showInfo", showTrendingRecyclerViewAdapter.getSelectedShow(position));
         showDetailFragment.setArguments(bundle);
     }
-
     @Override
     public void onShowSearchClick(int position) {
 
     }
-
     @Override
     public void onFavoritesClick(int position) {
 
     }
-
     @Override
     public void onWatchlistClick(int adapterPosition) {
 
     }
-
     @Override
     public void onSeasonClick(int position) {
 
     }
-
     @Override
     public void onShowSimilarClick(int position) {
 
     }
-
     @Override
     public void onShowRecommendedClick(int position) {
 
     }
-
     @Override
     public void onShowCastClick(int position) {
 
     }
-
     @Override
     public void onShowBackdropClick(int position) {
 
     }
-
     @Override
     public void onActorTVCreditClick(int position) {
 
     }
-
     @Override
     public void onShowActorImageClick(int position) {
 
     }
-
     @Override
     public void onShowGenreClick(int adapterPosition) {
 
+    }
+    @Override
+    public void onFiscalWeekClick(int adapterPosition) {
+
+    }
+    @Override
+    public void onNotificationClick(int adapterPosition) {
+
+    }
+
+    private void dailyFavoritesCheck(DatabaseReference db) {
+        SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        long last_save = settings.getLong("last_save", 0);
+        Date lastDay = new Date(last_save);
+        Date today = new Date(System.currentTimeMillis());
+
+
+        if (today.compareTo(lastDay) > 0) {
+            //add score
+            UpdateFavAirDates(db, getCurrUserId());
+            Date now = new Date(System.currentTimeMillis());
+            //update preference value
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putLong("last_save", now.getTime()).apply();
+        }
     }
 
 }

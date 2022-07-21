@@ -2,16 +2,14 @@ package com.example.fusiontv.adapters;
 
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fusiontv.R;
-import com.example.fusiontv.adapters.OnShowListener;
 
-public class ShowTrendingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class FiscalWeekViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     //Widgets
     TextView title, genre;
@@ -19,13 +17,13 @@ public class ShowTrendingViewHolder extends RecyclerView.ViewHolder implements V
 
 
     //Click Listener
-    OnShowListener onShowTrendingListener;
+    OnShowListener onFiscalWeekListener;
 
 
-    public ShowTrendingViewHolder(@NonNull View itemView, OnShowListener onShowListener) {
+    public FiscalWeekViewHolder(@NonNull View itemView, OnShowListener onShowListener) {
         super(itemView);
 
-        this.onShowTrendingListener = onShowListener;
+        this.onFiscalWeekListener = onShowListener;
 
 
         title = itemView.findViewById(R.id.show_title);
@@ -39,6 +37,6 @@ public class ShowTrendingViewHolder extends RecyclerView.ViewHolder implements V
 
     @Override
     public void onClick(View view) {
-        onShowTrendingListener.onShowTrendingTodayClick(getAdapterPosition());
+        onFiscalWeekListener.onFiscalWeekClick(getAdapterPosition());
     }
 }

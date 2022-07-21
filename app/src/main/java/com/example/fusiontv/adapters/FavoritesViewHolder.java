@@ -32,7 +32,6 @@ public class FavoritesViewHolder extends RecyclerView.ViewHolder implements View
         title = itemView.findViewById(R.id.show_title);
         //genre = itemView.findViewById(R.id.search_show_genre);
         imageView = itemView.findViewById(R.id.show_img);
-        //ratings = itemView.findViewById(R.id.ratings);
 
         itemView.setOnClickListener(this);
 

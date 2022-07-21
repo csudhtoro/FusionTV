@@ -16,7 +16,7 @@ public class TVShowModel implements Parcelable {
     private String overview;
     //private String firstAirDate;
     private String network;
-    private List<Genre> genres;
+    private List<Integer> genre_ids;
 
 
     public void setName(String name) {
@@ -47,8 +47,8 @@ public class TVShowModel implements Parcelable {
         this.network = network;
     }
 
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
+    public void setGenres(List<Integer> genres_ids) {
+        this.genre_ids = genre_ids;
     }
 
     public TVShowModel() {
@@ -86,7 +86,7 @@ public class TVShowModel implements Parcelable {
                 ", vote_average=" + vote_average +
                 ", overview='" + overview + '\'' +
                 ", network='" + network + '\'' +
-                ", genres=" + genres +
+                ", genre_ids=" + genre_ids +
                 '}';
     }
 
@@ -118,15 +118,15 @@ public class TVShowModel implements Parcelable {
         return network;
     }
 
-    public List<Genre> getGenres() {
-        return genres;
+    public List<Integer> getGenres() {
+        return genre_ids;
     }
 
     public static Creator<TVShowModel> getCREATOR() {
         return CREATOR;
     }
 
-    public TVShowModel(String name, String poster_path, String backdrop_path, int id, float vote_average, String overview, String network, List<Genre> genres) {
+    public TVShowModel(String name, String poster_path, String backdrop_path, int id, float vote_average, String overview, String network, List<Integer> genre_ids) {
         this.name = name;
         this.poster_path = poster_path;
         this.backdrop_path = backdrop_path;
@@ -134,7 +134,7 @@ public class TVShowModel implements Parcelable {
         this.vote_average = vote_average;
         this.overview = overview;
         this.network = network;
-        this.genres = genres;
+        this.genre_ids = genre_ids;
     }
 
     @Override

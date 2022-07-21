@@ -8,7 +8,7 @@ import android.view.MenuItem;
 
 import com.example.fusiontv.fragments.DashboardFragment;
 import com.example.fusiontv.fragments.FavoritesFragment;
-import com.example.fusiontv.fragments.ScheduleFragment;
+import com.example.fusiontv.fragments.NotificationFragment;
 import com.example.fusiontv.fragments.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -21,7 +21,7 @@ public class TvShowDashboardActivity extends AppCompatActivity {
     //Initialize all fragments
     DashboardFragment dashboardFragment = new DashboardFragment();
     FavoritesFragment favoritesFragment = new FavoritesFragment();
-    ScheduleFragment scheduleFragment = new ScheduleFragment();
+    NotificationFragment notificationFragment = new NotificationFragment();
     SearchFragment searchFragment = new SearchFragment();
     ProfileFragment profileFragment = new ProfileFragment();
 
@@ -61,8 +61,8 @@ public class TvShowDashboardActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentFrameLayout, favoritesFragment).commit();
                         return true;
 
-                    case R.id.schedule:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentFrameLayout, scheduleFragment).commit();
+                    case R.id.notifications:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentFrameLayout, notificationFragment).commit();
                         return true;
 
                     case R.id.search:

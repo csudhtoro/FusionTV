@@ -18,6 +18,7 @@ import com.example.fusiontv.R;
 import com.example.fusiontv.adapters.OnShowListener;
 import com.example.fusiontv.adapters.ShowSearchAdapter;
 import com.example.fusiontv.models.TVShowModel;
+import com.example.fusiontv.utils.SpacingRVVertical;
 import com.example.fusiontv.viewmodels.ShowListViewModel;
 import androidx.appcompat.widget.SearchView;
 
@@ -46,13 +47,6 @@ public class SearchFragment extends Fragment implements OnShowListener {
         searchRecyclerView = getView().findViewById(R.id.search_results_recyclerview);
         showListViewModel = new ViewModelProvider(this).get(ShowListViewModel.class);
 
-        /*searchBackArrow = getView().findViewById(R.id.search_back_arrow);
-        searchBackArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });*/
 
         //Performing Airing today show query for data to show on activity
         SetupSearchView();
@@ -99,14 +93,11 @@ public class SearchFragment extends Fragment implements OnShowListener {
         });
     }
 
-    //private void searchShowApi(String query, int pageNumber) {
-        //showListViewModel.searchShowApi(query, pageNumber);
-    //}
-
     //5 - Initializing recyclerView and adding data to it - RECYCLERVIEW FOR AIRING TODAY SHOWS
     private void ConfigureSearchRecyclerView() {
         showSearchRecyclerViewAdapter = new ShowSearchAdapter(this);
-
+        //SpacingRVVertical rvDecorator = new SpacingRVVertical(-35, -35);
+        //searchRecyclerView.addItemDecoration(rvDecorator);
         searchRecyclerView.setAdapter(showSearchRecyclerViewAdapter);
         searchRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -128,22 +119,18 @@ public class SearchFragment extends Fragment implements OnShowListener {
     public void onShowClick(int position) {
 
     }
-
     @Override
     public void onGenreClick(String Genre) {
 
     }
-
     @Override
     public void onShowAiringTodayClick(int position) {
 
     }
-
     @Override
     public void onShowTrendingTodayClick(int position) {
 
     }
-
     @Override
     public void onShowSearchClick(int position) {
         //Intent intent = new Intent(getActivity(), ShowDetails.class);
@@ -166,54 +153,52 @@ public class SearchFragment extends Fragment implements OnShowListener {
         bundle.putParcelable("showInfo", showSearchRecyclerViewAdapter.getSelectedShow(position));
         showDetailFragment.setArguments(bundle);
     }
-
     @Override
     public void onFavoritesClick(int position) {
 
     }
-
     @Override
     public void onWatchlistClick(int adapterPosition) {
 
     }
-
     @Override
     public void onSeasonClick(int position) {
 
     }
-
     @Override
     public void onShowSimilarClick(int position) {
 
     }
-
     @Override
     public void onShowRecommendedClick(int position) {
 
     }
-
     @Override
     public void onShowCastClick(int position) {
 
     }
-
     @Override
     public void onShowBackdropClick(int position) {
 
     }
-
     @Override
     public void onActorTVCreditClick(int position) {
 
     }
-
     @Override
     public void onShowActorImageClick(int position) {
 
     }
-
     @Override
     public void onShowGenreClick(int adapterPosition) {
+
+    }
+    @Override
+    public void onFiscalWeekClick(int adapterPosition) {
+
+    }
+    @Override
+    public void onNotificationClick(int adapterPosition) {
 
     }
 }

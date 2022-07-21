@@ -909,10 +909,6 @@ public class ShowApiClient {
                 e.printStackTrace();
                 mShowsPopular.postValue(null);
             }
-
-
-
-
         }
         //Search query in background thread
         private Call<TVShowSearchResponse> getPopular(int pageNumber) {
@@ -926,8 +922,6 @@ public class ShowApiClient {
             Log.v("Tag", "Cancelling Search Request");
             cancelRequest = true;
         }
-
-
     }
     //Retrieving REST API Airing Today by runnable class
     private class RetrieveShowsRunnableAiringToday implements Runnable {

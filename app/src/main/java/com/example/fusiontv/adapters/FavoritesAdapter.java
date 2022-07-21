@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.fusiontv.R;
+import com.example.fusiontv.models.ShowDetailModel;
 import com.example.fusiontv.models.TVShowModel;
 
 import java.util.List;
@@ -17,10 +18,10 @@ import java.util.List;
 public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private List<TVShowModel> mShows;
+    private List<ShowDetailModel> mShows;
     private OnShowListener onShowFavoriteListener;
 
-    public FavoritesAdapter(OnShowListener onShowListener, Context mContext, List<TVShowModel> mShows) {
+    public FavoritesAdapter(OnShowListener onShowListener, Context mContext, List<ShowDetailModel> mShows) {
         this.onShowFavoriteListener = onShowListener;
         this.mContext = mContext;
         this.mShows = mShows;
@@ -47,7 +48,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         //Imageview - using Glide library
         Glide.with(mContext)
-                .load("https://image.tmdb.org/t/p/w500/"+mShows.get(i).getPoster_path())
+                .load("https://image.tmdb.org/t/p/w500/"+mShows.get(i).getPosterPath())
                 .into(((FavoritesViewHolder)holder).imageView);
 
 
@@ -59,13 +60,13 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return 0;
     }
 
-    public void setmShows(List<TVShowModel> mShows) {
+    public void setmShows(List<ShowDetailModel> mShows) {
         this.mShows = mShows;
         notifyDataSetChanged();
     }
 
     //Getting the id of the show clicked
-    public TVShowModel getSelectedShow(int position) {
+    public ShowDetailModel getSelectedShow(int position) {
         if(mShows != null) {
             if(mShows.size() > 0) {
                 return mShows.get(position);

@@ -60,9 +60,7 @@ public class ShowListViewModel extends ViewModel {
 
     //3 - Calling method in ViewModel
     public void searchShowApi(String query, int pageNumber) { showRepository.searchShowApi(query, pageNumber); }
-    public void searchShowPopular(int pageNumber) {
-        showRepository.searchShowPopular(pageNumber);
-    }
+    public void searchShowPopular(int pageNumber) { showRepository.searchShowPopular(pageNumber); }
     public void searchShowTrending(int pageNumber) { showRepository.searchShowTrending(pageNumber); }
     public void searchShowAiringToday(int pageNumber) { showRepository.searchShowAiringToday(pageNumber); }
     public void searchShowDetails(int id) {showRepository.searchShowDetails(id); }

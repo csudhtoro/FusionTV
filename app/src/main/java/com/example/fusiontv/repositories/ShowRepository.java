@@ -20,6 +20,8 @@ public class ShowRepository {
     private static ShowRepository instance;
     private ShowApiClient showApiClient;
     private String mQuery;
+    private String mStartDate;
+    private String mEndDate;
     private int mPageNumber;
     private int mId;
     private int mNum;
@@ -95,99 +97,99 @@ public class ShowRepository {
     public void searchShowSimilar(int id, int pageNumber) {
         mId = id;
         mPageNumber = pageNumber;
-        showApiClient.searchSimilar(id, mPageNumber);
+        showApiClient.searchSimilar(mId, mPageNumber);
     }
     public void searchShowRecommended(int id, int pageNumber) {
         mId = id;
         mPageNumber = pageNumber;
-        showApiClient.searchRecommended(id, mPageNumber);
+        showApiClient.searchRecommended(mId, mPageNumber);
     }
     public void searchSeasonDetails(int id, int num) {
         mId = id;
         mNum = num;
-        showApiClient.searchSeasonDetails(id, mNum);
+        showApiClient.searchSeasonDetails(mId, mNum);
     }
 
     //GENRES
     public void searchShowsByActionAdventure(int id, int pageNumber) {
         mId = id;
         mPageNumber = pageNumber;
-        showApiClient.searchShowsByActionAdventure(id, mPageNumber);
+        showApiClient.searchShowsByActionAdventure(mId, mPageNumber);
     }
     public void searchShowsByAnimation(int id, int pageNumber) {
         mId = id;
         mPageNumber = pageNumber;
-        showApiClient.searchShowsByAnimation(id, mPageNumber);
+        showApiClient.searchShowsByAnimation(mId, mPageNumber);
     }
     public void searchShowsByComedy(int id, int pageNumber) {
         mId = id;
         mPageNumber = pageNumber;
-        showApiClient.searchShowsByComedy(id, mPageNumber);
+        showApiClient.searchShowsByComedy(mId, mPageNumber);
     }
     public void searchShowsByCrime(int id, int pageNumber) {
         mId = id;
         mPageNumber = pageNumber;
-        showApiClient.searchShowsByCrime(id, mPageNumber);
+        showApiClient.searchShowsByCrime(mId, mPageNumber);
     }
     public void searchShowsByDocumentary(int id, int pageNumber) {
         mId = id;
         mPageNumber = pageNumber;
-        showApiClient.searchShowsByDocumentary(id, mPageNumber);
+        showApiClient.searchShowsByDocumentary(mId, mPageNumber);
     }
     public void searchShowsByDrama(int id, int pageNumber) {
         mId = id;
         mPageNumber = pageNumber;
-        showApiClient.searchShowsByDrama(id, mPageNumber);
+        showApiClient.searchShowsByDrama(mId, mPageNumber);
     }
     public void searchShowsByFamily(int id, int pageNumber) {
         mId = id;
         mPageNumber = pageNumber;
-        showApiClient.searchShowsByFamily(id, mPageNumber);
+        showApiClient.searchShowsByFamily(mId, mPageNumber);
     }
     public void searchShowsByKids(int id, int pageNumber) {
         mId = id;
         mPageNumber = pageNumber;
-        showApiClient.searchShowsByKids(id, mPageNumber);
+        showApiClient.searchShowsByKids(mId, mPageNumber);
     }
     public void searchShowsByMystery(int id, int pageNumber) {
         mId = id;
         mPageNumber = pageNumber;
-        showApiClient.searchShowsByMystery(id, mPageNumber);
+        showApiClient.searchShowsByMystery(mId, mPageNumber);
     }
     public void searchShowsByNews(int id, int pageNumber) {
         mId = id;
         mPageNumber = pageNumber;
-        showApiClient.searchShowsByNews(id, mPageNumber);
+        showApiClient.searchShowsByNews(mId, mPageNumber);
     }
     public void searchShowsByReality(int id, int pageNumber) {
         mId = id;
         mPageNumber = pageNumber;
-        showApiClient.searchShowsByReality(id, mPageNumber);
+        showApiClient.searchShowsByReality(mId, mPageNumber);
     }
     public void searchShowsBySciFiFantasy(int id, int pageNumber) {
         mId = id;
         mPageNumber = pageNumber;
-        showApiClient.searchShowsBySciFiFantasy(id, mPageNumber);
+        showApiClient.searchShowsBySciFiFantasy(mId, mPageNumber);
     }
     public void searchShowsBySoap(int id, int pageNumber) {
         mId = id;
         mPageNumber = pageNumber;
-        showApiClient.searchShowsBySoap(id, mPageNumber);
+        showApiClient.searchShowsBySoap(mId, mPageNumber);
     }
     public void searchShowsByTalk(int id, int pageNumber) {
         mId = id;
         mPageNumber = pageNumber;
-        showApiClient.searchShowsByTalk(id, mPageNumber);
+        showApiClient.searchShowsByTalk(mId, mPageNumber);
     }
     public void searchShowsByWarPolitics(int id, int pageNumber) {
         mId = id;
         mPageNumber = pageNumber;
-        showApiClient.searchShowsByWarPolitics(id, mPageNumber);
+        showApiClient.searchShowsByWarPolitics(mId, mPageNumber);
     }
     public void searchShowsByWestern(int id, int pageNumber) {
         mId = id;
         mPageNumber = pageNumber;
-        showApiClient.searchShowsByWestern(id, mPageNumber);
+        showApiClient.searchShowsByWestern(mId, mPageNumber);
     }
 
     public void searchShowDetails(int id) { showApiClient.searchShowDetails(mId = id); }
@@ -230,8 +232,5 @@ public class ShowRepository {
     public void searchNextTalkPage() { searchShowsByTalk(mId, mPageNumber+1); }
     public void searchNextWarPoliticsPage() { searchShowsByWarPolitics(mId, mPageNumber+1); }
     public void searchNextWesternPage() { searchShowsByWestern(mId, mPageNumber+1); }*/
-
-
-
 }
 

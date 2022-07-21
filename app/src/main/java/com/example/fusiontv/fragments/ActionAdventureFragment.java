@@ -88,74 +88,68 @@ public class ActionAdventureFragment extends Fragment implements OnShowListener 
     public void onShowClick(int position) {
 
     }
-
     @Override
     public void onGenreClick(String Genre) {
 
     }
-
     @Override
     public void onShowAiringTodayClick(int position) {
 
     }
-
     @Override
     public void onShowTrendingTodayClick(int position) {
 
     }
-
     @Override
     public void onShowSearchClick(int position) {
 
     }
-
     @Override
     public void onFavoritesClick(int position) {
 
     }
-
     @Override
     public void onWatchlistClick(int position) {
 
     }
-
     @Override
     public void onSeasonClick(int position) {
 
     }
-
     @Override
     public void onShowSimilarClick(int position) {
 
     }
-
     @Override
     public void onShowRecommendedClick(int position) {
 
     }
-
     @Override
     public void onShowCastClick(int position) {
 
     }
-
     @Override
     public void onShowBackdropClick(int position) {
 
     }
-
     @Override
     public void onActorTVCreditClick(int position) {
 
     }
-
     @Override
     public void onShowActorImageClick(int position) {
 
     }
-
     @Override
     public void onShowGenreClick(int adapterPosition) {
+
+    }
+    @Override
+    public void onFiscalWeekClick(int adapterPosition) {
+
+    }
+    @Override
+    public void onNotificationClick(int adapterPosition) {
 
     }
 }

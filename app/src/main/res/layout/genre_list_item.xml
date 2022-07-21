@@ -45,13 +45,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/source_sans_pro_regular"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:text="Title"
+                    android:singleLine="true"
                     android:layout_gravity="start"
-                    android:textAlignment="center"
+                    android:textAlignment="textStart"
                     android:textColor="@color/secondaryLight"
                     android:textFontWeight="700"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
             </LinearLayout>
 

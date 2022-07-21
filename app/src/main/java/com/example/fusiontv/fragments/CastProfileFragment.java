@@ -1,5 +1,7 @@
 package com.example.fusiontv.fragments;
 
+import static com.example.fusiontv.utils.MyUtilities.convertStringDateFormat;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -120,7 +122,7 @@ public class CastProfileFragment extends Fragment implements OnShowListener {
             public void onChanged(Actor actor) {
                 if(actor != null) {
                     actorName.setText(actor.getName());
-                    actorBday.setText(convertDate(actor.getBirthday()));
+                    actorBday.setText(convertStringDateFormat(actor.getBirthday()));
                     actorBirthplace.setText(actor.getPlaceOfBirth());
                     actorBiography.setText(actor.getBiography());
                     Glide.with(getContext()).load("https://image.tmdb.org/t/p/w780"+actor.getProfilePath())
@@ -162,28 +164,6 @@ public class CastProfileFragment extends Fragment implements OnShowListener {
         creditRecyclerView.setAdapter(actorCreditRecyclerViewAdapter);
         creditRecyclerView.setLayoutManager(new LinearLayoutManager(getContext() ,LinearLayoutManager.HORIZONTAL, false));
     }
-
-
-    //CONVERT THE DEFAULT TMDB DATE FORMATS TO MM-DD-YYYY
-    private String convertDate(String inDate) {
-
-        SimpleDateFormat inSDF = new SimpleDateFormat("yyyy-mm-dd");
-        SimpleDateFormat outSDF = new SimpleDateFormat("mm-dd-yyyy");
-
-        String outDate = "";
-
-        if(inDate != null) {
-            try {
-                Date date = inSDF.parse(inDate);
-                outDate = outSDF.format(date);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return outDate;
-    }
-
 
     @Override
     public void onShowClick(int position) {
@@ -233,7 +213,6 @@ public class CastProfileFragment extends Fragment implements OnShowListener {
     public void onShowBackdropClick(int position) {
 
     }
-
     @Override
     public void onActorTVCreditClick(int position) {
         ShowDetailFragment showDetailFragment = new ShowDetailFragment();
@@ -252,7 +231,6 @@ public class CastProfileFragment extends Fragment implements OnShowListener {
         bundle.putParcelable("showInfo", actorCreditRecyclerViewAdapter.getSelectedShow(position));
         showDetailFragment.setArguments(bundle);
     }
-
     @Override
     public void onShowActorImageClick(int position) {
         EnlargeImageFragment enlargeImageFragment = new EnlargeImageFragment();
@@ -271,9 +249,16 @@ public class CastProfileFragment extends Fragment implements OnShowListener {
         bundle.putString("image", actorImageRecyclerViewAdapter.getSelectedShow(position).getFilePath());
         enlargeImageFragment.setArguments(bundle);
     }
-
     @Override
     public void onShowGenreClick(int adapterPosition) {
+
+    }
+    @Override
+    public void onFiscalWeekClick(int adapterPosition) {
+
+    }
+    @Override
+    public void onNotificationClick(int adapterPosition) {
 
     }
 }

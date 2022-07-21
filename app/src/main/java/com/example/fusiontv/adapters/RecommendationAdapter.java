@@ -33,7 +33,9 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((ShowRecommendedViewHolder)holder).title.setText(mData.get(position).getName());
-        Glide.with(((ShowRecommendedViewHolder) holder).itemView.getContext()).load("https://image.tmdb.org/t/p/w500/"+mData.get(position).getPoster_path()).into(((ShowRecommendedViewHolder) holder).imageView);
+        Glide.with(((ShowRecommendedViewHolder) holder).itemView.getContext())
+                .load("https://image.tmdb.org/t/p/w500/"+mData.get(position).getPoster_path())
+                .into(((ShowRecommendedViewHolder) holder).imageView);
     }
 
     @Override

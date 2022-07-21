@@ -33,7 +33,9 @@ public class ShowAiringTodayAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int i) {
         ((ShowAiringTodayViewHolder)holder).title.setText(mShows.get(i).getName());
-        ((ShowAiringTodayViewHolder)holder).genre.setText("Genre");
+        if(mShows.get(i).getGenres() != null && mShows.get(i).getGenres().size() > 0) {
+            ((ShowAiringTodayViewHolder)holder).genre.setText(convertGenreIds(mShows.get(i).getGenres().get(0)));
+        } else ((ShowAiringTodayViewHolder)holder).genre.setText("N/A");
 
 
         //vote avg is over 10 and ratings bar is over 5, so divide by two to get correct rating
@@ -63,4 +65,60 @@ public class ShowAiringTodayAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
         return null;
     }
+    String convertGenreIds(int genreId) {
+        String  genreName = "";
+
+        switch (genreId) {
+            case 10759:
+                genreName = "Action & Adventure";
+                break;
+            case 16:
+                genreName = "Animation";
+                break;
+            case 35:
+                genreName = "Comedy";
+                break;
+            case 80:
+                genreName = "Crime";
+                break;
+            case 99:
+                genreName = "Documentary";
+                break;
+            case 18:
+                genreName = "Drama";
+                break;
+            case 10751:
+                genreName = "Family";
+                break;
+            case 10762:
+                genreName = "Kids";
+                break;
+            case 9648:
+                genreName = "Mystery";
+                break;
+            case 10763:
+                genreName = "News";
+                break;
+            case 10764:
+                genreName = "Reality";
+                break;
+            case 10765:
+                genreName = "Sci-Fi & Fantasy";
+                break;
+            case 10766:
+                genreName = "Soap";
+                break;
+            case 10767:
+                genreName = "Talk";
+                break;
+            case 10768:
+                genreName = "War & Politics";
+                break;
+            case 37:
+                genreName = "Western";
+                break;
+        }
+        return genreName;
+    }
+
 }

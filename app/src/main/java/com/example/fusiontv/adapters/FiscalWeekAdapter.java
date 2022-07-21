@@ -13,42 +13,37 @@ import com.example.fusiontv.models.TVShowModel;
 
 import java.util.List;
 
-public class ShowSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class FiscalWeekAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<TVShowModel> mShows;
-    private OnShowListener onShowSearchListener;
+    private OnShowListener onFiscalWeekListener;
 
-    public ShowSearchAdapter(OnShowListener onShowListener) {
-        this.onShowSearchListener = onShowListener;
+    public FiscalWeekAdapter(OnShowListener onShowListener) {
+        this.onFiscalWeekListener = onShowListener;
     }
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_list_item,
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.airing_today_list_item,
                 parent, false);
 
-        return new ShowSearchViewHolder(view, onShowSearchListener);
+        return new FiscalWeekViewHolder(view, onFiscalWeekListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int i) {
-        ((ShowSearchViewHolder)holder).title.setText(mShows.get(i).getName());
-        //((ShowSearchViewHolder)holder).genre.setText(mShows.get(i).getGenres().get());
-        //((ShowViewHolder)holder).runtime.setText("Runtime here");
-        //((ShowViewHolder)holder).runtime.setText(mShows.get(i).getOriginal_language());
-
-        ((ShowSearchViewHolder)holder).vote_avg.setText(String.valueOf(mShows.get(i).getVote_average()));
-        ((ShowSearchViewHolder)holder).ratings.setRating((mShows.get(i).getVote_average())/2);
-
+        ((FiscalWeekViewHolder)holder).title.setText(mShows.get(i).getName());
         if(mShows.get(i).getGenres() != null && mShows.get(i).getGenres().size() > 0) {
-            ((ShowSearchViewHolder)holder).genre.setText(convertGenreIds(mShows.get(i).getGenres().get(0)));
-        } else ((ShowSearchViewHolder)holder).genre.setText("N/A");
+            ((FiscalWeekViewHolder)holder).genre.setText(convertGenreIds(mShows.get(i).getGenres().get(0)));
+        } else ((FiscalWeekViewHolder)holder).genre.setText("N/A");
+
+
+        //vote avg is over 10 and ratings bar is over 5, so divide by two to get correct rating
+        //((ShowViewHolder)holder).ratings.setRating((mShows.get(i).getVote_average())/2);
 
         //Imageview - using Glide library
-        Glide.with(holder.itemView.getContext()).load("https://image.tmdb.org/t/p/w500/"+mShows.get(i).getPoster_path()).into(((ShowSearchViewHolder)holder).imageView);
-
-
+        Glide.with(holder.itemView.getContext()).load("https://image.tmdb.org/t/p/w500/"+mShows.get(i).getBackdrop_path())
+                .into(((FiscalWeekViewHolder)holder).imageView);
     }
 
     @Override
@@ -71,7 +66,6 @@ public class ShowSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
         return null;
     }
-
     String convertGenreIds(int genreId) {
         String  genreName = "";
 
@@ -128,5 +122,3 @@ public class ShowSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return genreName;
     }
 }
-
-

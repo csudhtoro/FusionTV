@@ -144,4 +144,15 @@ public interface TVApi {
             @Query("page") int page,
             @Query("api_key") String key
     );
+
+    //Get discover tv shows airing within the next 7 days, today included - https://api.themoviedb.org/3/discover/tv?api_key=5711ccb17a8987bca87b6e6fd7dc4823&language=en-US
+    // &air_date.gte=2022-05-19&air_date.lte=2022-05-26&page=1
+    // &timezone=America%2FLos%20Angeles&include_null_first_air_dates=false&with_original_language=en
+    @GET("https://api.themoviedb.org/3/discover/tv?api_key=5711ccb17a8987bca87b6e6fd7dc4823&language=en-US&timezone=America%2FLos%20Angeles&include_null_first_air_dates=false&with_original_language=en")
+    Call<TVShowSearchResponse> searchFiscalWeek(
+            @Query("air_date.gte") String startDate,
+            @Query("air_date.lte") String endDate,
+            @Query("page") int page,
+            @Query("api_key") String key
+    );
 }

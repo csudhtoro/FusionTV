@@ -182,5 +182,15 @@ public class CastProfileActivity extends AppCompatActivity implements OnShowList
 
     }
 
+    @Override
+    public void onFiscalWeekClick(int adapterPosition) {
+
+    }
+
+    @Override
+    public void onNotificationClick(int adapterPosition) {
+
+    }
+
 
 }

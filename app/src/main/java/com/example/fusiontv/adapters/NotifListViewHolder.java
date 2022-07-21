@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.fusiontv.R;
 import com.example.fusiontv.adapters.OnShowListener;
 
-public class WatchlistViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class NotifListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     //Widgets
-    TextView title, genre, runtime;
+    TextView title, nextAirDate, genre, runtime;
     ImageView imageView;
     RatingBar ratings;
 
@@ -23,15 +23,17 @@ public class WatchlistViewHolder extends RecyclerView.ViewHolder implements View
     OnShowListener onShowFavoriteListener;
 
 
-    public WatchlistViewHolder(@NonNull View itemView, OnShowListener onShowListener) {
+    public NotifListViewHolder(@NonNull View itemView, OnShowListener onShowListener) {
         super(itemView);
 
         this.onShowFavoriteListener = onShowListener;
 
 
-        title = itemView.findViewById(R.id.show_title);
+        title = itemView.findViewById(R.id.notif_show_title);
         //genre = itemView.findViewById(R.id.search_show_genre);
-        imageView = itemView.findViewById(R.id.show_img);
+        imageView = itemView.findViewById(R.id.notif_show_img);
+        nextAirDate = itemView.findViewById(R.id.notif_next_air_date);
+
         //ratings = itemView.findViewById(R.id.ratings);
 
         itemView.setOnClickListener(this);
@@ -41,6 +43,6 @@ public class WatchlistViewHolder extends RecyclerView.ViewHolder implements View
 
     @Override
     public void onClick(View view) {
-        onShowFavoriteListener.onWatchlistClick(getAdapterPosition());
+        onShowFavoriteListener.onNotificationClick(getAdapterPosition());
     }
 }
