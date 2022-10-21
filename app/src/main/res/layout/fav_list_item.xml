@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="6dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:strokeColor="@color/primaryDark"
+        app:strokeWidth=".2dp">
+
+    <ImageView
+        android:id="@+id/show_img"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:scaleType="fitCenter"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_launcher_background" />
+
+</com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/show_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:fontFamily="@font/source_sans_pro_regular"
+        android:gravity="start"
+        android:singleLine="true"
+        android:text="Show Title"
+        android:textColor="@color/white"
+        android:textFontWeight="700"
+        android:textSize="10dp" />
+
+            <!--<RatingBar
+                android:id="@+id/ratings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:numStars="5"
+                android:scaleX="0.3"
+                android:scaleY="0.3" />-->
+
+
+
+    <!--TextView
+        android:id="@+id/search_show_genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="Show Genre"
+        android:singleLine="true"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textFontWeight="700"/>-->
+
+
+</LinearLayout>

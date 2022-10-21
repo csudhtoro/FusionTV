@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "799952684702",
+    "project_id": "fusiontv-908f1",
+    "storage_bucket": "fusiontv-908f1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:799952684702:android:380b98f28553956a2add8f",
+        "android_client_info": {
+          "package_name": "com.example.fusiontv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "799952684702-8rh7c3lkq5evgmorpghu1fkh6mmn71pl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcI6rieOuiSAPPHWam_fehMDrd9i6J1l4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "799952684702-8rh7c3lkq5evgmorpghu1fkh6mmn71pl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

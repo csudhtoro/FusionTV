@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="15dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:cardElevation="5dp"
+        app:cardMaxElevation="15dp"
+        app:cardBackgroundColor="@color/primary"
+        app:strokeWidth="0.2dp"
+        app:strokeColor="@color/primaryDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+
+            <ImageView
+                android:id="@+id/show_img"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_launcher_background" />
+
+
+
+            <!--<RatingBar
+                android:id="@+id/ratings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:numStars="5"
+                android:stepSize="0.5"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_gravity="start"
+                android:scaleX="0.3"
+                android:scaleY="0.3" />-->
+
+
+    </com.google.android.material.card.MaterialCardView>
+    <TextView
+        android:id="@+id/show_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/source_sans_pro_regular"
+        android:gravity="left"
+        android:singleLine="true"
+        android:text="Title"
+        android:textColor="@color/secondaryLight"
+        android:textFontWeight="700"
+        android:textSize="12sp" />
+
+
+    <TextView
+        android:id="@+id/show_genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="90"
+        android:fontFamily="@font/source_sans_pro_regular"
+        android:gravity="left"
+        android:text="Genre"
+        android:textColor="@color/secondary"
+        android:textSize="10sp" />
+</LinearLayout>

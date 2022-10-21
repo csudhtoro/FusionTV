@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="15dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        app:cardCornerRadius="120dp"
+        android:elevation="12dp"
+        app:strokeColor="@color/primaryDark"
+        app:strokeWidth=".2dp"
+        app:cardBackgroundColor="@color/primary">
+
+        <ImageView
+            android:id="@+id/profile_pic"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background" />
+
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/actor_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/source_sans_pro_regular"
+        android:text="Actor Name"
+        android:textAlignment="center"
+        android:textColor="@color/secondaryLight"
+        android:textFontWeight="700"
+        android:textSize="10dp">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/character_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="8dp"
+        android:textColor="@color/white"
+        android:textFontWeight="700"
+        android:text="Characters Name">
+
+    </TextView>
+
+
+
+</LinearLayout>
