@@ -9,8 +9,6 @@
     <a href="https://github.com/Csudhtoro/FusionTV"><strong>Explore the docs »</strong></a>
     <br/>
     <br/>
-    <a href="https://github.com/Csudhtoro/FusionTV">View Demo</a>
-    .
     <a href="https://github.com/Csudhtoro/FusionTV/issues">Report Bug</a>
     .
     <a href="https://github.com/Csudhtoro/FusionTV/issues">Request Feature</a>
@@ -59,6 +57,10 @@ Java, Retrofit, Material Design, Gson, Glide, ViewModel
 ## Usage
 
 : <p align="center">![](https://github.com/csudhtoro/FusionTV/blob/master/BasicGif.gif)</p>
+: <p align="center">![](https://github.com/csudhtoro/FusionTV/blob/master/DetailsGif.gif)</p>
+: <p align="center">![](https://github.com/csudhtoro/FusionTV/blob/master/DetailsGif1.gif)</p>
+: <p align="center">![](https://github.com/csudhtoro/FusionTV/blob/master/DetailsGif2.gif)</p>
+: <p align="center">![](https://github.com/csudhtoro/FusionTV/blob/master/DetailsGif3.gif)</p>
 : <p align="center">![](https://github.com/csudhtoro/FusionTV/blob/master/SearchGif.gif)</p>
 
 ## Authors
