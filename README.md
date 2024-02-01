@@ -27,9 +27,7 @@
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
 * [Usage](#usage)
-* [Roadmap](#roadmap)
 * [Contributing](#contributing)
-* [License](#license)
 * [Authors](#authors)
 * [Acknowledgements](#acknowledgements)
 
@@ -104,15 +102,9 @@ const API_KEY = 'ENTER YOUR API';
 
 ## Usage
 
-![Screen Shot](https://drive.google.com/uc?id=1ytKs5AbIeHAdK9IZDw-zynwB4iu-IPv4)
-![Screen Shot](https://drive.google.com/uc?id=1buu1CAoYGpfwJ5-Yfw-JGX6zEfXQlMaJ)
-![Screen Shot](https://drive.google.com/uc?id=1RN97lVZAN28Y_79jo2_JWMS97mcxFUIB)
-![Screen Shot](https://drive.google.com/uc?id=1ep24Okl98r2XAo8ooFiEeVptURIrPv30)
-![Screen Shot](https://drive.google.com/uc?id=1CnIsku1V5Vi9T53i4dbUkpUYFBWQCq0y)
+![](https://drive.google.com/uc?id=1J6teZv8FjsdHUVGI34gLsuahuPGlp9ad)
 
-## Roadmap
-
-See the [open issues](https://github.com/Csudhtoro/FusionTV/issues) for a list of proposed features (and known issues).
+![](https://drive.google.com/uc?id=1MpfCNH8h1FJgNNGlYDQ3ICvWXylu2iSx)
 
 ## Contributing
 
@@ -129,10 +121,6 @@ Contributions are what make the open source community such an amazing place to b
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
-## License
-
-Distributed under the MIT License. See [LICENSE](https://github.com/Csudhtoro/FusionTV/blob/main/LICENSE.md) for more information.
 
 ## Authors
 
