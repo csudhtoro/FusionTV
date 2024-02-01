@@ -15,8 +15,6 @@
   </p>
 </p>
 
-![Downloads](https://img.shields.io/github/downloads/Csudhtoro/FusionTV/total) ![Contributors](https://img.shields.io/github/contributors/Csudhtoro/FusionTV?color=dark-green) ![Issues](https://img.shields.io/github/issues/Csudhtoro/FusionTV) ![License](https://img.shields.io/github/license/Csudhtoro/FusionTV) 
-
 ## Table Of Contents
 
 * [About the Project](#about-the-project)
