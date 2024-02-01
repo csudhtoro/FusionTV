@@ -43,10 +43,8 @@ Key Features:
 ###### Intuitive User Interface: 
 - Enjoy a sleek and user-friendly interface that makes navigating through the app a breeze. Effortlessly discover, explore, and manage your TV show preferences.
 
-: <p align="center">![Screen Shot](https://drive.google.com/uc?id=1buu1CAoYGpfwJ5-Yfw-JGX6zEfXQlMaJ)</p>
-: <p align="center">![Screen Shot](https://drive.google.com/uc?id=1rLjd_uncrQl_1JAeEnIlJ_sAD7fAaBur)</p>
-: <p align="center">![Screen Shot](https://drive.google.com/uc?id=1ep24Okl98r2XAo8ooFiEeVptURIrPv30)</p>
-: <p align="center">![Screen Shot](https://drive.google.com/uc?id=1CnIsku1V5Vi9T53i4dbUkpUYFBWQCq0y)</p>
+ # Dashboard
+: <p align="center">![Screen Shot](https://drive.google.com/uc?id=1tL-vG22RgZi9M0SSR-GodmK6_yBDvmch)</p>
 
 ## Built With
 
@@ -54,6 +52,13 @@ Java, Retrofit, Material Design, Gson, Glide, ViewModel
 
 ## Usage
 
+### Screen Captures
+: <p align="center">![Screen Shot](https://drive.google.com/uc?id=1buu1CAoYGpfwJ5-Yfw-JGX6zEfXQlMaJ)</p>
+: <p align="center">![Screen Shot](https://drive.google.com/uc?id=1rLjd_uncrQl_1JAeEnIlJ_sAD7fAaBur)</p>
+: <p align="center">![Screen Shot](https://drive.google.com/uc?id=1ep24Okl98r2XAo8ooFiEeVptURIrPv30)</p>
+: <p align="center">![Screen Shot](https://drive.google.com/uc?id=1CnIsku1V5Vi9T53i4dbUkpUYFBWQCq0y)</p>
+
+### Gifs
 : <p align="center">![](https://github.com/csudhtoro/FusionTV/blob/master/BasicGif.gif)</p>
 : <p align="center">![](https://github.com/csudhtoro/FusionTV/blob/master/DetailsGif.gif)</p>
 : <p align="center">![](https://github.com/csudhtoro/FusionTV/blob/master/DetailsGif1.gif)</p>
