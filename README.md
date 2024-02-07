@@ -48,7 +48,7 @@ Key Features:
 
 ## Built With
 
-Java, Retrofit, Material Design, Gson, Glide, ViewModel
+Java, Retrofit, Material Design, Gson, Glide, ViewModel, Firebase
 
 ## Usage
 
